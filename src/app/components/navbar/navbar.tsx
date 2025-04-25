@@ -5,7 +5,7 @@ import { useState } from "react";
 
 
 
-    type NavVariant = 'default' | 'landing' | 'login';
+    type NavVariant = 'default' |  'login';
 
     interface Props {
         variant?:NavVariant;
@@ -16,7 +16,6 @@ import { useState } from "react";
 
         const bgColor = {
             default : 'white',
-            landing : 'black',
             login : 'white',
 
         }
@@ -25,13 +24,11 @@ import { useState } from "react";
 
         const menuItems = {
             default : ['알바 목록', '알바 토크', '내 알바폼'],
-            landing : ['알바 목록', '알바 토크', '내 알바폼'],
             login : ['사장님 전용', '지원자 전용']
         }
 
         const hamburgerMenu = {
             default : '/images/menu.png',
-            landing : 'none',
             login : 'none',
         }
 
