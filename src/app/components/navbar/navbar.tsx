@@ -15,8 +15,8 @@ import { useState } from "react";
         const [activeMenu, setActiveMenu ] = useState<string>('');
 
         const bgColor = {
-            default : 'white',
-            login : 'white',
+            default : 'var(--white)',
+            login : 'var(--white)',
 
         }
 
@@ -56,7 +56,7 @@ import { useState } from "react";
             color: ${(props) => (props.$isActive ? 'orange' : 'gray')};
             cursor: pointer;
             &:hover{
-                color: orange;
+                color: var(--primary-Orange300);
                 }
         `;
 
