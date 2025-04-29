@@ -53,7 +53,7 @@ import { useState } from "react";
 
         const MenuItem = styled.li<{ $isActive?: boolean }>`
             font-size: 20px;
-            color: ${(props) => (props.$isActive ? 'orange' : 'gray')};
+            color: ${(props) => (props.$isActive ? 'var( --primary-Orange300)' : 'var( --gray300)')};
             cursor: pointer;
             &:hover{
                 color: var(--primary-Orange300);

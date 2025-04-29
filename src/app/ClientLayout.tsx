@@ -23,9 +23,7 @@ export default function ClientLayout({
   return (
     <QueryClientProvider client={queryClient}>
       <Navbar variant={navbarVariant} />
-      <div className={`${!isLoginPage && 'app'}`}>
-        <div className={`${!isMainPage && 'layout'}`}>{children}</div>
-      </div>
+        {children}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
