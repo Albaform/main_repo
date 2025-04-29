@@ -1,7 +1,7 @@
 import { MouseEvent } from "react"
 
 
-export default function NavModa({ onClose }: {onClose: ()=>void}){
+export default function NavModal({ onClose }: {onClose: ()=>void}){
 
     const handleBackgroundClick = (e: MouseEvent<HTMLDivElement>) => {
         if(e.target === e.currentTarget) {
