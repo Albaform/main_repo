@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { useState } from "react";
+import NavModal from "./NavModal";
 
 
 
@@ -13,6 +14,15 @@ import { useState } from "react";
 
     export default function Navbar({ variant = 'default'}:Props){
         const [activeMenu, setActiveMenu ] = useState<string>('');
+        const [isModalOpen, setIsModalOpen] = useState(false);
+
+        const handleOpenModal = () => {
+            setIsModalOpen(true);
+        }
+
+        const handleCloseModal = () => {
+            setIsModalOpen(false);
+        }
 
         const bgColor = {
             default : 'var(--white)',
@@ -80,13 +90,14 @@ import { useState } from "react";
                                 $isActive={item === activeMenu}
                                 onClick={()=>setActiveMenu(item)}
                                 >
-                                    item
+                                    {item}
                                 </MenuItem>
                         ))}
                     </MenuList>
                         {hamburgerMenu[variant] !== 'none' && (
-                            <Hamburger src={hamburgerMenu[variant]} alt="menu icon"/>
+                            <Hamburger src={hamburgerMenu[variant]} alt="menu icon" onClick={handleOpenModal}/>
                         )}
+                    {isModalOpen && <NavModal onClose={handleCloseModal}/>}
                 
             </NavbarWrapper>
 
