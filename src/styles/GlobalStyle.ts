@@ -48,11 +48,11 @@ const GlobalStyle = createGlobalStyle`
         --gray400:#999;
         --gray500:#808080;
 
-        --primary-Orange100:#fff7eb;
-        --primary-Orange200:#fcc369;
-        --primary-Orange300:#fbaf37;
-        --primary-Orange400:#f89a05;
-        --primary-Orange500:#e18c05;
+        --primary-orange100:#fff7eb;
+        --primary-orange200:#fcc369;
+        --primary-orange300:#fbaf37;
+        --primary-orange400:#f89a05;
+        --primary-orange500:#e18c05;
 
         --primary-blue100:#535779;
         --primary-blue200:#3e415b;

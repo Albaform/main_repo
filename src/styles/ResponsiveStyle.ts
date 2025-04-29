@@ -1,7 +1,7 @@
 import { media } from '@/utils/responsive';
 import styled from 'styled-components';
 
-export const responsiveLayout = styled.div`
+export const ResponsiveStyle = styled.div`
   padding: 0 200px;
 
   @media ${media.desktop} {
