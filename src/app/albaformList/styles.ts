@@ -96,4 +96,46 @@ export const Tag = styled.div`
     color: var(--primary-orange300);
     justify-content: center;
     align-items: center;
+    font-size: 16px;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 4px;
 `
+
+export const Dates = styled.div`
+    color: var(--black100);
+    margin: 6px 12px;
+    font-size: 16px;
+`
+
+export const Kebab = styled.div`
+    margin-left: 110px;
+`
+export const BottomSectionSecond = styled.div`
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-top: 24px;
+    font-weight: 700;
+`
+export const BottomSectionThird = styled.div`
+    border-radius: 16px;
+    border: 1px solid #F2F2F2;
+    display: flex;
+    align-items: center;
+    margin-top: 32px;
+    
+`
+
+export const Text = styled.p`
+    padding: 12px 43px;
+    font-size: 16px;
+    color: var(--black200);
+`
+export const VerticalDivider = styled.div`
+  width: 1px;
+  height: 14px; /* ✅ 원하는 높이로 조절 */
+  background-color: #F2F2F2;
+`;
