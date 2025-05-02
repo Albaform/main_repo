@@ -1,5 +1,6 @@
 import GlobalStyleProvider from '@/context/GlobalStyleProvider';
 import StyledComponentsRegistry from '../lib/StyledRegistry';
+import ClientLayout from '@/app/ClientLayout';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <StyledComponentsRegistry>
-          <GlobalStyleProvider>{children}</GlobalStyleProvider>
+          <GlobalStyleProvider>
+           <ClientLayout>{children}</ClientLayout>
+          </GlobalStyleProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
