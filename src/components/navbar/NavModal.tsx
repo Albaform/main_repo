@@ -42,7 +42,7 @@ const CloseButton = styled.img`
   right: 56px;
   position: absolute;
 `;
-const closeButtonImg = '/images/X.png';
+
 
 const ModalContent = styled.div`
   font-size: 20px;
@@ -58,7 +58,7 @@ const ModalContent = styled.div`
 `
 const myPageIcon = '/images/mypage.png';
 const logoutIcon = '/images/logout.png';
-
+const closeButtonImg = '/images/X.png';
 
 
 export default function NavModal({ onClose }: {onClose: ()=>void}){
