@@ -53,11 +53,13 @@ import NavModal from "./NavModal";
             align-items: center;
             padding: 24px 220px;
             background-color: ${(props)=>props.$bg};      
+            border-bottom: 1px solid var(--gray100);
         `;
 
         const MenuList = styled.ul`
             display: flex;
             gap: 24px;
+            flex: 1;
         
         `;
 
