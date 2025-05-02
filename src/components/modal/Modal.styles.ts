@@ -24,7 +24,7 @@ export const ModalContent = styled.div`
   justify-items: center;
   text-align: center;
 
-  @media (max-width: 400) {
+  @media (max-width: 400px) {
     width: 100%;
     min-width: auto;
     margin: 0 20px;

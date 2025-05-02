@@ -1,8 +1,10 @@
+import { ReactNode } from 'react';
+import type { Metadata } from 'next';
 import GlobalStyleProvider from '@/context/GlobalStyleProvider';
 import StyledComponentsRegistry from '../lib/StyledRegistry';
 import ClientLayout from '@/app/ClientLayout';
-import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import '@/styles/tailwindStyle.css';
+
 
 export const metadata: Metadata = {
   title: 'Albaform',
