@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import NavModal from './NavModal';
+import { usePathname, useRouter } from 'next/navigation';
 
 type NavVariant = 'default' | 'login';
 
@@ -21,6 +22,10 @@ export default function Navbar({ variant = 'default' }: Props) {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const pathname = usePathname();
+  const router = useRouter();
+  const isLandingPage = pathname === '/';
 
   const bgColor = {
     default: 'var(--white)',
@@ -89,13 +94,30 @@ export default function Navbar({ variant = 'default' }: Props) {
             </MenuItem>
           ))}
         </MenuList>
-        {hamburgerMenu[variant] !== 'none' && (
-          <Hamburger
-            src={hamburgerMenu[variant]}
-            alt='menu icon'
-            onClick={handleOpenModal}
-          />
-        )}
+        {isLandingPage ? (
+  <button
+    onClick={() => router.push('/signin')}
+    style={{
+      fontSize: '16px',
+      background: 'var(--primary-orange300)',
+      border: '1px solid var(--primary-orange300)',
+      padding: '8px 16px',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      color: 'white',
+    }}
+  >
+    로그인
+  </button>
+) : (
+  hamburgerMenu[variant] !== 'none' && (
+    <Hamburger
+      src={hamburgerMenu[variant]}
+      alt='menu icon'
+      onClick={handleOpenModal}
+    />
+  )
+)}
         {isModalOpen && <NavModal onClose={handleCloseModal} />}
       </NavbarWrapper>
     </div>
