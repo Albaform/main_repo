@@ -1,32 +1,18 @@
 'use client';
 
-import Image from "next/image";
-import {
-  SearchBarWrapper,
-  SearchBarContainer,
-  SearchInput
-} from "./styles";
-import { useState } from "react";
+import AlbaList from "./components/AlbaList";
+import ListFilter from "./components/ListFilter";
+import SearchBar from "./components/SearchBar";
 
-export default function AlbaformList() {
-  const [keyword, setKeyword] = useState('');
-  const searchIcon = '/images/albaformList/search.png';
+export default function AlbaFormList(){
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
 
-  return (
-    <SearchBarWrapper>
-      <SearchBarContainer>
-        <Image src={searchIcon} alt="searchicon" width={24} height={24} />
-        <SearchInput
-          type="text"
-          value={keyword}
-          onChange={handleChange}
-          placeholder="어떤 알바를 찾고 계세요?"
-        />
-      </SearchBarContainer>
-    </SearchBarWrapper>
-  );
+
+    return(
+        <>
+            <SearchBar />
+            <ListFilter />
+            <AlbaList />
+        </>
+    )
 }
