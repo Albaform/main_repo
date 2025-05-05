@@ -25,13 +25,13 @@ interface ListCardProps {
 
 export default function ListCard({ form }: ListCardProps){
 
-    const [imgSrc, setImgSrc] = useState(form.imageUrls[0] || '/images/image 7.png');
+    const [imgSrc, setImgSrc] = useState(form.imageUrls[0] || '/images/albaformList/image 7.png');
     const kebabIcon = '/images/albaformList/kebab-menu.png';
 
 
     //fallback이미지
     const handleError = () => {
-        setImgSrc('/images/image 7.png'); // fallback 이미지
+        setImgSrc('/images/albaformList/image 7.png'); // fallback 이미지
       };
     //마감일 계산 
 
