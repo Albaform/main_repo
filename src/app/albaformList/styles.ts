@@ -76,12 +76,14 @@ export const Filter = styled.div`
 
 //ListCard
 export const ListCardContainer = styled.div`
-    width: 477px;
+    width: 500px;
     height: 536px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 `
+
+
 
 export const BannerImg = styled.div`
     width: 100%;

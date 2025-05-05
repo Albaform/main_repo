@@ -1,8 +1,21 @@
 'use client';
 
-import { BannerImg, BottomCard, BottomSectionFirst, BottomSectionSecond, BottomSectionThird, Dates, Kebab, ListCardContainer, Tag, Text,VerticalDivider } from "../styles";
+import {
+BannerImg, 
+BottomCard, 
+BottomSectionFirst, 
+BottomSectionSecond, 
+BottomSectionThird, 
+Dates, 
+Kebab, 
+ListCardContainer, 
+Tag, 
+Text,
+VerticalDivider,
+ } from "../styles";
 import Image from "next/image";
 import { FormData } from '../types';
+import { useState } from "react";
 
 
 interface ListCardProps {
@@ -12,10 +25,14 @@ interface ListCardProps {
 
 export default function ListCard({ form }: ListCardProps){
 
-    
-    const bannerImage = form.imageUrls[0];
+    const [imgSrc, setImgSrc] = useState(form.imageUrls[0] || '/images/image 7.png');
     const kebabIcon = '/images/albaformList/kebab-menu.png';
 
+
+    //fallback이미지
+    const handleError = () => {
+        setImgSrc('/images/image 7.png'); // fallback 이미지
+      };
     //마감일 계산 
 
     function getDday(recruitmentEndDate: string): string {
@@ -49,7 +66,8 @@ export default function ListCard({ form }: ListCardProps){
         if (today > end) return '모집 마감';
         return '모집중';
       }
-      
+    
+    //fallback 이미지 함수
   
 
     return(
@@ -57,7 +75,13 @@ export default function ListCard({ form }: ListCardProps){
         <div>
             <ListCardContainer>
                 <BannerImg>
-                    <Image src={bannerImage} alt="bannerImg" width={477} height={304} />
+                    <Image 
+                    src={imgSrc} 
+                    alt="bannerImg" 
+                    width={477} 
+                    height={304} 
+                    onError={handleError}
+                />
                 </BannerImg>
                 <BottomCard>
                     <BottomSectionFirst>
@@ -79,7 +103,7 @@ export default function ListCard({ form }: ListCardProps){
                     </BottomSectionSecond>
                     <BottomSectionThird>
                         <Text>
-                            지원자{form.applyCount}명
+                            지원자 {form.applyCount}명
                         </Text>
                         <VerticalDivider/>
                         <Text>
@@ -87,7 +111,7 @@ export default function ListCard({ form }: ListCardProps){
                         </Text>
                         <VerticalDivider/>
                         <Text>
-                            마감 D-{getDday(form.recruitmentEndDate)}
+                            마감 {getDday(form.recruitmentEndDate)}
                         </Text>
                     </BottomSectionThird>
                 </BottomCard>
