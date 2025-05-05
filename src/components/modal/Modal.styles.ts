@@ -1,4 +1,4 @@
-import { media } from '@/utils/responsive';
+import { media } from '@/styles/media';
 import styled from 'styled-components';
 
 export const ModalOverlay = styled.div`

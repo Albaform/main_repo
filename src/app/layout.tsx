@@ -5,7 +5,6 @@ import StyledComponentsRegistry from '../lib/StyledRegistry';
 import ClientLayout from '@/app/ClientLayout';
 import '@/styles/tailwindStyle.css';
 
-
 export const metadata: Metadata = {
   title: 'Albaform',
   description: '알바 구인 구직 플랫폼',
@@ -26,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
-           <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>{children}</ClientLayout>
           </GlobalStyleProvider>
         </StyledComponentsRegistry>
       </body>
