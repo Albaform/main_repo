@@ -44,6 +44,9 @@ export const FilterWrapper = styled.div`
     width: 100%;
     height: 90px;
     padding: 24px 220px;
+    border: 1px solid #F2F2F2;
+    background-color: var(--background100);
+    
 `
 
 export const FilterContainer = styled.div`
@@ -65,6 +68,9 @@ export const FilterGroup = styled.div`
 
 export const Filter = styled.div`
 
+    position: relative;
+    top: -25px;
+    // background: pink;
 `
 
 

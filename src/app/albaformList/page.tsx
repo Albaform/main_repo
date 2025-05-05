@@ -13,7 +13,7 @@ const [isSort, setIsSort] = useState<
 
 
     return(
-        <>
+        <div>
             <SearchBar />
             <div style={{ height: '100%', backgroundColor: 'var(--background100)' }}>
                 <ListFilter
