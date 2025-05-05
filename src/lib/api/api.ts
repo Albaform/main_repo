@@ -10,7 +10,7 @@ const BASE_URL = 'https://fe-project-albaform.vercel.app/12-2/';
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDYyNDQ4NTAsImV4cCI6MTc0Njg0OTY1MH0.fcitbGTkERrvImZVOdX1B9fObKlnslmLBAV43Zirs0s`, // 로그인 전 임시
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6ImFjY2VzcyIsImlhdCI6MTc0NjQ1MTIxMCwiZXhwIjoxNzQ2NDU4NDEwfQ.mj5Wh_KTvMiilpqx3mSlYz4XwRYswPNbmjvEvrSrCQk`, // 로그인 전 임시
     'Content-Type': 'application/json',
   },
 });

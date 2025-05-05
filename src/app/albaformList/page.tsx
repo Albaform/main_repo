@@ -13,12 +13,14 @@ const [isSort, setIsSort] = useState<
 
 
     return(
-        <div>
+        <div style={{ height: '100vh'}}>
             <SearchBar />
-            <ListFilter
-            isSort={isSort}
-            setIsSort={setIsSort} />
-            <AlbaList />
+            <div style={{ height: '100%', backgroundColor: 'var(--background100)' }}>
+                <ListFilter
+                isSort={isSort}
+                setIsSort={setIsSort} />
+                <AlbaList />
+            </div>
         </div>
     )
 }
