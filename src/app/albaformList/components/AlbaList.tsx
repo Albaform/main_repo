@@ -11,6 +11,7 @@ export default function AlbaList(){
     if (isLoading) return <Loader />;
 
 
+
     return (
         <div style={{ backgroundColor: 'var(--background100)', padding: '56px 220px' }}>
           {data?.data.length! > 0 ? (
@@ -22,6 +23,7 @@ export default function AlbaList(){
           ) : (
            <Empty/>
           )}
+
         </div>
       );
     }

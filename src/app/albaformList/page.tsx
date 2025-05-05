@@ -21,6 +21,7 @@ const [isSort, setIsSort] = useState<
                 setIsSort={setIsSort} />
                 <AlbaList />
             </div>
+
         </div>
     )
 }
