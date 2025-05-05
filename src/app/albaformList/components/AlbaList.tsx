@@ -1,8 +1,14 @@
 'use client';
 
 import ListCard from "./ListCard";
+import { useAlbaForms } from "@/hooks/query/useGetForms";
+import Loader from "@/components/loader/Loader";
+import Empty from "@/components/empty/Empty";
 
 export default function AlbaList(){
+    const { data, isLoading } = useAlbaForms(9);
+
+    if (isLoading) return <Loader />;
 
 
 
@@ -18,7 +24,6 @@ export default function AlbaList(){
           ) : (
            <Empty/>
           )}
-
         </div>
-    )
-}
+      );
+    }

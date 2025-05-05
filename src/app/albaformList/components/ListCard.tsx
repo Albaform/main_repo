@@ -86,20 +86,20 @@ export default function ListCard({ form }: ListCardProps){
                 <BottomCard>
                     <BottomSectionFirst>
                         <Tag>
-                            공개
+                            {form.isPublic ? '공개' : '비공개'}
                         </Tag>
                         <Tag>
-                            모집중
+                             {getRecruitStatus(form.recruitmentStartDate, form.recruitmentEndDate)}
                         </Tag>
                         <Dates>
-                            2024.05.20 ~ 2025.05.20
+                            {form.recruitmentStartDate.slice(0, 10)} ~ {form.recruitmentEndDate.slice(0, 10)}
                         </Dates>
                         <Kebab>
                             <Image src={kebabIcon} alt="kebabIcon" width={36} height={36} />
                         </Kebab>
                     </BottomSectionFirst>
                     <BottomSectionSecond>
-                        코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울 종로구 용산구 서대문
+                        {form.title}
                     </BottomSectionSecond>
                     <BottomSectionThird>
                         <Text>
@@ -107,7 +107,7 @@ export default function ListCard({ form }: ListCardProps){
                         </Text>
                         <VerticalDivider/>
                         <Text>
-                            스크랩 8명
+                            스크랩 {form.scrapCount}명
                         </Text>
                         <VerticalDivider/>
                         <Text>
