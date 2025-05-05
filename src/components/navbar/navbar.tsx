@@ -49,6 +49,9 @@ export default function Navbar({ variant = 'default' }: Props) {
   `;
 
   const NavbarWrapper = styled.nav<{ $bg: string }>`
+    position: fixed;
+    width: 1920px;
+    z-index: 999;
     display: flex;
     align-items: center;
     padding: 24px 220px;
