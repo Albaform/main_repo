@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
-           <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>{children}</ClientLayout>
           </GlobalStyleProvider>
         </StyledComponentsRegistry>
       </body>
