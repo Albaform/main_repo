@@ -6,7 +6,7 @@ import { FormData } from '../types';
 
 
 interface ListCardProps {
-    form: FormData; // ← any 대신 실제 타입 있으면 넣어주세요
+    form: FormData; 
   }
   
 
