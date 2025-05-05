@@ -13,12 +13,12 @@ const [isSort, setIsSort] = useState<
 
 
     return(
-        <>
+        <div>
             <SearchBar />
             <ListFilter
             isSort={isSort}
             setIsSort={setIsSort} />
             <AlbaList />
-        </>
+        </div>
     )
 }

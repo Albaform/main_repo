@@ -17,16 +17,20 @@ export default function SearchBar() {
   };
 
   return (
-    <SearchBarWrapper>
-      <SearchBarContainer>
-        <Image src={searchIcon} alt="searchicon" width={24} height={24} />
-        <SearchInput
-          type="text"
-          value={keyword}
-          onChange={handleChange}
-          placeholder="어떤 알바를 찾고 계세요?"
-        />
-      </SearchBarContainer>
-    </SearchBarWrapper>
+    <>
+      <SearchBarWrapper>
+        <SearchBarContainer>
+          <Image src={searchIcon} alt="searchicon" width={24} height={24} />
+          <SearchInput
+            type="text"
+            value={keyword}
+            onChange={handleChange}
+            placeholder="어떤 알바를 찾고 계세요?"
+          />
+        </SearchBarContainer>
+      </SearchBarWrapper>
+      
+
+  </>
   );
 }

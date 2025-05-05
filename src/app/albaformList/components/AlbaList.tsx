@@ -7,7 +7,7 @@ export default function AlbaList(){
 
 
     return(
-        <div>
+        <div style={{ backgroundColor: 'var(--background100)' }}>
             <ListCard />
         </div>
     )
