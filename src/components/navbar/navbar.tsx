@@ -52,6 +52,7 @@ export default function Navbar({ variant = 'default' }: Props) {
   const NavbarWrapper = styled.nav<{ $bg: string }>`
     position: fixed;
     width: 1920px;
+    height: 88px;
     z-index: 999;
     display: flex;
     align-items: center;
@@ -60,16 +61,18 @@ export default function Navbar({ variant = 'default' }: Props) {
     border-bottom: 1px solid var(--gray100);
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
-  @media ${media.desktop} {
+  @media ${media.tablet} {
     padding: 0;
     max-width: 1480px;
     margin: 0 auto;
+    height: 60px;
   }
 
   /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
-  @media ${media.tablet} {
+  @media ${media.mobile} {
     padding: 0 24px;
     margin: 0;
+    height: 54px;
   }
 
 
