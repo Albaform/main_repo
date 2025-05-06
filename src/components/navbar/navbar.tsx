@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import NavModal from './NavModal';
 import { usePathname, useRouter } from 'next/navigation';
+import { media } from '@/styles/media';
 
 type NavVariant = 'default' | 'login';
 
@@ -57,6 +58,21 @@ export default function Navbar({ variant = 'default' }: Props) {
     padding: 24px 220px;
     background-color: ${(props) => props.$bg};
     border-bottom: 1px solid var(--gray100);
+
+    /* Desktop: 중앙 정렬 + max-width 제한 */
+  @media ${media.desktop} {
+    padding: 0;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
+  @media ${media.tablet} {
+    padding: 0 24px;
+    margin: 0;
+  }
+
+
   `;
   const MenuList = styled.ul<{ $alignRight?: boolean }>`
     display: flex;
