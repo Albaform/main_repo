@@ -6,14 +6,26 @@ import HeadContainer from './components/HeadContainer';
 import { useState } from 'react';
 import ListContainer from './components/ListContainer';
 import { useGetMyContents } from '@/hooks/query/useUser';
+import Pagination from './components/Pagination';
 
 export default function mypage() {
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
-  const [isSort, setIsSort] = useState<
+  const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  
+  const query = useGetMyContents(selectedTab, isPostSort);
 
-  const { data: listData, isLoading } = useGetMyContents(selectedTab, isSort);
+  let listData = [];
+  let isLoading = false;
+
+  if (query.type === 'comment') {
+    listData = query.data?.result ?? [];
+    isLoading = query.isLoading;
+  } else {
+    listData = query.data?.pages.flatMap((page) => page.result) ?? [];
+    isLoading = query.isLoading;
+  }
 
   return (
     <ResponsiveStyle>
@@ -21,10 +33,11 @@ export default function mypage() {
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        isSort={isSort}
-        setIsSort={setIsSort}
+        isPostSort={isPostSort}
+        setIsPostSort={setIsPostSort}
       />
       <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading}/>
+      <Pagination />
     </ResponsiveStyle>
   );
 }

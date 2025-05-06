@@ -15,19 +15,19 @@ import { FilterContainerProps } from '../../types';
 export default function FilterContainer({
   selectedTab,
   setSelectedTab,
-  isSort,
-  setIsSort,
+  isPostSort,
+  setIsPostSort,
 }: FilterContainerProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   const handleTabClickPost = () => {
     setSelectedTab('post');
-    setIsSort('mostRecent');
+    setIsPostSort('mostRecent');
   };
 
   const handleTabClickComment = () => {
     setSelectedTab('comment');
-    setIsSort('mostRecent');
+    setIsPostSort('mostRecent');
   };
 
   return (
@@ -59,9 +59,9 @@ export default function FilterContainer({
               onClick={() => setDropdown((prev) => !prev)}
             >
               <p className='pr-1 max-[768px]:text-[12px]'>
-                {isSort === 'mostRecent'
+                {isPostSort === 'mostRecent'
                   ? '최신순'
-                  : isSort === 'mostCommented'
+                  : isPostSort === 'mostCommented'
                   ? '댓글순'
                   : '좋아요순'}
               </p>
@@ -80,7 +80,7 @@ export default function FilterContainer({
             <DropdownContainer $active={dropdown}>
               {dropdown && (
                 <DropdownBox>
-                  <SortDropdown isSort={isSort} setIsSort={setIsSort} />
+                  <SortDropdown isSort={isPostSort} setIsSort={setIsPostSort} />
                 </DropdownBox>
               )}
             </DropdownContainer>
