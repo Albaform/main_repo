@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import {
 BannerImg, 
 BottomCard, 
@@ -70,11 +71,22 @@ export default function ListCard({ form }: ListCardProps){
     //fallback 이미지 함수
   
 
+=======
+import { BannerImg, BottomCard, BottomSectionFirst, BottomSectionSecond, BottomSectionThird, Dates, Kebab, ListCardContainer, Tag, Text,VerticalDivider } from "../styles";
+import Image from "next/image";
+
+
+export default function ListCard(){
+    const bannerImg = '/images/albaformList/image 7.png';
+    const kebabIcon = '/images/albaformList/kebab-menu.png';
+
+>>>>>>> dev
     return(
 
         <div>
             <ListCardContainer>
                 <BannerImg>
+<<<<<<< HEAD
                     <Image 
                     src={imgSrc} 
                     alt="bannerImg" 
@@ -82,10 +94,14 @@ export default function ListCard({ form }: ListCardProps){
                     height={304} 
                     onError={handleError}
                 />
+=======
+                    <Image src={bannerImg} alt="bannerImg" width={477} height={304} />
+>>>>>>> dev
                 </BannerImg>
                 <BottomCard>
                     <BottomSectionFirst>
                         <Tag>
+<<<<<<< HEAD
                             {form.isPublic ? '공개' : '비공개'}
                         </Tag>
                         <Tag>
@@ -93,12 +109,22 @@ export default function ListCard({ form }: ListCardProps){
                         </Tag>
                         <Dates>
                             {form.recruitmentStartDate.slice(0, 10)} ~ {form.recruitmentEndDate.slice(0, 10)}
+=======
+                            공개
+                        </Tag>
+                        <Tag>
+                            모집중
+                        </Tag>
+                        <Dates>
+                            2024.05.20 ~ 2025.05.20
+>>>>>>> dev
                         </Dates>
                         <Kebab>
                             <Image src={kebabIcon} alt="kebabIcon" width={36} height={36} />
                         </Kebab>
                     </BottomSectionFirst>
                     <BottomSectionSecond>
+<<<<<<< HEAD
                         {form.title}
                     </BottomSectionSecond>
                     <BottomSectionThird>
@@ -112,6 +138,21 @@ export default function ListCard({ form }: ListCardProps){
                         <VerticalDivider/>
                         <Text>
                             마감 {getDday(form.recruitmentEndDate)}
+=======
+                        코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울 종로구 용산구 서대문
+                    </BottomSectionSecond>
+                    <BottomSectionThird>
+                        <Text>
+                            지원자 5명
+                        </Text>
+                        <VerticalDivider/>
+                        <Text>
+                            스크랩 8명
+                        </Text>
+                        <VerticalDivider/>
+                        <Text>
+                            마감 D-10
+>>>>>>> dev
                         </Text>
                     </BottomSectionThird>
                 </BottomCard>

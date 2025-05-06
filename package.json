@@ -19,6 +19,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
     "styled-component": "^2.8.0",
     "styled-components": "^6.1.17"
   },
@@ -28,6 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-slick": "^0.23.13",
     "@types/styled-components": "^5.1.34",
     "autoprefixer": "^10.4.21",
     "babel-plugin-styled-components": "^2.1.4",

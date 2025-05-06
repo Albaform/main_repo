@@ -31,7 +31,7 @@ export default function ListContainer({
 
   return (
     <>
-      {listData?.length === 0 ? (
+      {!isLoading && listData?.length === 0 ? (
         <Empty selectedTab={selectedTab} />
       ) : (
         <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-[1199px]:gap-y-[16px]'>

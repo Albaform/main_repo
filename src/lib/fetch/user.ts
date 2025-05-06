@@ -76,9 +76,12 @@ export const fetchMyAppications = async () => {
 };
 
 // 내가 스크랩한 알바폼 목록 조회
-export const fetchMyScrap = async () => {
+export const fetchMyScrap = async ({
+  isScrapSort,
+  cursor
+}:{isScrapSort?:'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'; cursor:number}) => {
   try {
-    const response = await instance.get('/users/me/scraps');
+    const response = await instance.get(`/users/me/scraps?limit=6&orderBy=${isScrapSort}`);
     if (!response.data) {
       throw new Error('내 스크랩 데이터 불러오기 실패');
     }
@@ -92,19 +95,21 @@ export const fetchMyScrap = async () => {
 
 // 내가 작성한 게시물 목록 조회
 export const fetchMyPosts = async ({
-  isSort,
+  isPostSort,
+  cursor
 }: {
-  isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+  isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+  cursor:number
 }) => {
   try {
     const response = await instance.get(
-      `/users/me/posts?limit=6&orderBy=${isSort}`,
+      `/users/me/posts?limit=6&orderBy=${isPostSort}`,
     );
     if (!response.data) {
       throw new Error('내 게시물 데이터 불러오기 실패');
     }
     const result = response.data.data;
-    return result;
+    return {result};
   } catch (error) {
     console.error('내 게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
@@ -119,7 +124,7 @@ export const fetchMyComments = async () => {
       throw new Error('내 댓글 데이터 불러오기 실패');
     }
     const result = response.data.data;
-    return result;
+    return {result};
   } catch (error) {
     console.error('내 댓글 데이터 불러오는 중 에러 발생:', error);
     throw error;

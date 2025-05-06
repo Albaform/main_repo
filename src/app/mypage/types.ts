@@ -3,8 +3,8 @@ import { SetStateAction } from 'react';
 export interface FilterContainerProps {
   selectedTab: 'post' | 'comment';
   setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment'>>;
-  isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
-  setIsSort: React.Dispatch<
+  isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+  setIsPostSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
 }
