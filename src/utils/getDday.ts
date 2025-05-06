@@ -1,4 +1,4 @@
-function getDday(recruitmentEndDate: string): string {
+export default function getDday(recruitmentEndDate: string): string {
     const today = new Date();
     const endDate = new Date(recruitmentEndDate);
 
