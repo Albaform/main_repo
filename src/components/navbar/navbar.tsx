@@ -59,9 +59,12 @@ export default function Navbar({ variant = 'default' }: Props) {
     padding: 24px 220px;
     background-color: ${(props) => props.$bg};
     border-bottom: 1px solid var(--gray100);
+    padding: 0 120px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
-    @media ${media.tablet} {
+
+  @media ${media.tablet} {
+
     padding: 0;
     max-width: 1480px;
     margin: 0 auto;
