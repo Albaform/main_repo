@@ -1,7 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState } from 'react';
+
 import Image from 'next/image';
 import { 
   FilterContainer, 
@@ -65,27 +64,3 @@ export default function ListFilter({
     </FilterWrapper>
   );
 }
-=======
-import { FilterContainer, FilterGroup, FilterWrapper, Filter } from "../styles";
-
-export default function ListFilter(){
-
-
-
-    return(
-       <FilterWrapper>
-        <FilterContainer>
-            <FilterGroup>
-
-            </FilterGroup>
-            <Filter>
-
-            </Filter>
-            
-        </FilterContainer>
-
-
-       </FilterWrapper> 
-    )
-}
->>>>>>> dev
