@@ -13,20 +13,25 @@ export const BannerImages = styled.div`
     justify-content: center;
 
 
-//      @media ${media.desktop} {
-//     margin-bottom: 32px;
-//     max-width: 1480px;
-//     margin: 0 auto;
-//      width: 744px;
-//     height: 260px;
-//   }
-
      @media ${media.tablet} {
     margin-bottom: 32px;
     max-width: 1480px;
     margin: 0 auto;
-     width: 375px;
+    width: 744px;
     height: 260px;
+    display: flex;
+    justify-content: center;
+  }
+
+     @media ${media.mobile} {
+    margin-bottom: 32px;
+    max-width: 1480px;
+    margin: 0 auto;
+    width: 375px;
+    height: 260px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
   }
 
 `
@@ -34,7 +39,17 @@ export const BannerImages = styled.div`
 export const BannerImg = styled.img`
     width: 1560px;
     height: 562px;
+    @media ${media.tablet} {
+        width: 744px;
+        height: 260px;
+      
+  }
 
+     @media ${media.mobile} {
+        width: 375px;
+        height: 260px;
+
+  }
 `
 
 export const CarouselPagination = styled.div`
