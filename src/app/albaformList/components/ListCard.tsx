@@ -52,7 +52,7 @@ export default function ListCard({ form }: ListCardProps){
     }
 
     //모집중 계산
-  function getRecruitStatus(startDate: string, endDate: string): '모집중' | '모집 예정' | '모집 마감' {
+  function getRecruitStatus(startDate: string, endDate: string): '모집중' | '모집 마감' {
         const today = new Date();
         const start = new Date(startDate);
         const end = new Date(endDate);
@@ -62,7 +62,7 @@ export default function ListCard({ form }: ListCardProps){
         start.setHours(0, 0, 0, 0);
         end.setHours(0, 0, 0, 0);
       
-        if (today < start) return '모집 예정';
+
         if (today > end) return '모집 마감';
         return '모집중';
       }
