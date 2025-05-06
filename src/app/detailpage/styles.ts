@@ -5,10 +5,11 @@ import styled from "styled-components";
 //배너이미지
 export const BannerImages = styled.div`
     margin: 78px 180px 80px 180px;
+    margin-top: 78px;
     width: 1560px;
     height: 562px;
     border-radius: 8px;
-    margin: 0 auto;
+    margin: auto;
     display: flex;
     justify-content: center;
 
@@ -39,6 +40,7 @@ export const BannerImages = styled.div`
 export const BannerImg = styled.img`
     width: 1560px;
     height: 562px;
+    margin-top: 78px;
     @media ${media.tablet} {
         width: 744px;
         height: 260px;
