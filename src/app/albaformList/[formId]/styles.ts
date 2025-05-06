@@ -69,3 +69,21 @@ export const CarouselPagination = styled.div`
     color: white;
   }
 `;
+
+//Title Component
+export const Tag = styled.div`
+    background-color: #FFF7EB;
+    color: var(--primary-orange300);
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 4px;
+`
+
+export const Dates = styled.div`
+    color: var(--black100);
+    margin: 6px 8px;
+    font-size: 16px;
+`
