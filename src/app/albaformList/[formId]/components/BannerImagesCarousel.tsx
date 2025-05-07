@@ -27,7 +27,7 @@ export default function BannerImagesCarousel({ images }: Props) {
   };
 
   return (
-    <div className='relative'>
+    <div className='relative mb-[80px]'>
       <Slider {...settings}>
         {displayImages.map((url, idx) => (
           <div key={idx}>

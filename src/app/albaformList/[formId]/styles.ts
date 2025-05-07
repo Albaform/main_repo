@@ -4,13 +4,15 @@ import styled from "styled-components";
 
 //배너이미지
 export const BannerImages = styled.div`
-    margin: 78px 180px 80px 180px;
+     margin: 78px auto 80px auto;
     width: 1560px;
     height: 562px;
     border-radius: 8px;
-    margin: auto;
+   
     display: flex;
     justify-content: center;
+  
+    
 
 
      @media ${media.tablet} {
@@ -40,6 +42,7 @@ export const BannerImg = styled.img`
     width: 1560px;
     height: 562px;
     margin-top: 78px;
+    object-fit: cover;
     @media ${media.tablet} {
         width: 744px;
         height: 260px;
