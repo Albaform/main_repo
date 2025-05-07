@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,18 +28,6 @@ const Button = styled(Link)`
     line-height: 26px;
     padding: 16px 24px;
     margin-top: 18px;
-  }
-`;
-
-const Main = styled.main`
-  position: relative;
-  background-color: var(--black400);
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1.28 / 1;
-
-  @media (max-width: 768px) {
-    height: 633px;
   }
 `;
 
@@ -76,7 +65,7 @@ const Title = styled.h1`
     line-height: 32px;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 810px) {
     font-size: 20px;
     line-height: 32px;
   }
@@ -98,23 +87,92 @@ const BannerImg = styled.div`
 `;
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const imageSrc2 = isMobile
+    ? '/images/landingImg/landing2-1.svg'
+    : '/images/landingImg/landing2.svg';
+  const imageSrc3 = isMobile
+    ? '/images/landingImg/landing3-1.svg'
+    : '/images/landingImg/landing3.svg';
+  const imageSrc4 = isMobile
+    ? '/images/landingImg/landing4-1.svg'
+    : '/images/landingImg/landing4.svg';
+  const imageSrc5 = isMobile
+    ? '/images/landingImg/landing5-1.svg'
+    : '/images/landingImg/landing5.svg';
+
   return (
     <>
-      <Main>
+      {/* 배너 */}
+      <div
+        className='
+        relative bg-[var(--black400)] w-full h-[633px] 
+        md:h-auto md:aspect-[1.29/1]'
+      >
         <Banner>
-          <Image
-            src={'/images/albaform.svg'}
-            alt='logo'
-            width={248}
-            height={48}
-            priority
-          />
+          <div
+            className='
+            relative w-[124px] h-[24px] 
+            md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'
+          >
+            <Image
+              src={'/images/albaform.svg'}
+              alt='logo'
+              fill
+              priority
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
           <Title>한 곳에서 관리하는 알바 구인 플랫폼</Title>
           <Button href={'/'}>알바폼 시작하기</Button>
           <BannerImg />
         </Banner>
-      </Main>
-      <div>랜딩</div>
+      </div>
+
+      {/* 메인 */}
+      <div
+        className='
+        flex flex-col items-center gap-[120px] 
+        max-w-[964px] px-[24px] py-[120px] mx-auto 
+        sm:px-20 md:py-[200px] md:gap-[140px] lg:px-0 lg:gap-[180px]'
+      >
+        {[imageSrc2, imageSrc3, imageSrc4, imageSrc5].map((src, idx) => (
+          <div
+            key={idx}
+            className='relative w-full h-auto aspect-[0.95/1] md:aspect-[1.78/1]'
+          >
+            <Image
+              src={src}
+              alt={`landing${idx + 2}`}
+              fill
+              priority
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+        ))}
+
+        <div className='flex flex-col items-center gap-[40px] lg:gap-20'>
+          <p
+            className='
+            text-[var(--black)] text-center font-bold text-[24px] leading-[32px] 
+            sm:text-[32px] sm:leading-[46px] 
+            lg:text-[48px] lg:leading-[68px]'
+          >
+            한 곳에서 관리하는
+            <br />
+            알바구인 플랫폼
+          </p>
+          <Button href={'/'}>알바폼 시작하기</Button>
+        </div>
+      </div>
     </>
   );
 }
