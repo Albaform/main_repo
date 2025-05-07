@@ -1,5 +1,8 @@
 'use client';
-import styled from "styled-components";
+import styled,{ css }from "styled-components";
+import { media } from '@/styles/media';
+
+
 //SearchBar
 export const SearchBarWrapper = styled.div`
   width: 1920px;
@@ -41,11 +44,15 @@ export const FilterWrapper = styled.div`
     width: 100%;
     height: 90px;
     padding: 24px 220px;
+    border: 1px solid #F2F2F2;
+    background-color: var(--background100);
+    
 `
 
 export const FilterContainer = styled.div`
     width: 100%;
     height: 100px;
+    display: flex;
     align-items: center;
     justify-content: space-between;
 `
@@ -61,16 +68,22 @@ export const FilterGroup = styled.div`
 
 export const Filter = styled.div`
 
+    position: relative;
+    top: -25px;
+    // background: pink;
 `
+
 
 //ListCard
 export const ListCardContainer = styled.div`
-    width: 477px;
+    width: 500px;
     height: 536px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 `
+
+
 
 export const BannerImg = styled.div`
     width: 100%;
@@ -138,4 +151,74 @@ export const VerticalDivider = styled.div`
   width: 1px;
   height: 14px; /* ✅ 원하는 높이로 조절 */
   background-color: #F2F2F2;
+`;
+
+//최신순 dropdown
+type DropdownProps = {
+    $active?: boolean;
+  };
+export const DropdownContainer = styled.div<DropdownProps>`
+  position: absolute;
+  top: 150%;
+  right: 0;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  ${({ $active }) =>
+    $active &&
+    css`
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    `}
+`;
+
+
+type DropdownButtonProps = {
+    $active?: boolean;
+  };
+
+export const DropdownButton = styled.button<DropdownButtonProps>`
+  width: 118px;
+  height: 38px;
+  margin-bottom: 7px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 400;
+  color: var(--gray400);
+
+  &:hover {
+    background: var(--primary-orange100);
+    color: var(--black400);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  ${({ $active }) =>
+    $active &&
+    css`
+      background: var(--primary-orange100);
+      color: var(--black400);
+    `}
+`;
+
+export const DropdownBox = styled.div`
+  padding: 7px;
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--line100);
+  box-shadow: 4px 4px 4px rgba(228, 228, 228, 0.1);
+  z-index: 100;
+  font-size: 16px;
+
+  @media ${media.tablet} {
+    font-size: 14px;
+  }
 `;

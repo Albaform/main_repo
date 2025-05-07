@@ -51,17 +51,20 @@ export default function Navbar({ variant = 'default' }: Props) {
 
   const NavbarWrapper = styled.nav<{ $bg: string }>`
     position: fixed;
-    width: 1920px;
-    height: 88px;
+    width:100%;
     z-index: 999;
-    display: flex;
-    align-items: center;
-    padding: 24px 220px;
     background-color: ${(props) => props.$bg};
     border-bottom: 1px solid var(--gray100);
+  `;
+
+  const ContentsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     padding: 0 120px;
+    height: 88px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
+<<<<<<< HEAD:src/components/navbar/navbar.tsx
 
   @media ${media.tablet} {
 
@@ -70,16 +73,29 @@ export default function Navbar({ variant = 'default' }: Props) {
     margin: 0 auto;
     height: 60px;
   }
+=======
+    @media ${media.desktop} {
+      padding: 0;
+      max-width: 1480px;
+      margin: 0 auto;
+      
+    }
+>>>>>>> 9ae9b51273ad732da9387c4ebf2503bfc429ad03:src/components/navbar/Navbar.tsx
 
-  /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
-  @media ${media.mobile} {
-    padding: 0 24px;
-    margin: 0;
-    height: 54px;
-  }
+    /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
+    @media ${media.tabletPC} {
+      padding: 0 24px;
+      margin: 0;
+    }
+  
+    @media ${media.tablet} {
+      height: 60px;
+    }
 
-
-  `;
+    @media ${media.mobile} {
+      height: 54px;
+    }
+  `
   const MenuList = styled.ul<{ $alignRight?: boolean }>`
     display: flex;
     gap: 24px;
@@ -107,6 +123,7 @@ export default function Navbar({ variant = 'default' }: Props) {
   return (
     <div>
       <NavbarWrapper $bg={bgColor[variant]}>
+        <ContentsWrapper>
         <Logo src='/logo/logo.png' alt='logo' />
         <MenuList $alignRight={variant === 'login'}>
           {menuItems[variant].map((item) => (
@@ -144,6 +161,7 @@ export default function Navbar({ variant = 'default' }: Props) {
   )
 )}
         {isModalOpen && <NavModal onClose={handleCloseModal} />}
+        </ContentsWrapper>
       </NavbarWrapper>
     </div>
   );

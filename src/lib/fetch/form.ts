@@ -1,4 +1,5 @@
 import instance from "../api/api";
+import { FormListResponse } from '@/app/albaformList/types';
 
 // 알바폼 생성
 export const fetchPostForms = async () => {
@@ -15,13 +16,14 @@ export const fetchPostForms = async () => {
 };
 
 // 알바폼 목록 조회
-export const fetchGetForms = async () => {
+export const fetchAlbaForms = async (limit = 9): Promise<FormListResponse> => {
   try {
-    const response = await instance.get("/forms");
-    if (!response.data) {
+    const res = await instance.get(`/forms?limit=${limit}`);
+   
+    if (!res.data) {
       throw new Error("알바폼 목록 조회 실패");
     }
-    return response.data;
+    return res.data;
   } catch (error) {
     console.error("알바 폼 목록 조회 중 에러 발생", error);
     throw error;
