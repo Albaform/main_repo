@@ -4,13 +4,15 @@ import styled from "styled-components";
 
 //배너이미지
 export const BannerImages = styled.div`
-    margin: 78px 180px 80px 180px;
+     margin: 78px auto 80px auto;
     width: 1560px;
     height: 562px;
     border-radius: 8px;
-    margin: auto;
+   
     display: flex;
     justify-content: center;
+  
+    
 
 
      @media ${media.tablet} {
@@ -40,6 +42,7 @@ export const BannerImg = styled.img`
     width: 1560px;
     height: 562px;
     margin-top: 78px;
+    object-fit: cover;
     @media ${media.tablet} {
         width: 744px;
         height: 260px;
@@ -69,3 +72,21 @@ export const CarouselPagination = styled.div`
     color: white;
   }
 `;
+
+//Title Component
+export const Tag = styled.div`
+    background-color: #FFF7EB;
+    color: var(--primary-orange300);
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 4px;
+`
+
+export const Dates = styled.div`
+    color: var(--black100);
+    margin: 6px 8px;
+    font-size: 16px;
+`

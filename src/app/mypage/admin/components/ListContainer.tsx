@@ -19,6 +19,7 @@ export default function ListContainer({
   selectedTab,
   listData,
   isLoading,
+  isFetchingNextPage,
 }: ListContainerProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
@@ -35,7 +36,7 @@ export default function ListContainer({
         <Empty selectedTab={selectedTab} />
       ) : (
         <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-[1199px]:gap-y-[16px]'>
-          {isLoading && <Loader />}
+          {(isLoading || isFetchingNextPage) && <Loader />}
           {listData?.map((item) => {
             const { writer } = item;
             const { post } = item;

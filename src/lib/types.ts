@@ -3,7 +3,7 @@ export interface SignUp {
   password: string;
   name: string;
   nickname: string;
-  role: "OWNER" | "APPLICANT";
+  role: 'OWNER' | 'APPLICANT';
   storeName?: string;
   storePhoneNumber?: string;
   phoneNumber?: string;
@@ -13,4 +13,17 @@ export interface SignUp {
 export interface SignIn {
   email: string;
   password: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+  nickname: string;
+  role: 'OWNER' | 'APPLICANT';
+  imageUrl: string;
+  location: string;
+  phoneNumber: string;
+  storePhoneNumber: string;
+  storeName: string;
 }

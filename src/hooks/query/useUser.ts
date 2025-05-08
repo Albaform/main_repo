@@ -25,7 +25,7 @@ export const useGetMyContents = (
       selectedTab === 'post' ? isPostSort : isScrapSort,
     ],
     queryFn,
-    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? null,
+    getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
     initialPageParam: 1,
     staleTime: 1000 * 60,
     enabled: selectedTab !== 'comment',

@@ -1,3 +1,4 @@
+import { ListData } from '@/app/mypage/types';
 import instance from '../api/api';
 
 // 내 정보 조회
@@ -81,12 +82,18 @@ export const fetchMyScrap = async ({
   cursor
 }:{isScrapSort?:'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'; cursor:number}) => {
   try {
-    const response = await instance.get(`/users/me/scraps?limit=6&orderBy=${isScrapSort}`);
+    const requestUrl = cursor === 1 ? `/users/me/scraps?limit=6&orderBy=${isScrapSort}` : `/users/me/scraps?limit=6&orderBy=${isScrapSort}`
+
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
       throw new Error('내 스크랩 데이터 불러오기 실패');
     }
-    const result = response.data.data;
-    return result;
+    
+    return {
+      result: response.data.data,
+      nextPage:response.data.nextCursor
+    };
   } catch (error) {
     console.error('내 스크랩 데이터 불러오는 중 에러 발생:', error);
     throw error;
@@ -100,16 +107,20 @@ export const fetchMyPosts = async ({
 }: {
   isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   cursor:number
-}) => {
+}):Promise<{result:ListData[]; nextPage:number}> => {
   try {
-    const response = await instance.get(
-      `/users/me/posts?limit=6&orderBy=${isPostSort}`,
-    );
+    const requestUrl = cursor === 1 ? `/users/me/posts?limit=6&orderBy=${isPostSort}` : `/users/me/posts?limit=6&orderBy=${isPostSort}&cursor=${cursor}`
+    
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
       throw new Error('내 게시물 데이터 불러오기 실패');
     }
-    const result = response.data.data;
-    return {result};
+    
+    return {
+      result: response.data.data,
+      nextPage:response.data.nextCursor
+    };
   } catch (error) {
     console.error('내 게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;

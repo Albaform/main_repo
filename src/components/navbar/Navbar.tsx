@@ -51,7 +51,7 @@ export default function Navbar({ variant = 'default' }: Props) {
 
   const NavbarWrapper = styled.nav<{ $bg: string }>`
     position: fixed;
-    width:100%;
+    width: 100%;
     z-index: 999;
     background-color: ${(props) => props.$bg};
     border-bottom: 1px solid var(--gray100);
@@ -78,7 +78,6 @@ export default function Navbar({ variant = 'default' }: Props) {
       padding: 0;
       max-width: 1480px;
       margin: 0 auto;
-      
     }
 >>>>>>> 9ae9b51273ad732da9387c4ebf2503bfc429ad03:src/components/navbar/Navbar.tsx
 
@@ -87,7 +86,7 @@ export default function Navbar({ variant = 'default' }: Props) {
       padding: 0 24px;
       margin: 0;
     }
-  
+
     @media ${media.tablet} {
       height: 60px;
     }
@@ -95,7 +94,7 @@ export default function Navbar({ variant = 'default' }: Props) {
     @media ${media.mobile} {
       height: 54px;
     }
-  `
+  `;
   const MenuList = styled.ul<{ $alignRight?: boolean }>`
     display: flex;
     gap: 24px;
@@ -124,43 +123,43 @@ export default function Navbar({ variant = 'default' }: Props) {
     <div>
       <NavbarWrapper $bg={bgColor[variant]}>
         <ContentsWrapper>
-        <Logo src='/logo/logo.png' alt='logo' />
-        <MenuList $alignRight={variant === 'login'}>
-          {menuItems[variant].map((item) => (
-            <MenuItem
-              key={item}
-              $isActive={item === activeMenu}
-              onClick={() => setActiveMenu(item)}
+          <Logo src='/logo/logo.png' alt='logo' />
+          <MenuList $alignRight={variant === 'login'}>
+            {menuItems[variant].map((item) => (
+              <MenuItem
+                key={item}
+                $isActive={item === activeMenu}
+                onClick={() => setActiveMenu(item)}
+              >
+                {item}
+              </MenuItem>
+            ))}
+          </MenuList>
+          {isLandingPage ? (
+            <button
+              onClick={() => router.push('/auth/signin/owner')}
+              style={{
+                fontSize: '16px',
+                background: 'var(--primary-orange300)',
+                border: '1px solid var(--primary-orange300)',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                color: 'white',
+              }}
             >
-              {item}
-            </MenuItem>
-          ))}
-        </MenuList>
-        {isLandingPage ? (
-  <button
-    onClick={() => router.push('/signin')}
-    style={{
-      fontSize: '16px',
-      background: 'var(--primary-orange300)',
-      border: '1px solid var(--primary-orange300)',
-      padding: '8px 16px',
-      borderRadius: '6px',
-      cursor: 'pointer',
-      color: 'white',
-    }}
-  >
-    로그인
-  </button>
-) : (
-  hamburgerMenu[variant] !== 'none' && (
-    <Hamburger
-      src={hamburgerMenu[variant]}
-      alt='menu icon'
-      onClick={handleOpenModal}
-    />
-  )
-)}
-        {isModalOpen && <NavModal onClose={handleCloseModal} />}
+              로그인
+            </button>
+          ) : (
+            hamburgerMenu[variant] !== 'none' && (
+              <Hamburger
+                src={hamburgerMenu[variant]}
+                alt='menu icon'
+                onClick={handleOpenModal}
+              />
+            )
+          )}
+          {isModalOpen && <NavModal onClose={handleCloseModal} />}
         </ContentsWrapper>
       </NavbarWrapper>
     </div>
