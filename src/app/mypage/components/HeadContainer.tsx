@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { EditButton, EditButtonContainer, KebabButton } from '../../styles';
+import { EditButton, EditButtonContainer, KebabButton } from '../styles';
 import { useClickOutside } from '@/utils/useClickOutside';
 
 export default function HeadContainer() {

@@ -2,9 +2,9 @@
 
 import { ResponsiveStyle } from '@/styles/responsiveStyle';
 import FilterContainer from './components/FilterContainer';
-import HeadContainer from './components/HeadContainer';
+import HeadContainer from '../components/HeadContainer';
 import { useState } from 'react';
-import ListContainer from './components/ListContainer';
+import MyPostAndCommentList from '../components/MyPostAndCommentList';
 import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
@@ -17,7 +17,7 @@ export default function mypage() {
   >('mostRecent');
 
   const itemsPerPage = 6;
-  
+
   const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
   const isPost = query.type === 'post';
 
@@ -42,10 +42,7 @@ export default function mypage() {
     isFetchingNextPage = query.isFetchingNextPage;
   }
 
-  const observerRef = useInfiniteScroll(
-    isPost && hasNextPage!,
-    fetchNextPage!
-  );
+  const observerRef = useInfiniteScroll(isPost && hasNextPage!, fetchNextPage!);
 
   return (
     <ResponsiveStyle>
@@ -56,9 +53,18 @@ export default function mypage() {
         isPostSort={isPostSort}
         setIsPostSort={setIsPostSort}
       />
-      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading || isFetching} isFetchingNextPage={isFetchingNextPage}/>
-      {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
-      {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages}/>}
+      <MyPostAndCommentList
+        selectedTab={selectedTab}
+        listData={listData}
+        isLoading={isLoading || isFetching}
+        isFetchingNextPage={isFetchingNextPage}
+      />
+      {selectedTab === 'post' && hasNextPage && (
+        <div ref={observerRef} style={{ height: '1px' }} />
+      )}
+      {selectedTab === 'comment' && (
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      )}
     </ResponsiveStyle>
   );
 }

@@ -1,19 +1,11 @@
 import Image from 'next/image';
-import {
-  Title,
-  PostWrapper,
-  Description,
-  KebabButton,
-  PostDropdownContainer,
-  PostDropwonButton,
-  Comment,
-} from '../../styles';
-import { useClickOutside } from '@/utils/useClickOutside';
-import { ListContainerProps } from '../../types';
+import { Title, PostWrapper, Description, Comment } from '../styles';
+import { ListContainerProps } from '../types';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
+import KebabDropdown from './KebabDropdown';
 
 export default function ListContainer({
   selectedTab,
@@ -21,8 +13,6 @@ export default function ListContainer({
   isLoading,
   isFetchingNextPage,
 }: ListContainerProps) {
-  const { outRef, dropdown, setDropdown } = useClickOutside();
-
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
   const defaultProfileImg = '/images/defaultProfile.svg';
@@ -58,26 +48,7 @@ export default function ListContainer({
                         {selectedTab === 'post' ? item.title : post?.title}
                       </Title>
                     </div>
-                    {selectedTab === 'post' && (
-                      <KebabButton ref={outRef}>
-                        <Image
-                          src='/images/kebabButton.svg'
-                          alt='더보기'
-                          width={36}
-                          height={36}
-                          className='cursor-pointer'
-                          onClick={() => setDropdown((prev) => !prev)}
-                        />
-                        <PostDropdownContainer $active={dropdown}>
-                          <PostDropwonButton type='button'>
-                            수정하기
-                          </PostDropwonButton>
-                          <PostDropwonButton type='button'>
-                            삭제하기
-                          </PostDropwonButton>
-                        </PostDropdownContainer>
-                      </KebabButton>
-                    )}
+                    {selectedTab === 'post' && <KebabDropdown />}
                   </div>
                   <Description comment={selectedTab === 'comment'}>
                     {selectedTab === 'post' ? item.content : post?.content}

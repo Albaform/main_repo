@@ -20,7 +20,7 @@ export interface ListContainerProps {
   selectedTab: 'post' | 'comment';
   listData: ListData[];
   isLoading: boolean;
-  isFetchingNextPage:boolean;
+  isFetchingNextPage: boolean;
 }
 
 type WriterData = {
