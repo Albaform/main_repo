@@ -2,7 +2,7 @@ import { UserDataProps } from '@/app/mypage/types';
 import { useEditUser } from '@/hooks/mutation/useEditUser';
 import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 import {
-  BaseUserInput,
+  EditUserInput,
   ownerProfileSchema,
 } from '@/schemas/editProfileSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,7 +29,7 @@ export function useEditProfileForm({
     useUploadImage();
   const { mutate: patchEditUser, isPending: isPatchingUser } = useEditUser();
 
-  const form = useForm<BaseUserInput>({
+  const form = useForm<EditUserInput>({
     resolver: zodResolver(ownerProfileSchema),
     mode: 'onChange',
     defaultValues: {
@@ -42,7 +42,7 @@ export function useEditProfileForm({
     },
   });
 
-  const onSubmit = async (formData: BaseUserInput) => {
+  const onSubmit = async (formData: EditUserInput) => {
     let imageUrl;
 
     if (selectedImageFile) {

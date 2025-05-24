@@ -1,4 +1,7 @@
-import { SetStateAction } from 'react';
+import { EditPasswordInput } from '@/schemas/editPasswordSchema';
+import { EditUserInput } from '@/schemas/editProfileSchema';
+import { Dispatch, SetStateAction } from 'react';
+import { FieldValues } from 'react-hook-form';
 
 export interface FilterContainerProps {
   selectedTab: 'post' | 'comment';
@@ -94,4 +97,23 @@ export type PasswordWatchedFields = {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
+};
+
+export type EditProfileFormProps = {
+  form: FieldValues;
+  user: UserDataProps;
+  onSubmit: (formData: EditUserInput) => Promise<void>;
+  isPending: boolean;
+  isPreview: string;
+  setIsPreview: Dispatch<SetStateAction<string>>;
+  handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
+  handleCloseModal: () => void;
+};
+
+export type EditPasswordFormProps = {
+  form: FieldValues;
+  onSubmit: (formData: EditPasswordInput) => void;
+  isPending: boolean;
+  handleCloseModal: () => void;
 };

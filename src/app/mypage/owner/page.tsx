@@ -113,7 +113,7 @@ export default function Mypage() {
             : modalType === 'editPassword'
             ? '비밀번호'
             : ''}
-          가 수정되었습니다 !
+          가 성공적으로 수정되었습니다 !
         </Toast>
       )}
     </ResponsiveStyle>

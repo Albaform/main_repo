@@ -1,23 +1,18 @@
-'use client';
-
 import Overlay from '@/components/modal/Overlay';
 import Image from 'next/image';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import EditProfileSkeleton from './EditProfileSkeleton';
-import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import EditProfileForm from './EditProfileForm';
 import { EditModalProps } from '@/app/mypage/types';
-import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileImgForm';
-import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
+import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
-
 
 export default function EditProfileModal({
   showModal,
   setShowModal,
   handleCloseModal,
-  onSuccess
+  onSuccess,
 }: EditModalProps) {
   const { data: user, isLoading } = useGetMyInfo();
 
@@ -25,22 +20,12 @@ export default function EditProfileModal({
     user?.imageUrl || '',
   );
 
-  const formLogic = useEditProfileForm({ user, setShowModal, isPreview, onSuccess });
-
-  const { setValue, watch } = formLogic.form;
-
-  const watched = watch();
-
-  useInitializeUserForm({ user, setValue });
-
-  const { isModified: isFormModified } = useFormChangeDetector({
-    watched,
-    setValue,
+  const formLogic = useEditProfileForm({
     user,
+    setShowModal,
+    isPreview,
+    onSuccess,
   });
-
-  const isModified =
-    isFormModified || !!formLogic.selectedImageFile || !!watch('imageUrl');
 
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -53,10 +38,10 @@ export default function EditProfileModal({
         ) : (
           <EditProfileForm
             {...formLogic}
+            user={user}
             isPreview={isPreview}
             setIsPreview={setIsPreview}
             handleImgChange={handleImgChange}
-            isModified={isModified}
             handleCloseModal={handleCloseModal}
           />
         )}
