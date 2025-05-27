@@ -9,7 +9,7 @@ import {
 } from '../../styles';
 import Image from 'next/image';
 import SortDropdown from './SortDropdown';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { FilterContainerProps } from '../../types';
 
 export default function FilterContainer({

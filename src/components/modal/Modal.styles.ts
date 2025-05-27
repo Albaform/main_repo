@@ -1,6 +1,10 @@
 import { media } from '@/styles/media';
 import styled from 'styled-components';
 
+type ModalWidthProps = {
+  $edit?: boolean;
+};
+
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -14,10 +18,12 @@ export const ModalOverlay = styled.div`
   z-index: 9999;
 `;
 
-export const ModalContent = styled.div`
+export const ModalContent = styled.div<ModalWidthProps>`
   position: relative;
   background-color: var(--white);
-  width: 368px;
+  width: ${({ $edit }) => ($edit ? 'calc(100vw * (720/1920))' : '368px')};
+  max-width: 520px;
+  min-width: 375px;
   min-height: 204px;
   padding: 24px 24px 10px 24px;
   border-radius: 24px;

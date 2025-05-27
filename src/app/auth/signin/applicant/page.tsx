@@ -3,6 +3,9 @@
 import Link from 'next/link';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
+import Toast from '@/components/tooltip/Toast';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,12 +20,29 @@ export default function SignIn() {
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
   });
-
+  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
   const { mutate, isPending, error } = useSignIn();
 
   const onSubmit = (data: SignInInput) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        router.push('/');
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    if (error) {
+      alert('로그인에 실패하였습니다. 다시 시도해주세요.');
+    }
+  }, [error]);
 
   return (
     <form
@@ -81,6 +101,11 @@ export default function SignIn() {
         {error && <p className='text-red text-sm'>{error.message}</p>}
       </div>
       <Button type='submit'>{isPending ? '로그인 중...' : '로그인'}</Button>
+      {showToast && (
+        <Toast onClose={() => setShowToast(false)}>
+          <p>로그인 성공!</p>
+        </Toast>
+      )}
     </form>
   );
 }

@@ -2,32 +2,33 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { 
-  FilterContainer, 
-  FilterGroup, 
-  FilterWrapper, 
-  Filter, 
-  DropdownBox, 
-  DropdownContainer 
+import {
+  FilterContainer,
+  FilterGroup,
+  FilterWrapper,
+  Filter,
+  DropdownBox,
+  DropdownContainer,
 } from '../styles';
 import SortDropdown from './SortDropDown';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { FilterContainerProps } from '../types';
 import FilterDropdown from './FilterDropDown';
 
 export default function ListFilter({
-    isSort,
-    setIsSort,
+  isSort,
+  setIsSort,
 }: FilterContainerProps) {
-  
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   return (
     <FilterWrapper>
       <FilterContainer>
+
         <FilterGroup>
           <FilterDropdown />
         </FilterGroup>
+
         <Filter className='relative' ref={outRef}>
           <button
             className='flex items-center'

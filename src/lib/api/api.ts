@@ -11,7 +11,6 @@ const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     //Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDYyNDQ4NTAsImV4cCI6MTc0Njg0OTY1MH0.fcitbGTkERrvImZVOdX1B9fObKlnslmLBAV43Zirs0s`, // 로그인 전 임시
-    'Content-Type': 'application/json',
   },
 });
 
@@ -32,8 +31,11 @@ instance.interceptors.request.use(
 // refresh token
 instance.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
-    if (error.response?.status === 401) {
+  async (error: AxiosError<{ message: string }>) => {
+    if (
+      error.response?.status === 401 &&
+      error.response?.data?.message !== '현재 비밀번호가 일치하지 않습니다.'
+    ) {
       const originalRequest = error.config as InternalAxiosRequestConfig & {
         _retry?: boolean;
       };

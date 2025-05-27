@@ -1,15 +1,22 @@
-import instance from "../api/api";
+import instance from '../api/api';
 
 // 이미지 업로드
-export const fetchUploadImage = async () => {
+export const fetchUploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('image', file);
+
   try {
-    const response = await instance.post("/upload");
+    const response = await instance.post('/images/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     if (!response.data) {
-      throw new Error("이미지 업로드 실패");
+      throw new Error('이미지 업로드 실패');
     }
-    return response.data;
+    return response.data.url;
   } catch (error) {
-    console.error("이미지 업로드 중 에러 발생", error);
+    console.error('이미지 업로드 중 에러 발생', error);
     throw error;
   }
 };
@@ -17,13 +24,13 @@ export const fetchUploadImage = async () => {
 // 이력서 업로드
 export const fetchUploadResume = async () => {
   try {
-    const response = await instance.post("/resume/upload");
+    const response = await instance.post('/resume/upload');
     if (!response.data) {
-      throw new Error("이력서 업로드 실패");
+      throw new Error('이력서 업로드 실패');
     }
     return response.data;
   } catch (error) {
-    console.error("이력서 업로드 중 에러 발생", error);
+    console.error('이력서 업로드 중 에러 발생', error);
     throw error;
   }
 };
@@ -31,13 +38,13 @@ export const fetchUploadResume = async () => {
 // 이력서 다운로드
 export const fetchDownloadResume = async () => {
   try {
-    const response = await instance.get("/:resumeId/download");
+    const response = await instance.get('/:resumeId/download');
     if (!response.data) {
-      throw new Error("이력서 다운로드 실패");
+      throw new Error('이력서 다운로드 실패');
     }
     return response.data;
   } catch (error) {
-    console.error("이력서 다운로드 중 에러 발생", error);
+    console.error('이력서 다운로드 중 에러 발생', error);
     throw error;
   }
 };

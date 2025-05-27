@@ -6,7 +6,7 @@ export default function Loader() {
     <LoadingBackground>
       <LoaderContainer>
         <Image
-          src='/images/loader.gif'
+          src='/images/searching.gif'
           alt='Loading...'
           width={130}
           height={130}

@@ -3,8 +3,11 @@
 import Link from 'next/link';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
+import Toast from '@/components/tooltip/Toast';
+import { useEffect, useState } from 'react';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
 
@@ -17,12 +20,29 @@ export default function SignIn() {
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
   });
-
-  const { mutate, isPending, error } = useSignIn();
+  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+  const { mutate, isPending, error } = useSignIn(() => setShowToast(true));
 
   const onSubmit = (data: SignInInput) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        router.push('/');
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    if (error) {
+      alert('로그인에 실패하였습니다. 다시 시도해주세요.');
+    }
+  }, [error]);
 
   return (
     <form
@@ -59,7 +79,7 @@ export default function SignIn() {
           <Input
             id='email'
             label='이메일'
-            placeholder='이메일을 입력하세요'
+            placeholder='이메일을 입력해주세요'
             className={errors.email ? 'border-red' : ''}
             {...register('email')}
           />
@@ -71,7 +91,7 @@ export default function SignIn() {
           id='password'
           type='password'
           label='비밀번호'
-          placeholder='비밀번호를 입력하세요'
+          placeholder='비밀번호를 입력해주세요'
           className={errors.password ? 'border-red' : ''}
           {...register('password')}
         />
@@ -82,6 +102,9 @@ export default function SignIn() {
       <Button type='submit' disabled={!isValid}>
         {isPending ? '로그인 중...' : '로그인'}
       </Button>
+      {showToast && (
+        <Toast onClose={() => setShowToast(false)}>로그인되었습니다 !</Toast>
+      )}
     </form>
   );
 }

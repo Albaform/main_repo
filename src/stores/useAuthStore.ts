@@ -1,5 +1,17 @@
 import { create } from 'zustand';
-import { User } from '@/lib/types';
+
+interface User {
+  location: string;
+  phoneNumber: string;
+  storeName: string;
+  storePhoneNumber: string;
+  name: string;
+  nickname: string;
+  role: string;
+  imageUrl: string;
+  email: string;
+  id: number;
+}
 
 interface AuthStore {
   user: User | null;

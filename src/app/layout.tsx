@@ -4,6 +4,8 @@ import GlobalStyleProvider from '@/context/GlobalStyleProvider';
 import StyledComponentsRegistry from '../lib/StyledRegistry';
 import ClientLayout from '@/app/ClientLayout';
 import '@/styles/tailwindStyle.css';
+import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
+import KakaoMapScript from '@/components/common/KakaoMapScript';
 
 export const metadata: Metadata = {
   title: 'Albaform',
@@ -23,6 +25,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
+        <DaumPostcodeScript />
+        <KakaoMapScript />
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
             <ClientLayout>{children}</ClientLayout>
