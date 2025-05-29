@@ -18,7 +18,7 @@ export default function Mypage() {
   const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
-  const [isPostSort, setIsPostSort] = useState<
+  const [isSort, setIsSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
   const [modalType, setModalType] = useState<
@@ -44,7 +44,7 @@ export default function Mypage() {
   let fetchNextPage, hasNextPage;
   let totalPages;
 
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
+  const query = useGetMyContents(page, itemsPerPage, selectedTab, isSort);
   const isPost = query.type === 'post';
 
   if (query.type === 'comment') {
@@ -99,8 +99,8 @@ export default function Mypage() {
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        isPostSort={isPostSort}
-        setIsPostSort={setIsPostSort}
+        isSort={isSort}
+        setIsSort={setIsSort}
       />
       <MyPostAndCommentList
         selectedTab={selectedTab}

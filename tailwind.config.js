@@ -3,6 +3,21 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+      },
+      screens: {
+        'min-s': { min: '320px' },
+        'max-s': { max: '320px' },
+        'min-xs': { min: '480px' },
+        'max-xs': { max: '480px' },
+        'min-md': { min: '768px' },
+        'max-md': { max: '768px' },
+        'min-lg': { min: '1199px' },
+        'max-lg': { max: '1199px' },
+        'min-xlg': { min: '1920px' },
+      },
       colors: {
         white: 'var(--white)',
         black: 'var(--black)',

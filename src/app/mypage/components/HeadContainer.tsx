@@ -11,7 +11,7 @@ export default function HeadContainer({ handleOpenModal }: HeadProps) {
   return (
     <>
       <div className='flex justify-between items-center py-6 px-0'>
-        <p className='text-[32px] font-medium max-[768px]:text-[20px]'>
+        <p className='text-[32px] font-medium max-md:text-[20px]'>
           마이페이지
         </p>
         <KebabButton ref={outRef}>

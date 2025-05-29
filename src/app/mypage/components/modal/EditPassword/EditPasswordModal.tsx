@@ -16,7 +16,7 @@ export default function EditPasswordModal({
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] text-black-400 max-h-[calc(100vh_*_(1090/1256))] overflow-y-scroll scrollbar-hide pb-[20px]'>
-        <p className='text-[24px] mb-[48px] font-medium max-[768px]:text-[18px]'>
+        <p className='text-[24px] mb-[48px] font-medium max-md:text-[18px]'>
           비밀번호 변경
         </p>
         <EditPasswordForm {...formLogic} handleCloseModal={handleCloseModal} />

@@ -6,13 +6,6 @@ import { FieldValues } from 'react-hook-form';
 export interface FilterContainerProps {
   selectedTab: 'post' | 'comment';
   setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment'>>;
-  isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
-  setIsPostSort: React.Dispatch<
-    SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
-  >;
-}
-
-export interface SortDropdownProps {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>

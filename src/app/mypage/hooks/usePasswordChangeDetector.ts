@@ -18,7 +18,5 @@ export default function usePasswordChangeDetector(
       !hasError,
   );
 
-  console.log(watched, errors);
-
   return { isModified };
 }
