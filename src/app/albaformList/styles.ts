@@ -111,7 +111,7 @@ export const Tag = styled.div`
     align-items: center;
     font-size: 16px;
     margin-right: 8px;
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: 4px;
 `
 
@@ -122,7 +122,7 @@ export const Dates = styled.div`
 `
 
 export const Kebab = styled.div`
-    margin-left: 110px;
+    margin-left: 100px;
 `
 export const BottomSectionSecond = styled.div`
     width: 100%;
@@ -134,11 +134,14 @@ export const BottomSectionSecond = styled.div`
     font-weight: 700;
 `
 export const BottomSectionThird = styled.div`
+    width: 90%;
+    max-width: 500px;
     border-radius: 16px;
     border: 1px solid #F2F2F2;
     display: flex;
     align-items: center;
     margin-top: 32px;
+    justify-content: space-between;
     
 `
 
