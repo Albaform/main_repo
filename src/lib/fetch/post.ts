@@ -16,14 +16,33 @@ export const fetchPostPosts = async () => {
 };
 
 // 게시글 목록 조회
-export const fetchGetPosts = async () => {
+export const fetchGetPosts = async ({
+  isSort,
+  itemsPerPage,
+  cursor,
+  isKeyword
+}: {
+  isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+  itemsPerPage: number;
+  cursor: number;
+  isKeyword:string
+}) => {
   try {
-    const response = await instance.get('/posts');
+    const requestUrl =
+      cursor === 1
+        ? `/posts?limit=${itemsPerPage}&orderBy=${isSort}&keyword=${isKeyword}`
+        : `/posts?limit=${itemsPerPage}&orderBy=${isSort}&cursor=${cursor}&keyword=${isKeyword}`;
+
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
       throw new Error('게시물 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
+
+    return {
+      result: response.data.data,
+      nextPage: response.data.nextCursor,
+    };
   } catch (error) {
     console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
