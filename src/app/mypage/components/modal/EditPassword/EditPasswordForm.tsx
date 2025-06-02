@@ -7,7 +7,7 @@ export default function EditPasswordForm(props: EditPasswordFormProps) {
   const { form, onSubmit, isPending, handleCloseModal } = props;
 
   const { handleSubmit, register, formState } = form;
-  const { errors } = formState;
+  const { isValid, errors } = formState;
 
   const [visibleFields, setVisibleFields] = useState({
     current: false,
@@ -25,7 +25,7 @@ export default function EditPasswordForm(props: EditPasswordFormProps) {
   const { watch } = form;
   const watched = watch();
 
-  const { isModified } = usePasswordChangeDetector(watched);
+  const { isModified } = usePasswordChangeDetector(watched, errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -158,7 +158,7 @@ export default function EditPasswordForm(props: EditPasswordFormProps) {
           <button
             type='submit'
             className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
-            disabled={!isModified || isPending}
+            disabled={!isValid || !isModified || isPending}
           >
             변경하기
           </button>

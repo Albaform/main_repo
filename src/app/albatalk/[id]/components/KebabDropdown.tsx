@@ -18,7 +18,7 @@ export default function KebabDropdown({
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   const handleDeleteOpenModal = () => {
-    setPostId(postId);
+    setPostId?.(postId);
     setShowModal(true);
     setModalType('deletePost');
     setMainMessage('선택하신 게시글을 삭제할까요?');

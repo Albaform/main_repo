@@ -30,7 +30,7 @@ export default function EditProfileModal({
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[500px] overflow-y-scroll scrollbar-hide'>
-        <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
+        <p className='text-[24px] font-medium max-md:text-[18px]'>
           사장님 정보 관리
         </p>
         {isLoading ? (
