@@ -1,7 +1,10 @@
-import { DropdownButton } from '../../styles';
-import { SortDropdownProps } from '../../types';
+import { DropdownButton } from './PostSort.styles';
+import { SortDropdownProps } from './PostSort.types';
 
-export default function SortDropdown({ isSort, setIsSort }: SortDropdownProps) {
+export default function PostSortDropdown({
+  isSort,
+  setIsSort,
+}: SortDropdownProps) {
   return (
     <>
       <DropdownButton

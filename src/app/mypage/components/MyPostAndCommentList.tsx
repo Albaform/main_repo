@@ -6,12 +6,24 @@ import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
 import KebabDropdown from './KebabDropdown';
+import Modal from '@/components/modal/Modal';
 
 export default function ListContainer({
   selectedTab,
   listData,
   isLoading,
   isFetchingNextPage,
+  postId,
+  setPostId,
+  showModal,
+  setShowModal,
+  mainMessage,
+  setMainMessage,
+  subMessage,
+  setSubMessage,
+  modalType,
+  setModalType,
+  onSuccess
 }: ListContainerProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
@@ -22,11 +34,24 @@ export default function ListContainer({
 
   return (
     <>
+      {showModal && modalType === 'deletePost' ? (
+        <Modal
+          $deletePost
+          showModal={showModal}
+          setShowModal={setShowModal}
+          mainMessage={mainMessage}
+          subMessage={subMessage}
+          deletePostId={postId}
+          onSuccess={onSuccess}
+        />
+      ) : (
+        ''
+      )}
       {!isLoading && listData?.length === 0 ? (
         <Empty selectedTab={selectedTab} />
       ) : (
-        <div className='min-[1199px]:min-h-[500px]'>
-          <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-[1199px]:gap-y-[16px]'>
+        <div className='min-lg:min-h-[500px]'>
+          <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-lg:gap-y-[16px]'>
             {(isLoading || isFetchingNextPage) && <Loader />}
             {listData?.map((item) => {
               const { writer } = item;
@@ -49,14 +74,23 @@ export default function ListContainer({
                           {selectedTab === 'post' ? item.title : post?.title}
                         </Title>
                       </div>
-                      {selectedTab === 'post' && <KebabDropdown />}
+                      {selectedTab === 'post' && (
+                        <KebabDropdown
+                          postId={item.id}
+                          setPostId={setPostId}
+                          setShowModal={setShowModal}
+                          setMainMessage={setMainMessage}
+                          setModalType={setModalType}
+                          setSubMessage={setSubMessage}
+                        />
+                      )}
                     </div>
                     <Description comment={selectedTab === 'comment'}>
                       {selectedTab === 'post' ? item.content : post?.content}
                     </Description>
                   </div>
                   {selectedTab === 'post' ? (
-                    <div className='flex items-center justify-between text-gray-500 pt-[80px] max-[1199px]:pt-[24px] max-[768px]:pt-[40px] font-light'>
+                    <div className='flex items-center justify-between text-gray-500 pt-[80px] max-lg:pt-[24px] max-md:pt-[40px] font-light'>
                       <div className='flex items-center'>
                         <div className='flex items-center'>
                           <Image
@@ -73,11 +107,11 @@ export default function ListContainer({
                               handleProfileImgError(String(writer?.imageUrl))
                             }
                           />
-                          <p className='max-[480px]:text-[14px]'>
+                          <p className='max-xs:text-[14px]'>
                             {writer?.nickname}
                           </p>
                         </div>
-                        <p className='pl-[16px] ml-[16px] border-l border-solid border-line-200 h-[18px] leading-[18px] max-[480px]:text-[14px] max-[480px]:pl-[12px] max-[480px]:ml-[12px]'>
+                        <p className='pl-[16px] ml-[16px] border-l border-solid border-line-200 h-[18px] leading-[18px] max-xs:text-[14px] max-xs:pl-[12px] max-xs:ml-[12px]'>
                           {formattedDate(item.createdAt)}
                         </p>
                       </div>

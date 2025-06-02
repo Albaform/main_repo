@@ -6,6 +6,9 @@ export function useModalController() {
   const [showModal, setShowModal] = useState(false);
   const [mainMessage, setMainMessage] = useState('');
   const [subMessage, setSubMessage] = useState('');
+  const [modalType, setModalType] = useState<
+    'editUser' | 'editPassword' | 'deletePost'
+  >('editUser');
 
   return {
     showModal: showModal ?? false,
@@ -14,5 +17,7 @@ export function useModalController() {
     setMainMessage: setMainMessage ?? (() => {}),
     subMessage: subMessage ?? '',
     setSubMessage: setSubMessage ?? (() => {}),
+    modalType: modalType ?? '',
+    setModalType: setModalType ?? (() => {}),
   };
 }
