@@ -1,6 +1,7 @@
 'use client';
 
 import BannerImagesCarousel from "./components/BannerImagesCarousel";
+import JobDescription from "./components/JobDescription";
 import Title from "./components/Title";
 
 
@@ -12,6 +13,7 @@ export default function detailPage(){
         <div className="pr-[120px] pl-[120px]">
             <BannerImagesCarousel images={images}/>
             <Title/>
+            <JobDescription/>
         </div>
     )
 }

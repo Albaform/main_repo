@@ -1,7 +1,5 @@
 'use client';
 
-'use client';
-
 import { useState } from "react";
 
 const options = ["공개", "비공개"];

@@ -64,22 +64,13 @@ export default function Navbar({ variant = 'default' }: Props) {
     height: 88px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
-<<<<<<< HEAD:src/components/navbar/navbar.tsx
 
-  @media ${media.tablet} {
-
-    padding: 0;
-    max-width: 1480px;
-    margin: 0 auto;
-    height: 60px;
-  }
-=======
     @media ${media.desktop} {
       padding: 0;
       max-width: 1480px;
       margin: 0 auto;
     }
->>>>>>> 9ae9b51273ad732da9387c4ebf2503bfc429ad03:src/components/navbar/Navbar.tsx
+
 
     /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
     @media ${media.tabletPC} {
