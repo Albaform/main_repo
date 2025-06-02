@@ -98,4 +98,5 @@ export const TextArea = styled.div`
   max-height: 320px;
   font-size: 24px;
   color: var(--black400);
+  margin-bottom: 129px;
   `
