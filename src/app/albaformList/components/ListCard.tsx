@@ -80,7 +80,9 @@ export default function ListCard({ form }: ListCardProps){
                         </Text>
                         <VerticalDivider/>
                         <Text>
+
                         {getDday(form.recruitmentEndDate)}
+
                         </Text>
                     </BottomSectionThird>
                 </BottomCard>

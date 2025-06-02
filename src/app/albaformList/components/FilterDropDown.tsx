@@ -1,13 +1,14 @@
 'use client';
 
-'use client';
+
 
 import { useState } from "react";
 
 const options = ["공개", "비공개"];
 
 export default function FilterDropdown() {
-  const [selected, setSelected] = useState("공개개");
+
+  const [selected, setSelected] = useState("공개");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (option: string) => {
