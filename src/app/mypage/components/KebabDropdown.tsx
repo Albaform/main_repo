@@ -33,11 +33,20 @@ export default function KebabDropdown({
         width={36}
         height={36}
         className='cursor-pointer'
-        onClick={() => setDropdown((prev) => !prev)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setDropdown((prev) => !prev);
+        }}
       />
       <PostDropdownContainer $active={dropdown}>
         <PostDropwonButton type='button'>수정하기</PostDropwonButton>
-        <PostDropwonButton type='button' onClick={handleDeleteOpenModal}>
+        <PostDropwonButton
+          type='button'
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteOpenModal();
+          }}
+        >
           삭제하기
         </PostDropwonButton>
       </PostDropdownContainer>

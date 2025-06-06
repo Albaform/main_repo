@@ -10,9 +10,9 @@ export interface PostDetailProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   subMessage: string;
   setSubMessage: Dispatch<SetStateAction<string>>;
-  modalType: 'editUser' | 'editPassword' | 'deletePost';
+  modalType: 'editUser' | 'editPassword' | 'deletePost' | 'deleteComment';
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
   >;
   isLoading: boolean;
   isShowComments: boolean;
@@ -21,6 +21,7 @@ export interface PostDetailProps {
 
 export interface CommentsProps {
   userId: number;
+  postId: number;
   comments: CommentData[];
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
@@ -31,9 +32,9 @@ export interface CommentsProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   subMessage: string;
   setSubMessage: Dispatch<SetStateAction<string>>;
-  modalType: 'editUser' | 'editPassword' | 'deletePost';
+  modalType: 'editUser' | 'editPassword' | 'deletePost' |'deleteComment';
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost'|'deleteComment'>
   >;
   isLoading: boolean;
   isFetching: boolean;
@@ -76,8 +77,9 @@ export interface KebabDropdownProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   setSubMessage: Dispatch<SetStateAction<string>>;
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
   >;
+  handleEdit?: () => void;
 }
 
 type LikePostProps = {
@@ -94,4 +96,25 @@ export interface LikeButtonProps {
 
 export interface SkeletonProps {
   $comment?: boolean;
+}
+
+export interface CommentListProps {
+  userId: number;
+  setCommentId: Dispatch<SetStateAction<number | undefined>>;
+  comments: CommentData[];
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  totalPages: number;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
+  >;
+}
+
+export interface EditCommentProps {
+  content: string;
+  editingCommentId: number;
+  setEditingCommentId: Dispatch<SetStateAction<number | null>>;
 }

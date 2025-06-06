@@ -17,7 +17,7 @@ export const ModalOverlay = styled.div`
 export const ModalContent = styled.div`
   position: relative;
   background-color: var(--white);
-  width: calc(100vw * (720/1920));
+  width: calc(100vw * (720 / 1920));
   max-width: 520px;
   min-width: 375px;
   min-height: 204px;
@@ -67,6 +67,13 @@ export const ButtonType1 = styled.button`
   border-radius: 8px;
   background: var(--primary-orange300);
   color: var(--white);
+
+  &:disabled {
+    background: var(--gray400);
+    text-align: center;
+    justify-items: center;
+    cursor: not-allowed;
+  }
 `;
 
 export const ButtonType2 = styled.button`

@@ -33,8 +33,12 @@ function Modal({
 
   const isAlbatalkDetail = /^\/albatalk\/[^/]+$/.test(pathname);
 
-  const { mutate: fetchDeletePost } = useDeletePost();
-  const { mutate: fetchDeleteComment } = useDeleteComments();
+  const { mutate: fetchDeletePost, isPending: postDeletePending } =
+    useDeletePost();
+  const { mutate: fetchDeleteComment, isPending: commentDeletePending } =
+    useDeleteComments();
+
+  const isPending = postDeletePending || commentDeletePending;
 
   const queryClient = useQueryClient();
 
@@ -49,7 +53,6 @@ function Modal({
             if (isAlbatalkDetail) {
               router.push('/albatalk');
             }
-            onSuccess?.();
           },
           onSettled: () => {
             setShowModal(false);
@@ -113,8 +116,21 @@ function Modal({
         ))}
       <Title>{mainMessage}</Title>
       <Description>{subMessage}</Description>
-      <ButtonType1 onClick={handleAction}>
-        {$deadLine ? '홈으로 가기' : $writeingForm ? '이어쓰기' : '삭제하기'}
+      <ButtonType1 onClick={handleAction} disabled={isPending}>
+        {$deadLine ? (
+          '홈으로 가기'
+        ) : $writeingForm ? (
+          '이어쓰기'
+        ) : isPending ? (
+          <Image
+            src='/images/buttonLoader.gif'
+            alt='Loading'
+            width={50}
+            height={20}
+          />
+        ) : (
+          '삭제하기'
+        )}
       </ButtonType1>
       {!$deadLine && !$writeingForm && (
         <ButtonType2 onClick={() => setShowModal(false)}>
