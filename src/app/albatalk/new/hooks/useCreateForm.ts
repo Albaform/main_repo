@@ -41,13 +41,6 @@ export const useCreateForm = () => {
       imageUrl,
     };
 
-    // const refetchPosts = async () => {
-    //   await queryClient.invalidateQueries({
-    //     queryKey: ['posts'],
-    //     exact: false,
-    //   });
-    // };
-
     const data = await patchPostPosts(payload);
     await queryClient.invalidateQueries({ queryKey: ['posts'], exact: false });
     router.push(`/albatalk/${data.id}`);

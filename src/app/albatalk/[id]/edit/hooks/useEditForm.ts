@@ -55,6 +55,8 @@ export const useEditForm = () => {
     let imageUrl;
     if (selectedImageFile) {
       imageUrl = await uploadImage(selectedImageFile);
+    } else if (formData.imageUrl === '') {
+      imageUrl = '';
     }
 
     const payload = {
