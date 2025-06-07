@@ -1,10 +1,9 @@
 import { useEditPosts } from '@/hooks/mutation/useEditPosts';
-import { usePostPosts } from '@/hooks/mutation/usePostPosts';
 import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 import { useGetPostsById } from '@/hooks/query/useGetPostsById';
 import { AlbatalkInput, editAlbatalkSchema } from '@/schemas/albatalkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
+import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -49,7 +48,8 @@ export const useEditForm = () => {
     watched.description !== postByIdData?.content ||
     watched.imageUrl !== postByIdData?.imageUrl;
 
-  const isPending = isUploadingImage || isUploadingPost;
+  const isFetching = useIsFetching({ queryKey: ['post', postId] });
+  const isPending = isUploadingImage || isUploadingPost || !!isFetching;
 
   const onSubmit = async (formData: AlbatalkInput) => {
     let imageUrl;
@@ -63,7 +63,11 @@ export const useEditForm = () => {
     };
 
     const refetchPosts = async () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'], exact: false });
+      await queryClient.invalidateQueries({
+        queryKey: ['posts'],
+        exact: false,
+      });
+      await queryClient.invalidateQueries({ queryKey: ['post', postId] });
     };
 
     patchEditPosts(

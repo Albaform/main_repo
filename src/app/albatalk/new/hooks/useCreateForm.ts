@@ -2,7 +2,7 @@ import { usePostPosts } from '@/hooks/mutation/usePostPosts';
 import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 import { AlbatalkInput, newAlbatalkSchema } from '@/schemas/albatalkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
+import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,8 @@ export const useCreateForm = () => {
     useUploadImage();
   const { mutate: patchPostPosts, isPending: isUploadingPost } = usePostPosts();
 
-  const isPending = isUploadingImage || isUploadingPost;
+  const isFetching = useIsFetching({ queryKey: ['posts'] }) > 0;
+  const isPending = isUploadingImage || isUploadingPost || isFetching;
 
   const form = useForm<AlbatalkInput>({
     resolver: zodResolver(newAlbatalkSchema),
@@ -39,7 +40,10 @@ export const useCreateForm = () => {
     };
 
     const refetchPosts = async () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'], exact: false });
+      await queryClient.invalidateQueries({
+        queryKey: ['posts'],
+        exact: false,
+      });
     };
 
     patchPostPosts(payload, {
