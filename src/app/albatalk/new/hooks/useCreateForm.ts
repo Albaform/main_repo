@@ -15,7 +15,9 @@ export const useCreateForm = () => {
 
   const { mutateAsync: uploadImage, isPending: isUploadingImage } =
     useUploadImage();
-  const { mutate: patchPostPosts, isPending: isUploadingPost } = usePostPosts();
+
+  const { mutateAsync: patchPostPosts, isPending: isUploadingPost } =
+    usePostPosts();
 
   const isFetching = useIsFetching({ queryKey: ['posts'] }) > 0;
   const isPending = isUploadingImage || isUploadingPost || isFetching;
@@ -39,19 +41,16 @@ export const useCreateForm = () => {
       imageUrl,
     };
 
-    const refetchPosts = async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['posts'],
-        exact: false,
-      });
-    };
+    // const refetchPosts = async () => {
+    //   await queryClient.invalidateQueries({
+    //     queryKey: ['posts'],
+    //     exact: false,
+    //   });
+    // };
 
-    patchPostPosts(payload, {
-      onSuccess: async () => {
-        await refetchPosts();
-        router.push('/albatalk');
-      },
-    });
+    const data = await patchPostPosts(payload);
+    await queryClient.invalidateQueries({ queryKey: ['posts'], exact: false });
+    router.push(`/albatalk/${data.id}`);
   };
 
   return {

@@ -13,6 +13,9 @@ export const fetchPostPosts = async (payload: AlbatalkInput) => {
     if (!response.data) {
       throw new Error('게시물 데이터 불러오기 실패');
     }
+
+    const result = response.data;
+    return result;
   } catch (error) {
     console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
