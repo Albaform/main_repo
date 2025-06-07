@@ -42,6 +42,8 @@ export interface ListContainerProps {
 
 export interface FormLogisProps {
   form: FieldValues;
+  postByIdData?: ListData;
+  isModified?: boolean;
   isPending?: boolean;
   setSelectedImageFile?: Dispatch<SetStateAction<File | null>>;
 }
