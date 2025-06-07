@@ -1,7 +1,12 @@
 import { useRouter } from 'next/navigation';
+import { FormLogisProps } from '../../types';
 
-export default function HeadContainer() {
+export default function HeadContainer(props: FormLogisProps) {
   const router = useRouter();
+
+  const { form, isPending } = props;
+  const { formState } = form;
+  const { isValid } = formState;
 
   return (
     <div className='flex items-center justify-between mt-[40px] pb-[35px] border-b border-solid border-line-100 max-md:pb-[18px] max-xs:pb-[16px]'>
@@ -16,7 +21,10 @@ export default function HeadContainer() {
         >
           취소
         </button>
-        <button className='w-[180px] h-[58px] bg-orange-400 text-white text-center font-medium rounded-[8px] max-xs:w-full max-md:w-[108px] max-md:h-[46px] max-xs:h-[58px]'>
+        <button
+          className='w-[180px] h-[58px] bg-orange-400 text-white text-center font-medium rounded-[8px] max-xs:w-full max-md:w-[108px] max-md:h-[46px] max-xs:h-[58px] disabled:bg-gray-400 disabled:cursor-not-allowed'
+          disabled={!isValid || isPending}
+        >
           등록하기
         </button>
       </div>

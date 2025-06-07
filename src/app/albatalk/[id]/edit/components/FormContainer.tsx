@@ -7,7 +7,9 @@ export default function FormContainer({
 }) {
   return (
     <div className='max-xs:pb-[calc(137px+theme(spacing.safe-bottom))]'>
-      <form>{children}</form>
+      <form>
+        <fieldset>{children}</fieldset>
+      </form>
     </div>
   );
 }

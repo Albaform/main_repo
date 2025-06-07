@@ -1,14 +1,18 @@
+import { AlbatalkInput } from '@/schemas/albatalkSchema';
 import instance from '../api/api';
 
 // 게시글 등록
-export const fetchPostPosts = async () => {
+export const fetchPostPosts = async (payload: AlbatalkInput) => {
+  const { title, description: content, imageUrl } = payload;
   try {
-    const response = await instance.post('/posts');
+    const response = await instance.post('/posts', {
+      title,
+      content,
+      imageUrl,
+    });
     if (!response.data) {
       throw new Error('게시물 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
     console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
@@ -20,12 +24,12 @@ export const fetchGetPosts = async ({
   isSort,
   itemsPerPage,
   cursor,
-  isKeyword
+  isKeyword,
 }: {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   itemsPerPage: number;
   cursor: number;
-  isKeyword:string
+  isKeyword: string;
 }) => {
   try {
     const requestUrl =
