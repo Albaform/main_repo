@@ -1,4 +1,6 @@
+import { AlbatalkInput } from '@/schemas/albatalkSchema';
 import { Dispatch, SetStateAction } from 'react';
+import { FieldValues } from 'react-hook-form';
 
 export interface FilterContainerProps {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
@@ -36,4 +38,12 @@ export interface ListContainerProps {
   listData: ListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;
+}
+
+export interface FormLogisProps {
+  form: FieldValues;
+  postByIdData?: ListData;
+  isModified?: boolean;
+  isPending?: boolean;
+  setSelectedImageFile?: Dispatch<SetStateAction<File | null>>;
 }

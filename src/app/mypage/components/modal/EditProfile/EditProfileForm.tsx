@@ -54,7 +54,7 @@ export default function EditProfileForm(props: EditProfileFormProps) {
               alt='기본 이미지'
               width={80}
               height={80}
-              className='rounded-[50%] overflow-hidden object-cover min-h-[80px]'
+              className='rounded-[50%] overflow-hidden object-cover max-h-[80px] min-h-[80px]'
             />
             <Image
               src='/images/mypage/iconEditImg.svg'
