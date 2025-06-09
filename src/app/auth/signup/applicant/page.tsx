@@ -107,7 +107,7 @@ export default function SignIn() {
         )}
       </div>
       <Button type='submit' disabled={!isValid}>
-        {isPending ? '회원가입 중...' : '회원가입'}
+        {isPending ? '정보 저장 중...' : '다음'}
       </Button>
       <p className='flex items-center justify-center text-[16px] text-black100 my-[20px]'>
         가입시{' '}

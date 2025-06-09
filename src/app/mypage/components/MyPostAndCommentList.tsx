@@ -57,13 +57,20 @@ export default function ListContainer({
           <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-lg:gap-y-[16px]'>
             {(isLoading || isFetchingNextPage) && <Loader />}
             {listData?.map((item) => {
-              const { writer } = item;
-              const { post } = item;
+              const { writer, post } = item;
+
+              console.log(post);
 
               return (
                 <PostWrapper
                   key={item.id}
-                  onClick={() => router.push(`/albatalk/${item.id}`)}
+                  onClick={() =>
+                    router.push(
+                      `/albatalk/${
+                        selectedTab === 'post' ? `${item.id}` : `${post?.id}`
+                      }`,
+                    )
+                  }
                 >
                   <div>
                     <div className='w-[100%] flex justify-between items-center'>

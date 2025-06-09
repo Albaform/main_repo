@@ -20,12 +20,16 @@ export const signUpSchema1 = signUpSchema1Base.refine(
 
 export const signUpSchema2Base = z.object({
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
-  name: z.string().min(1, { message: '이름을 입력해주세요.' }),
-  phoneNumber: z.string().min(1, { message: '전화번호를 입력해주세요.' }),
+  name: z.string().optional().or(z.literal('')),
+  phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
+    message: '전화번호 형식이 올바르지 않습니다.',
+  }),
   role: z.enum(['OWNER', 'APPLICANT']),
   storeName: z.string().optional(),
-  storePhoneNumber: z.string().optional(),
-  location: z.string().optional(),
+  storePhoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
+    message: '전화번호 형식이 올바르지 않습니다.',
+  }),
+  location: z.string().min(1, { message: '주소를 입력해주세요.' }),
 });
 
 export const signUpSchema2 = signUpSchema2Base.superRefine((data, ctx) => {
