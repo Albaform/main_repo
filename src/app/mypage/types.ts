@@ -10,16 +10,16 @@ export interface FilterContainerProps {
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
-  isScrapSort: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
-  setIsScrapSort: React.Dispatch<
+  isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  setIsScrapSort?: React.Dispatch<
     SetStateAction<
       'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
     >
   >;
-  isPublic: boolean;
-  setIsPublic: Dispatch<SetStateAction<boolean>>;
-  isRecruiting: boolean;
-  setIsRecruiting: Dispatch<SetStateAction<boolean>>;
+  isPublic?: boolean;
+  setIsPublic?: Dispatch<SetStateAction<boolean>>;
+  isRecruiting?: boolean;
+  setIsRecruiting?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ListContainerProps {

@@ -11,7 +11,7 @@ export default function RecruitingSortDropdown({
         type='button'
         $active={isSort}
         onClick={() => {
-          setIsSort(true);
+          setIsSort?.(true);
         }}
       >
         모집 중
@@ -20,7 +20,7 @@ export default function RecruitingSortDropdown({
         type='button'
         $active={!isSort}
         onClick={() => {
-          setIsSort(false);
+          setIsSort?.(false);
         }}
       >
         모집 마감

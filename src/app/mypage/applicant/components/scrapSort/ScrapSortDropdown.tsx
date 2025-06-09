@@ -11,7 +11,7 @@ export default function ScrapSortDropdown({
         type='button'
         $active={isSort === 'mostRecent'}
         onClick={() => {
-          setIsSort('mostRecent');
+          setIsSort?.('mostRecent');
         }}
       >
         최신순
@@ -20,7 +20,7 @@ export default function ScrapSortDropdown({
         type='button'
         $active={isSort === 'highestWage'}
         onClick={() => {
-          setIsSort('highestWage');
+          setIsSort?.('highestWage');
         }}
       >
         급여순
@@ -29,7 +29,7 @@ export default function ScrapSortDropdown({
         type='button'
         $active={isSort === 'mostApplied'}
         onClick={() => {
-          setIsSort('mostApplied');
+          setIsSort?.('mostApplied');
         }}
       >
         지원자순
@@ -38,7 +38,7 @@ export default function ScrapSortDropdown({
         type='button'
         $active={isSort === 'mostScrapped'}
         onClick={() => {
-          setIsSort('mostScrapped');
+          setIsSort?.('mostScrapped');
         }}
       >
         스크랩순

@@ -11,7 +11,7 @@ export default function PublicSortDropdown({
         type='button'
         $active={isSort}
         onClick={() => {
-          setIsSort(true);
+          setIsSort?.(true);
         }}
       >
         공개
@@ -20,7 +20,7 @@ export default function PublicSortDropdown({
         type='button'
         $active={!isSort}
         onClick={() => {
-          setIsSort(false);
+          setIsSort?.(false);
         }}
       >
         비공개
