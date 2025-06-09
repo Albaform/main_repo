@@ -4,16 +4,26 @@ import { Dispatch, SetStateAction } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 export interface FilterContainerProps {
-  selectedTab: 'post' | 'comment';
-  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment'>>;
+  selectedTab: 'post' | 'comment' | 'scrap';
+  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment' | 'scrap'>>;
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
+  isScrapSort: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  setIsScrapSort: React.Dispatch<
+    SetStateAction<
+      'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
+    >
+  >;
+  isPublic: boolean;
+  setIsPublic: Dispatch<SetStateAction<boolean>>;
+  isRecruiting: boolean;
+  setIsRecruiting: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ListContainerProps {
-  selectedTab: 'post' | 'comment';
+  selectedTab: 'post' | 'comment' | 'scrap';
   listData: ListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;

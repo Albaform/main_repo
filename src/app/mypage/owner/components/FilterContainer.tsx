@@ -15,7 +15,6 @@ export default function FilterContainer({
 
   const handleTabClickComment = () => {
     setSelectedTab('comment');
-    setIsSort('mostRecent');
   };
 
   return (

@@ -96,16 +96,20 @@ export const fetchMyScrap = async ({
   isScrapSort,
   itemsPerPage,
   cursor,
+  isPublic,
+  isRecruiting,
 }: {
   isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
   itemsPerPage: number;
   cursor: number;
+  isPublic?: boolean;
+  isRecruiting?: boolean;
 }) => {
   try {
     const requestUrl =
       cursor === 1
-        ? `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`
-        : `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`;
+        ? `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`
+        : `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&cursor=${cursor}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`;
 
     const response = await instance.get(requestUrl);
 

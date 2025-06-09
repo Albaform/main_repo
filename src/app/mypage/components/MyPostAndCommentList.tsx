@@ -63,7 +63,13 @@ export default function ListContainer({
               return (
                 <PostWrapper
                   key={item.id}
-                  onClick={() => router.push(`/albatalk/${item.id}`)}
+                  onClick={() =>
+                    router.push(
+                      `/albatalk/${
+                        selectedTab === 'post' ? `${item.id}` : `${post?.id}`
+                      }`,
+                    )
+                  }
                 >
                   <div>
                     <div className='w-[100%] flex justify-between items-center'>

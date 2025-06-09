@@ -22,6 +22,10 @@ export default function Empty({
     return <>작성한 댓글이 없어요.</>;
   };
 
+  const tabScrapsText = () => {
+    return <>스크랩한 알바폼이 없어요.</>;
+  };
+
   const albaformText = () => {
     return (
       <>
@@ -58,13 +62,18 @@ export default function Empty({
     if (comments) return commentsText();
     if (selectedTab === 'post') return tabPostText();
     if (selectedTab === 'comment') return tabCommentText();
+    if (selectedTab === 'scrap') return tabScrapsText();
   };
 
   return (
     <EmptyContainer>
       <Image
         src={
-          albaform ? '/images/empty/albaform.svg' : '/images/empty/mypage.svg'
+          albaform
+            ? '/images/empty/albaform.svg'
+            : selectedTab === 'scrap'
+            ? '/images/empty/scrap.svg'
+            : '/images/empty/mypage.svg'
         }
         alt='마이페이지'
         width={120}

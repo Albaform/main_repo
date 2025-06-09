@@ -17,10 +17,17 @@ import EditPasswordModal from '../components/modal/editPassword/EditPasswordModa
 export default function Mypage() {
   const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>('post');
-  const [isSort, setIsSort] = useState<
+  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>(
+    'post',
+  );
+  const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  const [isScrapSort, setIsScrapSort] = useState<
+    'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
+  >('mostRecent');
+  const [isPublic, setIsPublic] = useState(true);
+  const [isRecruiting, setIsRecruiting] = useState(true);
   const [showToast, setShowToast] = useState(false);
 
   const {
@@ -43,7 +50,15 @@ export default function Mypage() {
   let fetchNextPage, hasNextPage;
   let totalPages;
 
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isSort);
+  const query = useGetMyContents(
+    page,
+    itemsPerPage,
+    selectedTab,
+    isPostSort,
+    isScrapSort,
+    isPublic,
+    isRecruiting,
+  );
   const isPost = query.type === 'post';
 
   if (query.type === 'comment') {
@@ -98,8 +113,14 @@ export default function Mypage() {
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        isSort={isSort}
-        setIsSort={setIsSort}
+        isSort={isPostSort}
+        setIsSort={setIsPostSort}
+        isScrapSort={isScrapSort}
+        setIsScrapSort={setIsScrapSort}
+        isPublic={isPublic}
+        setIsPublic={setIsPublic}
+        isRecruiting={isRecruiting}
+        setIsRecruiting={setIsRecruiting}
       />
       <MyPostAndCommentList
         selectedTab={selectedTab}
