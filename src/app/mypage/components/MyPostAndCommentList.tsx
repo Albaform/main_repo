@@ -57,8 +57,9 @@ export default function ListContainer({
           <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-lg:gap-y-[16px]'>
             {(isLoading || isFetchingNextPage) && <Loader />}
             {listData?.map((item) => {
-              const { writer } = item;
-              const { post } = item;
+              const { writer, post } = item;
+
+              console.log(post);
 
               return (
                 <PostWrapper

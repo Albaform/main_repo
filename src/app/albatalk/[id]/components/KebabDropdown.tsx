@@ -6,6 +6,7 @@ import {
 } from '../styles';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { KebabDropdownProps } from '../types';
+import { useRouter } from 'next/navigation';
 
 export default function KebabDropdown({
   $deletePost,
@@ -16,18 +17,22 @@ export default function KebabDropdown({
   setMainMessage,
   setSubMessage,
   setModalType,
+  handleEdit,
 }: KebabDropdownProps) {
+  const router = useRouter();
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   const handleDeleteOpenModal = () => {
-    setPostId?.(postId);
     setShowModal(true);
-    setModalType('deletePost');
+
     setSubMessage('삭제 후 정보를 복구할 수 없어요.');
     if ($deletePost) {
+      setModalType('deletePost');
       setMainMessage('선택하신 게시글을 삭제할까요?');
     } else if ($deleteComment) {
+      setModalType('deleteComment');
       setMainMessage('선택하신 댓글을 삭제할까요?');
+      setPostId?.(postId);
     }
   };
 
@@ -42,7 +47,12 @@ export default function KebabDropdown({
         onClick={() => setDropdown((prev) => !prev)}
       />
       <PostDropdownContainer $active={dropdown}>
-        <PostDropwonButton type='button'>수정하기</PostDropwonButton>
+        <PostDropwonButton
+          type='button'
+          onClick={() => router.push(`/albatalk/${postId}/edit`)}
+        >
+          수정하기
+        </PostDropwonButton>
         <PostDropwonButton type='button' onClick={handleDeleteOpenModal}>
           삭제하기
         </PostDropwonButton>

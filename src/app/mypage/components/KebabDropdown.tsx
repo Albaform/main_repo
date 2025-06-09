@@ -6,6 +6,7 @@ import {
 } from '../styles';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { KebabDropdownProps } from '../types';
+import { useRouter } from 'next/navigation';
 
 export default function KebabDropdown({
   postId,
@@ -15,6 +16,7 @@ export default function KebabDropdown({
   setSubMessage,
   setModalType,
 }: KebabDropdownProps) {
+  const router = useRouter();
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   const handleDeleteOpenModal = () => {
@@ -33,11 +35,28 @@ export default function KebabDropdown({
         width={36}
         height={36}
         className='cursor-pointer'
-        onClick={() => setDropdown((prev) => !prev)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setDropdown((prev) => !prev);
+        }}
       />
       <PostDropdownContainer $active={dropdown}>
-        <PostDropwonButton type='button'>수정하기</PostDropwonButton>
-        <PostDropwonButton type='button' onClick={handleDeleteOpenModal}>
+        <PostDropwonButton
+          type='button'
+          onClick={(e) => {
+            e.stopPropagation();
+            router.push(`/albatalk/${postId}/edit`);
+          }}
+        >
+          수정하기
+        </PostDropwonButton>
+        <PostDropwonButton
+          type='button'
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteOpenModal();
+          }}
+        >
           삭제하기
         </PostDropwonButton>
       </PostDropdownContainer>

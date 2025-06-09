@@ -7,6 +7,7 @@ import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
 import { useLikePosts } from '@/hooks/mutation/useLikePosts';
 import LikeButton from './LikeButton';
+import { useState } from 'react';
 
 export default function DetailContainer({
   userId,
@@ -24,9 +25,16 @@ export default function DetailContainer({
   isShowComments,
   totalCommentCount,
 }: PostDetailProps) {
+  const [profileImg, setProfileImg] = useState<Record<string, string>>({});
+
   const { id: postId, writer } = post ?? {};
 
   const { mutate: toggleLikePost, isPending } = useLikePosts();
+
+  const defaultProfileImg = '/images/defaultProfile.svg';
+  const handleProfileImgError = (src: string) => {
+    setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
+  };
 
   return (
     <>
@@ -64,11 +72,16 @@ export default function DetailContainer({
           <div className='flex items-center mt-[20px] text-gray-400'>
             <div className='flex items-center'>
               <Image
-                src='/images/defaultProfile.svg'
+                src={
+                  profileImg[String(writer?.imageUrl)] ||
+                  writer?.imageUrl ||
+                  defaultProfileImg
+                }
                 alt='기본프로필'
                 width={26}
                 height={26}
-                className='rounded-[50%]'
+                className='rounded-[50%] object-cover border border-gray500 min-h-[26px]'
+                onError={() => handleProfileImgError(String(writer?.imageUrl))}
               />
               <p className='ml-[10px]'>{writer?.nickname}</p>
             </div>
