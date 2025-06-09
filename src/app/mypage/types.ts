@@ -25,9 +25,9 @@ export interface ListContainerProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   subMessage: string;
   setSubMessage: Dispatch<SetStateAction<string>>;
-  modalType: 'editUser' | 'editPassword' | 'deletePost';
+  modalType: 'editUser' | 'editPassword' | 'deletePost' | 'deleteComment';
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
   >;
   onSuccess: () => void;
 }
@@ -131,6 +131,6 @@ export interface KebabDropdownProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   setSubMessage: Dispatch<SetStateAction<string>>;
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
   >;
 }
