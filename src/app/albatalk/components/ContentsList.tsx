@@ -2,24 +2,21 @@ import Image from 'next/image';
 import { Description, PostWrapper, Title } from '../styles';
 import { ListContainerProps } from '../types';
 import { formattedDate } from '@/utils/formattedDate';
-import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
 import { useRouter } from 'next/navigation';
+import { useImgError } from '@/hooks/common/useImgError';
 
 export default function ContentsList({
   listData,
   isLoading,
   isFetchingNextPage,
 }: ListContainerProps) {
-  const [profileImg, setProfileImg] = useState<Record<string, string>>({});
-
   const router = useRouter();
 
-  const defaultProfileImg = '/images/defaultProfile.svg';
-  const handleProfileImgError = (src: string) => {
-    setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
-  };
+  const { img, defaultImg, handleImgError } = useImgError(
+    '/images/defaultProfile.svg',
+  );
   return (
     <>
       {!isLoading && listData?.length === 0 ? (
@@ -43,16 +40,16 @@ export default function ContentsList({
                       <div className='flex items-center'>
                         <Image
                           src={
-                            profileImg[String(writer?.imageUrl)] ||
+                            img[String(writer?.imageUrl)] ||
                             writer?.imageUrl ||
-                            defaultProfileImg
+                            defaultImg
                           }
                           alt='기본프로필'
                           width={26}
                           height={26}
                           className='mr-[5px] rounded-[50%] object-cover border border-gray500 min-h-[26px]'
                           onError={() =>
-                            handleProfileImgError(String(writer?.imageUrl))
+                            handleImgError(String(writer?.imageUrl))
                           }
                         />
                         <p className='max-xs:text-[14px]'>{writer?.nickname}</p>

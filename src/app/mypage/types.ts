@@ -161,3 +161,37 @@ export interface KebabDropdownProps {
     >
   >;
 }
+
+export interface PostContainerProps {
+  selectedTab: 'post' | 'comment' | 'scrap';
+  item: ListData;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}
+
+export interface ScrapContainerProps {
+  item: ListData;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}

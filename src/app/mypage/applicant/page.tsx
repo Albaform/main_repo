@@ -155,7 +155,7 @@ export default function Mypage() {
             : modalType === 'deletePost'
             ? '게시글 삭제가 완료되었습니다 !'
             : modalType === 'cancelScrap'
-            ? '스크랩 취소가 완료 되었습니다 !'
+            ? '스크랩 취소가 완료되었습니다 !'
             : ''}
         </Toast>
       )}

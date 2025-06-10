@@ -54,6 +54,7 @@ function Modal({
             if (isAlbatalkDetail) {
               router.push('/albatalk');
             }
+            onSuccess?.();
           },
           onSettled: () => {
             setShowModal(false);

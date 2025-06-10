@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { CommentListProps } from '../types';
 import { formattedDate } from '@/utils/formattedDate';
 import EditComment from './EditComment';
+import { useImgError } from '@/hooks/common/useImgError';
 
 export default function CommentsList({
   userId,
@@ -18,13 +19,11 @@ export default function CommentsList({
   setSubMessage,
   setModalType,
 }: CommentListProps) {
-  const [profileImg, setProfileImg] = useState<Record<string, string>>({});
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
 
-  const defaultProfileImg = '/images/defaultProfile.svg';
-  const handleProfileImgError = (src: string) => {
-    setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
-  };
+  const { img, defaultImg, handleImgError } = useImgError(
+    '/images/defaultProfile.svg',
+  );
 
   return (
     <div>
@@ -41,16 +40,16 @@ export default function CommentsList({
               <div className='flex items-center'>
                 <Image
                   src={
-                    profileImg[String(writer?.imageUrl)] ||
+                    img[String(writer?.imageUrl)] ||
                     writer?.imageUrl ||
-                    defaultProfileImg
+                    defaultImg
                   }
                   alt='기본 프로필'
                   width={26}
                   height={26}
                   className='mr-[5px] rounded-[50%] object-cover border border-gray500 min-h-[26px]'
                   onError={() =>
-                    handleProfileImgError(String(writer?.imageUrl))
+                    handleImgError(String(writer?.imageUrl))
                   }
                 />
                 <p>{writer.nickname}</p>
