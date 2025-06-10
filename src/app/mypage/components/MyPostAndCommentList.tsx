@@ -15,6 +15,8 @@ import KebabDropdown from './KebabDropdown';
 import Modal from '@/components/modal/Modal';
 import { useRouter } from 'next/navigation';
 import MenuDropdown from './scrapMenu/MenuDropdown';
+import getRecruitStatus from '@/utils/getRecruitStatus';
+import getDday from '@/utils/getDday';
 
 export default function ListContainer({
   selectedTab,
@@ -77,6 +79,11 @@ export default function ListContainer({
             {(isLoading || isFetchingNextPage) && <Loader />}
             {listData?.map((item) => {
               const { writer, post } = item;
+
+              const recruitStatus = getRecruitStatus(
+                String(item.recruitmentStartDate),
+                String(item.recruitmentEndDate),
+              );
 
               return (
                 <React.Fragment key={item.id}>
@@ -207,14 +214,27 @@ export default function ListContainer({
                       </div>
                       <div className='flex items-center justify-between mt-6'>
                         <div className='flex items-center'>
-                          <div className='h-[38px] px-3 mr-2 text-center bg-orange-100 text-orange-400 rounded leading-[38px]'>
-                            공개
+                          <div
+                            className={`h-[38px] px-3 mr-2 text-center border border-solid rounded leading-[38px] ${
+                              item.isPublic
+                                ? 'bg-orange-100 text-orange-400 border-orange-100'
+                                : 'border-gray-200 text-black100'
+                            }`}
+                          >
+                            {item.isPublic ? '공개' : '비공개'}
                           </div>
-                          <div className='h-[38px] px-3 text-center bg-orange-100 text-orange-400 rounded leading-[38px]'>
-                            모집 중
+                          <div
+                            className={`h-[38px] px-3 text-center border border-solid rounded leading-[38px] ${
+                              recruitStatus === '모집 중'
+                                ? 'bg-orange-100 text-orange-400 border-orange-100'
+                                : 'border-gray-200 text-black100'
+                            }`}
+                          >
+                            {recruitStatus}
                           </div>
                           <p className='ml-5 text-black200 font-light'>
-                            2024. 05. 22 ~ 2024. 05. 31
+                            {formattedDate(String(item.recruitmentStartDate))} ~{' '}
+                            {formattedDate(String(item.recruitmentEndDate))}
                           </p>
                         </div>
                         <MenuDropdown
@@ -226,18 +246,18 @@ export default function ListContainer({
                         />
                       </div>
                       <p className='mt-6 mb-8 font-medium leading-7 line-clamp-2'>
-                        코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울
-                        종로구 용산구 서대문코드잇 스터디카페 관리 (주말 오전)
-                        모집합니다 서울 종로구 용산구 서대문코드잇 스터디카페
-                        관리 (주말 오전) 모집합니다 서울 종로구 용산구
-                        서대문코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울
-                        종로구 용산구 서대문코드잇 스터디카페 관리 (주말 오전)
-                        모집합니다 서울 종로구 용산구 서대문
+                        {item.title}
                       </p>
                       <div className='flex items-center h-[50px] border border-solid border-line-100 rounded-[16px] text-center text-black200 font-light'>
-                        <div className='flex-[1]'>지원자 5명</div>
-                        <div className='flex-[1]'>스크랩 8명</div>
-                        <div className='flex-[1]'>마감 D-10</div>
+                        <div className='flex-[1]'>
+                          지원자 {item.applyCount}명
+                        </div>
+                        <div className='flex-[1]'>
+                          스크랩 {item.scrapCount}명
+                        </div>
+                        <div className='flex-[1]'>
+                          {getDday(String(item.recruitmentEndDate))}
+                        </div>
                       </div>
                     </ScrapWrapper>
                   )}

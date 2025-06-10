@@ -1,4 +1,4 @@
-export default function getRecruitStatus(startDate: string, endDate: string): '모집중' | '모집 마감' {
+export default function getRecruitStatus(startDate: string, endDate: string): '모집 중' | '모집 마감' {
     const today = new Date();
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -10,5 +10,5 @@ export default function getRecruitStatus(startDate: string, endDate: string): '�
   
 
     if (today > end) return '모집 마감';
-    return '모집중';
+    return '모집 중';
   }
