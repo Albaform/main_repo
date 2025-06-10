@@ -59,7 +59,7 @@ export default function Mypage() {
     isPublic,
     isRecruiting,
   );
-  const isPost = query.type === 'post';
+  const isPost = query.type === 'post' || query.type === 'scrap';
 
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
@@ -139,9 +139,10 @@ export default function Mypage() {
         setModalType={setModalType}
         onSuccess={handleEditSuccess}
       />
-      {selectedTab === 'post' && hasNextPage && (
-        <div ref={observerRef} style={{ height: '1px' }} />
-      )}
+      {selectedTab === 'post' ||
+        (selectedTab === 'scrap' && hasNextPage && (
+          <div ref={observerRef} style={{ height: '1px' }} />
+        ))}
       {selectedTab === 'comment' && (
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
       )}

@@ -104,7 +104,7 @@ export const fetchMyScrap = async ({
   cursor: number;
   isPublic?: boolean;
   isRecruiting?: boolean;
-}) => {
+}):Promise<{result:ListData[]; nextPage:number}> => {
   try {
     const requestUrl =
       cursor === 1
