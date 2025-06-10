@@ -203,7 +203,11 @@ export default function ListContainer({
                     >
                       <div className='relative w-full h-[calc(100vw_*_(304/1920))] border border-solid border-gray-100 rounded-[16px] min-h-[304px]'>
                         <Image
-                          src='/images/landingImg/landing1.svg'
+                          src={
+                            profileImg[String(item?.imageUrl)] ||
+                            item?.imageUrl ||
+                            defaultProfileImg
+                          }
                           alt='기본이미지'
                           fill
                           style={{
@@ -215,7 +219,7 @@ export default function ListContainer({
                       <div className='flex items-center justify-between mt-6'>
                         <div className='flex items-center'>
                           <div
-                            className={`h-[38px] px-3 mr-2 text-center border border-solid rounded leading-[38px] ${
+                            className={`h-[38px] px-3 mr-2 text-center border border-solid rounded leading-[38px] max-lg:text-[14px] max-xs:text-[12px] ${
                               item.isPublic
                                 ? 'bg-orange-100 text-orange-400 border-orange-100'
                                 : 'border-gray-200 text-black100'
@@ -224,7 +228,7 @@ export default function ListContainer({
                             {item.isPublic ? '공개' : '비공개'}
                           </div>
                           <div
-                            className={`h-[38px] px-3 text-center border border-solid rounded leading-[38px] ${
+                            className={`h-[38px] px-3 text-center border border-solid rounded leading-[38px] max-lg:text-[14px] max-xs:text-[12px] ${
                               recruitStatus === '모집 중'
                                 ? 'bg-orange-100 text-orange-400 border-orange-100'
                                 : 'border-gray-200 text-black100'
@@ -232,7 +236,7 @@ export default function ListContainer({
                           >
                             {recruitStatus}
                           </div>
-                          <p className='ml-5 text-black200 font-light'>
+                          <p className='ml-5 text-black200 font-light max-xs:text-[14px]'>
                             {formattedDate(String(item.recruitmentStartDate))} ~{' '}
                             {formattedDate(String(item.recruitmentEndDate))}
                           </p>
@@ -248,7 +252,7 @@ export default function ListContainer({
                       <p className='mt-6 mb-8 font-medium leading-7 line-clamp-2'>
                         {item.title}
                       </p>
-                      <div className='flex items-center h-[50px] border border-solid border-line-100 rounded-[16px] text-center text-black200 font-light'>
+                      <div className='flex items-center h-[50px] border border-solid border-line-100 rounded-[16px] text-center text-black200 font-light max-xs:text-[14px] max-lg:mb-[20px]'>
                         <div className='flex-[1]'>
                           지원자 {item.applyCount}명
                         </div>
