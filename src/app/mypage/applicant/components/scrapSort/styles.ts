@@ -13,7 +13,7 @@ export const DropdownContainer = styled.div<DropdownProps>`
   position: absolute;
   top: 150%;
   right: 0;
-  z-index: 10;
+  z-index: 100;
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
