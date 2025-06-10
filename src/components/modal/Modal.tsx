@@ -23,6 +23,7 @@ function Modal({
   $deleteAlbaform,
   $deadLine,
   $writeingForm,
+  $deleteScrap,
   deletePostId,
   onSuccess,
 }: ModalProps) {
@@ -74,6 +75,7 @@ function Modal({
       }
     } else if ($deadLine) {
       router.push('/list');
+    } else if ($deleteScrap) {
     }
   };
 
@@ -128,6 +130,8 @@ function Modal({
             width={50}
             height={20}
           />
+        ) : $deleteScrap ? (
+          '취소하기'
         ) : (
           '삭제하기'
         )}

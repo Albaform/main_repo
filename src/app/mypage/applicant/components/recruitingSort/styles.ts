@@ -11,7 +11,7 @@ type DropdownButtonProps = {
 
 export const DropdownContainer = styled.div<DropdownProps>`
   position: absolute;
-  top: 150%;
+  top: 130%;
   left: 0;
   z-index: 10;
   opacity: 0;

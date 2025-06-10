@@ -3,12 +3,12 @@ import {
   KebabButton,
   PostDropdownContainer,
   PostDropdownButton,
-} from '../styles';
+} from '../../styles';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
-import { KebabDropdownProps } from '../types';
+import { KebabDropdownProps } from '../../types';
 import { useRouter } from 'next/navigation';
 
-export default function KebabDropdown({
+export default function MenuDropdown({
   postId,
   setPostId,
   setShowModal,
@@ -22,8 +22,8 @@ export default function KebabDropdown({
   const handleDeleteOpenModal = () => {
     setPostId?.(postId);
     setShowModal(true);
-    setModalType('deletePost');
-    setMainMessage('선택하신 게시글을 삭제할까요?');
+    setModalType('cancelScrap');
+    setMainMessage('선택하신 알바폼의 스크랩을 취소할까요?');
     setSubMessage('삭제 후 정보를 복구할 수 없어요.');
   };
 
@@ -45,10 +45,10 @@ export default function KebabDropdown({
           type='button'
           onClick={(e) => {
             e.stopPropagation();
-            router.push(`/albatalk/${postId}/edit`);
+            router.push(`/createAlbaform/applicant/${postId}`);
           }}
         >
-          수정하기
+          지원하기
         </PostDropdownButton>
         <PostDropdownButton
           type='button'
@@ -57,7 +57,7 @@ export default function KebabDropdown({
             handleDeleteOpenModal();
           }}
         >
-          삭제하기
+          스크랩 취소
         </PostDropdownButton>
       </PostDropdownContainer>
     </KebabButton>

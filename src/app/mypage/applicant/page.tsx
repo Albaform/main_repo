@@ -153,6 +153,8 @@ export default function Mypage() {
             ? '비밀번호가 성공적으로 수정되었습니다 !'
             : modalType === 'deletePost'
             ? '게시글 삭제가 완료되었습니다 !'
+            : modalType === 'cancelScrap'
+            ? '스크랩 취소가 완료 되었습니다 !'
             : ''}
         </Toast>
       )}

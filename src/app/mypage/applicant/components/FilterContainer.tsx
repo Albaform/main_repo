@@ -64,7 +64,7 @@ export default function FilterContainer({
         )}
       </div>
       {selectedTab === 'scrap' && (
-        <div className='flex justify-between items-center py-4 px-0'>
+        <div className='flex justify-between items-center py-4 px-0 mb-4'>
           <div className='flex justify-between items-center'>
             <PublicSortButton isSort={isPublic} setIsSort={setIsPublic} />
             <RecruitingSortButton

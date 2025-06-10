@@ -14,6 +14,7 @@ export interface ModalProps {
   $deleteAlbaform?: boolean;
   $deadLine?: boolean;
   $writeingForm?: boolean;
+  $deleteScrap?: boolean;
   deletePostId?: number;
   onSuccess?: () => void;
 }
