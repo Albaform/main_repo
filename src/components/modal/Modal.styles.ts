@@ -1,10 +1,6 @@
 import { media } from '@/styles/media';
 import styled from 'styled-components';
 
-type ModalWidthProps = {
-  $edit?: boolean;
-};
-
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -18,10 +14,10 @@ export const ModalOverlay = styled.div`
   z-index: 9999;
 `;
 
-export const ModalContent = styled.div<ModalWidthProps>`
+export const ModalContent = styled.div`
   position: relative;
   background-color: var(--white);
-  width: ${({ $edit }) => ($edit ? 'calc(100vw * (720/1920))' : '368px')};
+  width: calc(100vw * (720 / 1920));
   max-width: 520px;
   min-width: 375px;
   min-height: 204px;
@@ -71,6 +67,13 @@ export const ButtonType1 = styled.button`
   border-radius: 8px;
   background: var(--primary-orange300);
   color: var(--white);
+
+  &:disabled {
+    background: var(--gray400);
+    text-align: center;
+    justify-items: center;
+    cursor: not-allowed;
+  }
 `;
 
 export const ButtonType2 = styled.button`

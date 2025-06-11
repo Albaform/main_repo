@@ -3,42 +3,95 @@
 import { useState, useCallback } from 'react';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
-import StepFormInfo, { InfoFormValues } from '../components/StepFormInfo';
+import FormInfo, { InfoFormValues } from '../components/FormInfo';
+import FormCondition, {
+  ConditionFormValues,
+} from '../components/FormCondition';
+import FormWork, { WorkFormValues } from '../components/FormWork';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
 
-  // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
+  // 각 단계별 작성 상태 저장 (각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
-    info: InfoFormValues | null;
-    condition: any;
-    work: any;
+    info: InfoFormValues;
+    condition: ConditionFormValues;
+    work: WorkFormValues;
   }>({
-    info: null,
-    condition: null,
-    work: null,
+    info: {
+      title: '',
+      description: '',
+      recruitmentStartDate: '',
+      recruitmentEndDate: '',
+      imageUrls: [],
+    },
+    condition: {
+      numberOfPositions: 0,
+      gender: '',
+      education: '',
+      age: '',
+      preferred: '',
+    },
+    work: {
+      location: '',
+      workStartDate: '',
+      workEndDate: '',
+      workStartTime: '',
+      workEndTime: '',
+      workDays: [],
+      isNegotiableWorkDays: false,
+      hourlyWage: 9860,
+      isPublic: false,
+    },
   });
 
   const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
     if (step === 'info') {
       const data = formData.info;
       return !!(
-        data &&
-        (data.title?.trim() ||
-          data.description?.trim() ||
-          data.period?.trim() ||
-          (data.image && data.image.length > 0))
+        data.title.trim() ||
+        data.description.trim() ||
+        data.recruitmentStartDate.trim() ||
+        data.recruitmentEndDate.trim() ||
+        data.imageUrls.length > 0
       );
     }
 
-    // 이후 조건/근무 입력 상태 확인 로직 추가
+    if (step === 'condition') {
+      const d = formData.condition;
+      return Object.values(d).some((v) => {
+        if (typeof v === 'string') return v.trim() !== '';
+        if (typeof v === 'number') return !isNaN(v) && v !== 0;
+        return false;
+      });
+    }
+
+    if (step === 'work') {
+      const d = formData.condition;
+      return Object.values(d).some((v) => {
+        if (typeof v === 'string') return v.trim() !== '';
+        if (typeof v === 'number') return !isNaN(v) && v !== 0;
+        return false;
+      });
+    }
     return false;
   };
 
-  const handleInfoChange = useCallback((data: InfoFormValues) => {
-    setFormData((prev) => ({ ...prev, info: data }));
+  const handleInfoChange = useCallback((infoData: InfoFormValues) => {
+    setFormData((prev) => ({ ...prev, info: infoData }));
+  }, []);
+
+  const handleConditionChange = useCallback(
+    (conditionData: ConditionFormValues) => {
+      setFormData((prev) => ({ ...prev, condition: conditionData }));
+    },
+    [],
+  );
+
+  const handleWorkChange = useCallback((workData: WorkFormValues) => {
+    setFormData((prev) => ({ ...prev, work: workData }));
   }, []);
 
   return (
@@ -75,9 +128,26 @@ export default function CreateForm() {
 
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
-            <StepFormInfo onDataChange={handleInfoChange} />
+            <FormInfo
+              onDataChange={handleInfoChange}
+              initialValue={formData.info}
+            />
           )}
-          {/* 나중에 condition, work 폼 추가 */}
+
+          {currentStep === 'condition' && (
+            <FormCondition
+              onDataChange={handleConditionChange}
+              initialValue={formData.condition}
+            />
+          )}
+
+          {/* 나중에 work 폼 추가 */}
+          {currentStep === 'work' && (
+            <FormWork
+              onDataChange={handleWorkChange}
+              initialValue={formData.work}
+            />
+          )}
         </div>
       </div>
     </>

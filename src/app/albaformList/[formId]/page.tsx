@@ -1,17 +1,24 @@
 'use client';
 
-import BannerImagesCarousel from "./components/BannerImagesCarousel";
-import Title from "./components/Title";
+import BannerImagesCarousel from './components/BannerImagesCarousel';
+import JobDescription from './components/JobDescription';
+import JobLocation from './components/JobLocation';
+import Title from './components/Title';
 
+export default function detailPage() {
+  const images = [
+    '/images/albaformList/image 7.png',
+    '/images/landingImg/landing1.svg',
+    '/images/landingImg/landing2.svg',
+  ]; // ✅ 공백 제거 주의!
 
-export default function detailPage(){
-
-    const images = ['/images/albaformList/image 7.png', '/images/landingImg/landing1.svg', '/images/landingImg/landing2.svg']; // ✅ 공백 제거 주의!
-
-    return(
-        <div className="pr-[120px] pl-[120px]">
-            <BannerImagesCarousel images={images}/>
-            <Title/>
-        </div>
-    )
+  return (
+    <div className='pr-[120px] pl-[120px]'>
+      <BannerImagesCarousel images={images} />
+      <Title />
+      <JobDescription />
+      <JobLocation />
+      <div className='w-screen h-[12px] bg-line-100 -ml-[120px] -mr-[120px]'></div>
+    </div>
+  );
 }

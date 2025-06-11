@@ -1,26 +1,56 @@
-import { SetStateAction } from 'react';
+import { EditPasswordInput } from '@/schemas/editPasswordSchema';
+import { EditUserInput } from '@/schemas/editProfileSchema';
+import { Dispatch, SetStateAction } from 'react';
+import { FieldValues } from 'react-hook-form';
 
 export interface FilterContainerProps {
-  selectedTab: 'post' | 'comment';
-  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment'>>;
-  isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
-  setIsPostSort: React.Dispatch<
-    SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
-  >;
-}
-
-export interface SortDropdownProps {
+  selectedTab: 'post' | 'comment' | 'scrap';
+  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment' | 'scrap'>>;
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
+  isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  setIsScrapSort?: React.Dispatch<
+    SetStateAction<
+      'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
+    >
+  >;
+  isPublic?: boolean;
+  setIsPublic?: Dispatch<SetStateAction<boolean>>;
+  isRecruiting?: boolean;
+  setIsRecruiting?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ListContainerProps {
-  selectedTab: 'post' | 'comment';
+  selectedTab: 'post' | 'comment' | 'scrap';
   listData: ListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;
+  postId: number | undefined;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  mainMessage: string;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  subMessage: string;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  modalType:
+    | 'editUser'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap';
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+  onSuccess: () => void;
 }
 
 type WriterData = {
@@ -95,3 +125,75 @@ export type PasswordWatchedFields = {
   newPassword: string;
   confirmPassword: string;
 };
+
+export type EditProfileFormProps = {
+  form: FieldValues;
+  pathOwner: boolean;
+  user: UserDataProps;
+  onSubmit: (formData: EditUserInput) => Promise<void>;
+  isPending: boolean;
+  isPreview: string;
+  setIsPreview: Dispatch<SetStateAction<string>>;
+  handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
+  handleCloseModal: () => void;
+};
+
+export type EditPasswordFormProps = {
+  form: FieldValues;
+  onSubmit: (formData: EditPasswordInput) => void;
+  isPending: boolean;
+  handleCloseModal: () => void;
+};
+
+export interface KebabDropdownProps {
+  postId: number;
+  setPostId?: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}
+
+export interface PostContainerProps {
+  selectedTab: 'post' | 'comment' | 'scrap';
+  item: ListData;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}
+
+export interface ScrapContainerProps {
+  item: ListData;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}

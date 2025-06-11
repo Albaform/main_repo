@@ -11,24 +11,31 @@ import { useModalController } from '@/hooks/common/useModalController';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
-import EditProfileModal from '../components/modal/EditProfile/EditProfileModal';
-import EditPasswordModal from '../components/modal/EditPassword/EditPasswordModal';
+import EditProfileModal from '../components/modal/editProfile/EditProfileModal';
+import EditPasswordModal from '../components/modal/editPassword/EditPasswordModal';
 
 export default function Mypage() {
+  const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
-  const [isPostSort, setIsPostSort] = useState<
+  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>('post');
+  const [isSort, setIsSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
-  const [modalType, setModalType] = useState<'editUser' | 'editPassword'>(
-    'editUser',
-  );
   const [showToast, setShowToast] = useState(false);
-  
-  const { showModal, setShowModal } = useModalController();
+
+  const {
+    showModal,
+    setShowModal,
+    mainMessage,
+    setMainMessage,
+    subMessage,
+    setSubMessage,
+    modalType,
+    setModalType,
+  } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
-  
+
   let listData = [];
   let isLoading = false;
   let isFetching = false;
@@ -36,9 +43,9 @@ export default function Mypage() {
   let fetchNextPage, hasNextPage;
   let totalPages;
 
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
+  const query = useGetMyContents(page, itemsPerPage, selectedTab, isSort);
   const isPost = query.type === 'post';
-  
+
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
@@ -91,14 +98,25 @@ export default function Mypage() {
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        isPostSort={isPostSort}
-        setIsPostSort={setIsPostSort}
+        isSort={isSort}
+        setIsSort={setIsSort}
       />
       <MyPostAndCommentList
         selectedTab={selectedTab}
         listData={listData}
         isLoading={isLoading || isFetching}
         isFetchingNextPage={isFetchingNextPage}
+        postId={postId}
+        setPostId={setPostId}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        mainMessage={mainMessage}
+        setMainMessage={setMainMessage}
+        subMessage={subMessage}
+        setSubMessage={setSubMessage}
+        modalType={modalType}
+        setModalType={setModalType}
+        onSuccess={handleEditSuccess}
       />
       {selectedTab === 'post' && hasNextPage && (
         <div ref={observerRef} style={{ height: '1px' }} />
@@ -109,11 +127,12 @@ export default function Mypage() {
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>
           {modalType === 'editUser'
-            ? '회원 정보'
+            ? '회원 정보가 성공적으로 수정되었습니다 !'
             : modalType === 'editPassword'
-            ? '비밀번호'
+            ? '비밀번호가 성공적으로 수정되었습니다 !'
+            : modalType === 'deletePost'
+            ? '게시글 삭제가 완료되었습니다 !'
             : ''}
-          가 수정되었습니다 !
         </Toast>
       )}
     </ResponsiveStyle>

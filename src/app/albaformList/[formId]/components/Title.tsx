@@ -18,7 +18,7 @@ export default function Title(){
                 공개
             </Tag>
             <Tag>
-                모집중
+                모집 중
             </Tag>
             <Dates>
                 2024.05.04 12:30:54 등록

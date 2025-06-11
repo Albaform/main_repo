@@ -21,6 +21,7 @@ export const signUpSchema1 = signUpSchema1Base.refine(
 
 export const ownerSignUpSchema2Base = z.object({
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
+
   name: z.string().or(z.literal('')),
   phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
     message: '전화번호 형식이 올바르지 않습니다.',

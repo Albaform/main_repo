@@ -3,6 +3,18 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      plugins: [require('@tailwindcss/line-clamp')],
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+      },
+      screens: {
+        s: '320px',
+        xs: '480px',
+        md: '768px',
+        lg: '1199px',
+        xlg: '1920px',
+      },
       colors: {
         white: 'var(--white)',
         black: 'var(--black)',

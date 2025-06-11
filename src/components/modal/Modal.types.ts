@@ -9,6 +9,12 @@ export interface ModalProps {
   setShowModal: (value: boolean) => void;
   mainMessage: string;
   subMessage?: string;
-  deadLine?: boolean;
-  writeForm?: boolean;
+  $deletePost?: boolean;
+  $deleteComment?: boolean;
+  $deleteAlbaform?: boolean;
+  $deadLine?: boolean;
+  $writeingForm?: boolean;
+  $deleteScrap?: boolean;
+  deletePostId?: number;
+  onSuccess?: () => void;
 }

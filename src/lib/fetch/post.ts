@@ -1,31 +1,57 @@
-import instance from "../api/api";
+import { AlbatalkInput } from '@/schemas/albatalkSchema';
+import instance from '../api/api';
 
 // 게시글 등록
-export const fetchPostPosts = async () => {
+export const fetchPostPosts = async (payload: AlbatalkInput) => {
+  const { title, description: content, imageUrl } = payload;
   try {
-    const response = await instance.post("/posts");
+    const response = await instance.post('/posts', {
+      title,
+      content,
+      imageUrl,
+    });
     if (!response.data) {
-      throw new Error("게시물 데이터 불러오기 실패");
+      throw new Error('게시물 데이터 불러오기 실패');
     }
+
     const result = response.data;
     return result;
   } catch (error) {
-    console.error("게시물 데이터 불러오는 중 에러 발생:", error);
+    console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
   }
 };
 
 // 게시글 목록 조회
-export const fetchGetPosts = async () => {
+export const fetchGetPosts = async ({
+  isSort,
+  itemsPerPage,
+  cursor,
+  isKeyword,
+}: {
+  isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+  itemsPerPage: number;
+  cursor: number;
+  isKeyword: string;
+}) => {
   try {
-    const response = await instance.get("/posts");
+    const requestUrl =
+      cursor === 1
+        ? `/posts?limit=${itemsPerPage}&orderBy=${isSort}&keyword=${isKeyword}`
+        : `/posts?limit=${itemsPerPage}&orderBy=${isSort}&cursor=${cursor}&keyword=${isKeyword}`;
+
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
-      throw new Error("게시물 데이터 불러오기 실패");
+      throw new Error('게시물 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
+
+    return {
+      result: response.data.data,
+      nextPage: response.data.nextCursor,
+    };
   } catch (error) {
-    console.error("게시물 데이터 불러오는 중 에러 발생:", error);
+    console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
   }
 };
@@ -35,27 +61,37 @@ export const fetchGetPostsById = async (postId: number) => {
   try {
     const response = await instance.get(`/posts/${postId}`);
     if (!response.data) {
-      throw new Error("게시물 데이터 불러오기 실패");
+      throw new Error('게시물 데이터 불러오기 실패');
     }
     const result = response.data;
     return result;
   } catch (error) {
-    console.error("게시물 데이터 불러오는 중 에러 발생:", error);
+    console.error('게시물 데이터 불러오는 중 에러 발생:', error);
     throw error;
   }
 };
 
 // 게시글 수정
-export const fetchEditPosts = async (postId: number) => {
+export const fetchEditPosts = async ({
+  postId,
+  payload,
+}: {
+  postId: number;
+  payload: AlbatalkInput;
+}) => {
+  const { title, description: content, imageUrl } = payload;
+
   try {
-    const response = await instance.patch(`/posts/${postId}`);
+    const response = await instance.patch(`/posts/${postId}`, {
+      title,
+      content,
+      imageUrl,
+    });
     if (!response.data) {
-      throw new Error("게시물 데이터 수정 실패");
+      throw new Error('게시물 데이터 수정 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
-    console.error("게시물 데이터 수정 중 에러 발생:", error);
+    console.error('게시물 데이터 수정 중 에러 발생:', error);
     throw error;
   }
 };
@@ -63,29 +99,22 @@ export const fetchEditPosts = async (postId: number) => {
 // 게시글 삭제
 export const fetchDeletePosts = async (postId: number) => {
   try {
-    const response = await instance.delete(`/posts/${postId}`);
-    if (!response.data) {
-      throw new Error("게시물 데이터 삭제 실패");
-    }
-    const result = response.data;
-    return result;
+    await instance.delete(`/posts/${postId}`);
   } catch (error) {
-    console.error("게시물 데이터 삭제 중 에러 발생:", error);
+    console.error('게시물 데이터 삭제 중 에러 발생:', error);
     throw error;
   }
 };
 
 // 게시글 좋아요
-export const fetchLikePosts = async (postId: number) => {
+export const fetchPostLikePosts = async (postId: number) => {
   try {
     const response = await instance.post(`/posts/${postId}/like`);
     if (!response.data) {
-      throw new Error("게시물 좋아요 실패");
+      throw new Error('게시물 좋아요 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
-    console.error("게시물 좋아요 중 에러 발생:", error);
+    console.error('게시물 좋아요 중 에러 발생:', error);
     throw error;
   }
 };
@@ -95,12 +124,10 @@ export const fetchDeleteLikePosts = async (postId: number) => {
   try {
     const response = await instance.delete(`/posts/${postId}/like`);
     if (!response.data) {
-      throw new Error("게시물 좋아요 취소 실패");
+      throw new Error('게시물 좋아요 취소 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
-    console.error("게시물 좋아요 취소 중 에러 발생:", error);
+    console.error('게시물 좋아요 취소 중 에러 발생:', error);
     throw error;
   }
 };

@@ -8,7 +8,7 @@ export default function Overlay({ isOpen, onClose, children }: OverlayProps) {
 
   return createPortal(
     <ModalOverlay onClick={onClose}>
-      <ModalContent $edit onClick={(e) => e.stopPropagation()}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContent>
     </ModalOverlay>,

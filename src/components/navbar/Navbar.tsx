@@ -64,11 +64,13 @@ export default function Navbar({ variant = 'default' }: Props) {
     height: 88px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
+
     @media ${media.desktop} {
       padding: 0;
       max-width: 1480px;
       margin: 0 auto;
     }
+
 
     /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
     @media ${media.tabletPC} {

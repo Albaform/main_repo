@@ -31,8 +31,11 @@ instance.interceptors.request.use(
 // refresh token
 instance.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
-    if (error.response?.status === 401) {
+  async (error: AxiosError<{ message: string }>) => {
+    if (
+      error.response?.status === 401 &&
+      error.response?.data?.message !== '현재 비밀번호가 일치하지 않습니다.'
+    ) {
       const originalRequest = error.config as InternalAxiosRequestConfig & {
         _retry?: boolean;
       };

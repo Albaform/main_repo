@@ -13,6 +13,7 @@ import {
 import SortDropdown from './SortDropDown';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { FilterContainerProps } from '../types';
+import FilterDropdown from './FilterDropDown';
 
 export default function ListFilter({
   isSort,
@@ -23,7 +24,11 @@ export default function ListFilter({
   return (
     <FilterWrapper>
       <FilterContainer>
-        <FilterGroup></FilterGroup>
+
+        <FilterGroup>
+          <FilterDropdown />
+        </FilterGroup>
+
         <Filter className='relative' ref={outRef}>
           <button
             className='flex items-center'

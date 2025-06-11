@@ -1,62 +1,53 @@
-'use client';
-
 import Overlay from '@/components/modal/Overlay';
 import Image from 'next/image';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import EditProfileSkeleton from './EditProfileSkeleton';
-import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import EditProfileForm from './EditProfileForm';
 import { EditModalProps } from '@/app/mypage/types';
-import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileImgForm';
-import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
+import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
-
+import { usePathname } from 'next/navigation';
 
 export default function EditProfileModal({
   showModal,
   setShowModal,
   handleCloseModal,
-  onSuccess
+  onSuccess,
 }: EditModalProps) {
+  const pathname = usePathname();
+  const pathOwner = pathname === '/mypage/owner';
+
   const { data: user, isLoading } = useGetMyInfo();
 
   const { isPreview, setIsPreview, handleImgChange } = useChangeProfilePreview(
     user?.imageUrl || '',
   );
 
-  const formLogic = useEditProfileForm({ user, setShowModal, isPreview, onSuccess });
-
-  const { setValue, watch } = formLogic.form;
-
-  const watched = watch();
-
-  useInitializeUserForm({ user, setValue });
-
-  const { isModified: isFormModified } = useFormChangeDetector({
-    watched,
-    setValue,
+  const formLogic = useEditProfileForm({
+    pathOwner,
     user,
+    setShowModal,
+    isPreview,
+    onSuccess,
   });
-
-  const isModified =
-    isFormModified || !!formLogic.selectedImageFile || !!watch('imageUrl');
 
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[500px] overflow-y-scroll scrollbar-hide'>
-        <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
-          사장님 정보 관리
+        <p className='text-[24px] font-medium max-md:text-[18px]'>
+          {pathOwner ? '사장님 정보 관리' : '프로필 수정'}
         </p>
         {isLoading ? (
-          <EditProfileSkeleton />
+          <EditProfileSkeleton pathOwner={pathOwner} />
         ) : (
           <EditProfileForm
             {...formLogic}
+            pathOwner={pathOwner}
+            user={user}
             isPreview={isPreview}
             setIsPreview={setIsPreview}
             handleImgChange={handleImgChange}
-            isModified={isModified}
             handleCloseModal={handleCloseModal}
           />
         )}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
@@ -12,7 +12,7 @@ import {
   DropdownHeader,
   DropdownList,
   DropdownItem,
-} from './StepSelector.styles';
+} from './Selector.styles';
 
 interface StepSelectorProps {
   currentStep: 'info' | 'condition' | 'work';

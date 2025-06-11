@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { FormInput } from './StepForm.styles';
+import { FormInput } from './Form.styles';
 
 //  달력 커스텀 인풋
 export const CustomDateInput = styled(FormInput)`
+  cursor: pointer;
+
   &:focus {
     border: 0.5px solid var(--gray200);
     padding: 13px 13px 11px 13px;

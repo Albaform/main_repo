@@ -1,5 +1,10 @@
-import { ListData, InfoWatchedFields } from '@/app/mypage/types';
+import {
+  ListData,
+  InfoWatchedFields,
+  PasswordWatchedFields,
+} from '@/app/mypage/types';
 import instance from '../api/api';
+import { AxiosError } from 'axios';
 
 // 내 정보 조회
 export const fetchUser = async () => {
@@ -41,17 +46,18 @@ export const fetchEditUser = async (payload: InfoWatchedFields) => {
 };
 
 // 비밀번호 변경
-export const fetchUpdatePassword = async () => {
+export const fetchUpdatePassword = async (formData: PasswordWatchedFields) => {
+  const { currentPassword, newPassword } = formData;
+
   try {
-    const response = await instance.patch('/users/me/password');
-    if (!response.data) {
-      throw new Error('비밀번호 수정 실패');
-    }
-    const result = response.data;
-    return result;
+    const response = await instance.patch('/users/me/password', {
+      currentPassword,
+      newPassword,
+    });
+    return response.data;
   } catch (error) {
-    console.error('비밀번호 수정 중 에러 발생:', error);
-    throw error;
+    const axiosError = error as AxiosError<{ message: string }>;
+    throw axiosError;
   }
 };
 
@@ -90,16 +96,20 @@ export const fetchMyScrap = async ({
   isScrapSort,
   itemsPerPage,
   cursor,
+  isPublic,
+  isRecruiting,
 }: {
   isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
   itemsPerPage: number;
   cursor: number;
-}) => {
+  isPublic?: boolean;
+  isRecruiting?: boolean;
+}):Promise<{result:ListData[]; nextPage:number}> => {
   try {
     const requestUrl =
       cursor === 1
-        ? `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`
-        : `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`;
+        ? `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`
+        : `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&cursor=${cursor}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`;
 
     const response = await instance.get(requestUrl);
 

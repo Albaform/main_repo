@@ -90,3 +90,13 @@ export const Dates = styled.div`
     margin: 6px 8px;
     font-size: 16px;
 `
+
+export const TextArea = styled.div`
+  width: 100%;
+  max-width: 770px;
+  height: 100%;
+  max-height: 320px;
+  font-size: 24px;
+  color: var(--black400);
+  margin-bottom: 129px;
+  `
