@@ -12,6 +12,7 @@ import {
 import { useDeletePost } from '@/hooks/mutation/useDeletePosts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteComments } from '@/hooks/mutation/useDeleteComments';
+import { useCancelScrapForms } from '@/hooks/mutation/useCancelScrapForms';
 
 function Modal({
   showModal,
@@ -38,8 +39,11 @@ function Modal({
     useDeletePost();
   const { mutate: fetchDeleteComment, isPending: commentDeletePending } =
     useDeleteComments();
+  const { mutate: fetchDeleteScrap, isPending: ScrapDeletePending } =
+    useCancelScrapForms();
 
-  const isPending = postDeletePending || commentDeletePending;
+  const isPending =
+    postDeletePending || commentDeletePending || ScrapDeletePending;
 
   const queryClient = useQueryClient();
 
@@ -77,6 +81,19 @@ function Modal({
     } else if ($deadLine) {
       router.push('/list');
     } else if ($deleteScrap) {
+      if (deletePostId) {
+        fetchDeleteScrap(deletePostId, {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === 'myScrap',
+            });
+            onSuccess?.();
+          },
+          onSettled: () => {
+            setShowModal(false);
+          },
+        });
+      }
     }
   };
 

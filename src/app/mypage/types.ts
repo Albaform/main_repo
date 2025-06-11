@@ -182,6 +182,7 @@ export interface PostContainerProps {
 
 export interface ScrapContainerProps {
   item: ListData;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   setMainMessage: Dispatch<SetStateAction<string>>;
   setSubMessage: Dispatch<SetStateAction<string>>;

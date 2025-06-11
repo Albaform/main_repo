@@ -10,6 +10,7 @@ import { useImgError } from '@/hooks/common/useImgError';
 
 export default function ScrapContainer({
   item,
+  setPostId,
   setShowModal,
   setMainMessage,
   setSubMessage,
@@ -85,6 +86,7 @@ export default function ScrapContainer({
           </div>
           <MenuDropdown
             postId={item.id}
+            setPostId={setPostId}
             setShowModal={setShowModal}
             setMainMessage={setMainMessage}
             setSubMessage={setSubMessage}

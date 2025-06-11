@@ -70,6 +70,7 @@ export default function ListContainer({
                   ) : (
                     <ScrapContainer
                       item={item}
+                      setPostId={setPostId}
                       setShowModal={setShowModal}
                       setMainMessage={setMainMessage}
                       setSubMessage={setSubMessage}
