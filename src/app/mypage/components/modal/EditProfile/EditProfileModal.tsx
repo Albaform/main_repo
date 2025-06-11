@@ -39,7 +39,7 @@ export default function EditProfileModal({
           {pathOwner ? '사장님 정보 관리' : '프로필 수정'}
         </p>
         {isLoading ? (
-          <EditProfileSkeleton />
+          <EditProfileSkeleton pathOwner={pathOwner} />
         ) : (
           <EditProfileForm
             {...formLogic}
