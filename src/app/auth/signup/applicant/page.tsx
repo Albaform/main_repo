@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { signUpSchema1, SignUp1Input } from '@/schemas/signupSchema';
 
-export default function SignIn() {
+export default function SignUp() {
   const {
     register,
     handleSubmit,

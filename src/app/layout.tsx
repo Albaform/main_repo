@@ -22,7 +22,6 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-
   return (
     <html lang='ko'>
       <head>
@@ -30,10 +29,7 @@ export default async function RootLayout({
           name='viewport'
           content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no, viewport-fit=cover'
         />
-        <Script
-          src='https://developers.kakao.com/sdk/js/kakao.js'
-          strategy='beforeInteractive'
-        />
+        <script src='https://developers.kakao.com/sdk/js/kakao.js'></script>
       </head>
       <body>
         <DaumPostcodeScript />
@@ -41,7 +37,7 @@ export default async function RootLayout({
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
             <ClientLayout>
-              <Navbar/>
+              <Navbar />
               {children}
             </ClientLayout>
           </GlobalStyleProvider>

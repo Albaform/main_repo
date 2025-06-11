@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
 import Toast from '@/components/tooltip/Toast';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
+import KakaoSignIn from '../../oauth/signin/page';
 
 export default function SignIn() {
   const {
@@ -107,14 +107,7 @@ export default function SignIn() {
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>로그인되었습니다 !</Toast>
       )}
-      <div className='flex justify-center mt-20'>
-        <Image
-          src='/images/logo_kakao.svg'
-          alt='카카오 로그인 이미지'
-          width={72}
-          height={72}
-        />
-      </div>
+      <KakaoSignIn />
     </form>
   );
 }

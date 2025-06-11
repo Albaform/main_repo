@@ -10,8 +10,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { signUpSchema1, SignUp1Input } from '@/schemas/signupSchema';
+import KakaoSignUp from '../../oauth/signup/owner/page';
 
-export default function SignIn() {
+export default function SignUp() {
   const {
     register,
     handleSubmit,
@@ -126,6 +127,7 @@ export default function SignIn() {
         </Link>
         에 동의한 것으로 간주됩니다.
       </p>
+      <KakaoSignUp />
     </form>
   );
 }
