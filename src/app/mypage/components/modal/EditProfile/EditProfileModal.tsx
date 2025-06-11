@@ -7,6 +7,7 @@ import EditProfileForm from './EditProfileForm';
 import { EditModalProps } from '@/app/mypage/types';
 import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
+import { usePathname } from 'next/navigation';
 
 export default function EditProfileModal({
   showModal,
@@ -14,6 +15,9 @@ export default function EditProfileModal({
   handleCloseModal,
   onSuccess,
 }: EditModalProps) {
+  const pathname = usePathname();
+  const pathOwner = pathname === '/mypage/owner';
+
   const { data: user, isLoading } = useGetMyInfo();
 
   const { isPreview, setIsPreview, handleImgChange } = useChangeProfilePreview(
@@ -21,6 +25,7 @@ export default function EditProfileModal({
   );
 
   const formLogic = useEditProfileForm({
+    pathOwner,
     user,
     setShowModal,
     isPreview,
@@ -31,13 +36,14 @@ export default function EditProfileModal({
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[500px] overflow-y-scroll scrollbar-hide'>
         <p className='text-[24px] font-medium max-md:text-[18px]'>
-          사장님 정보 관리
+          {pathOwner ? '사장님 정보 관리' : '프로필 수정'}
         </p>
         {isLoading ? (
           <EditProfileSkeleton />
         ) : (
           <EditProfileForm
             {...formLogic}
+            pathOwner={pathOwner}
             user={user}
             isPreview={isPreview}
             setIsPreview={setIsPreview}

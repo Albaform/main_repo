@@ -12,6 +12,14 @@ interface Props {
 
 export default function useInitializeUserForm({ user, setValue }: Props) {
   useEffect(() => {
+    if (user?.imageUrl) {
+      setValue('imageUrl', user.imageUrl);
+    }
+
+    if (user?.name) {
+      setValue('name', user.name);
+    }
+
     if (user?.phoneNumber) {
       const onlyNums = user.phoneNumber.replace(/[^0-9]/g, '');
       const formatted = formattedPhoneNumber(onlyNums);

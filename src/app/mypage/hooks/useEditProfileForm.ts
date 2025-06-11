@@ -2,6 +2,7 @@ import { UserDataProps } from '@/app/mypage/types';
 import { useEditUser } from '@/hooks/mutation/useEditUser';
 import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 import {
+  applicantProfileSchema,
   EditUserInput,
   ownerProfileSchema,
 } from '@/schemas/editProfileSchema';
@@ -11,11 +12,13 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export function useEditProfileForm({
+  pathOwner,
   user,
   setShowModal,
   isPreview,
   onSuccess,
 }: {
+  pathOwner: boolean;
   user: UserDataProps;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   isPreview: string;
@@ -29,8 +32,10 @@ export function useEditProfileForm({
     useUploadImage();
   const { mutate: patchEditUser, isPending: isPatchingUser } = useEditUser();
 
+  const schema = pathOwner ? ownerProfileSchema : applicantProfileSchema;
+
   const form = useForm<EditUserInput>({
-    resolver: zodResolver(ownerProfileSchema),
+    resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
       imageUrl: '',

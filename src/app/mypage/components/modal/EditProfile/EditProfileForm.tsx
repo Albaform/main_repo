@@ -10,6 +10,7 @@ import React, { ChangeEvent } from 'react';
 export default function EditProfileForm(props: EditProfileFormProps) {
   const {
     form,
+    pathOwner,
     user,
     onSubmit,
     isPending,
@@ -34,8 +35,7 @@ export default function EditProfileForm(props: EditProfileFormProps) {
     user,
   });
 
-  const isModified =
-    isFormModified || !!selectedImageFile || !!watch('imageUrl');
+  const isModified = isFormModified || !!selectedImageFile;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,6 +96,25 @@ export default function EditProfileForm(props: EditProfileFormProps) {
             />
           )}
         </div>
+        {!pathOwner && (
+          <div className='text-left mb-[15px]'>
+            <label htmlFor='name' className='inline-block mb-[10px]'>
+              이름 <span className='text-orange-300 relative top-[1px]'>*</span>
+            </label>
+            <input
+              id='name'
+              type='text'
+              {...register('name')}
+              placeholder='이름을 입력해주세요'
+              className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
+            />
+            {errors.name && (
+              <p className='text-left mt-[10px] text-red'>
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+        )}
         <div className='text-left'>
           <label htmlFor='nickname' className='inline-block mb-[10px]'>
             닉네임 <span className='text-orange-300 relative top-[1px]'>*</span>
@@ -113,58 +132,65 @@ export default function EditProfileForm(props: EditProfileFormProps) {
             </p>
           )}
         </div>
-        <div className='text-left mt-[15px] '>
-          <label htmlFor='store' className='inline-block mb-[10px]'>
-            가게 이름{' '}
-            <span className='text-orange-300 relative top-[1px]'>*</span>
-          </label>
-          <input
-            id='store'
-            type='text'
-            {...register('store')}
-            placeholder='가게 이름(상호명)을 입력해주세요'
-            className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
-          />
-          {errors.store && (
-            <p className='text-left mt-[10px] text-red'>
-              {errors.store.message}
-            </p>
-          )}
-        </div>
-        <div className='text-left'>
-          <label
-            htmlFor='storeTel'
-            className='inline-block mt-[15px] mb-[10px]'
-          >
-            가게 전화번호{' '}
-            <span className='text-orange-300 relative top-[1px]'>*</span>
-          </label>
-          <input
-            id='storeTel'
-            type='tel'
-            inputMode='numeric'
-            {...register('storeTel', {
-              onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                const onlyNums = e.target.value.replace(/[^0-9]/g, '');
-                const formatted = formattedStoreTel(onlyNums);
-                setValue('storeTel', formatted, { shouldValidate: true });
-              },
-            })}
-            placeholder='가게 전화번호를 입력해주세요'
-            className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
-          />
-          {errors.storeTel && (
-            <p className='text-left mt-[10px] text-red'>
-              {errors.storeTel.message}
-            </p>
-          )}
-        </div>
+        {pathOwner && (
+          <>
+            <div className='text-left mt-[15px] '>
+              <label htmlFor='store' className='inline-block mb-[10px]'>
+                가게 이름{' '}
+                <span className='text-orange-300 relative top-[1px]'>*</span>
+              </label>
+              <input
+                id='store'
+                type='text'
+                {...register('store')}
+                placeholder='가게 이름(상호명)을 입력해주세요'
+                className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
+              />
+              {errors.store && (
+                <p className='text-left mt-[10px] text-red'>
+                  {errors.store.message}
+                </p>
+              )}
+            </div>
+            <div className='text-left'>
+              <label
+                htmlFor='storeTel'
+                className='inline-block mt-[15px] mb-[10px]'
+              >
+                가게 전화번호{' '}
+                <span className='text-orange-300 relative top-[1px]'>*</span>
+              </label>
+              <input
+                id='storeTel'
+                type='tel'
+                inputMode='numeric'
+                {...register('storeTel', {
+                  onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                    const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                    const formatted = formattedStoreTel(onlyNums);
+                    setValue('storeTel', formatted, { shouldValidate: true });
+                  },
+                })}
+                placeholder='가게 전화번호를 입력해주세요'
+                className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
+              />
+              {errors.storeTel && (
+                <p className='text-left mt-[10px] text-red'>
+                  {errors.storeTel.message}
+                </p>
+              )}
+            </div>
+          </>
+        )}
         <div className='text-left'>
           <label
             htmlFor='phoneNumber'
             className='inline-block mt-[15px] mb-[10px]'
           >
-            사장님 전화번호
+            {pathOwner ? '사장님 전화번호' : '연락처'}
+            {!pathOwner && (
+              <span className='text-orange-300 relative top-[1px]'> *</span>
+            )}
           </label>
           <input
             id='phoneNumber'
@@ -182,19 +208,26 @@ export default function EditProfileForm(props: EditProfileFormProps) {
             placeholder='사장님 전화번호를 입력해주세요'
             className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
           />
-        </div>
-        <div>
-          <p className='text-left mt-[15px] mb-[10px]'>
-            가게 위치{' '}
-            <span className='text-orange-300 relative top-[1px]'>*</span>
-          </p>
-          <Address editInfoControl={control} disabled={isPending} />
-          {errors.address && (
+          {!pathOwner && errors.phoneNumber && (
             <p className='text-left mt-[10px] text-red'>
-              {errors.address.message}
+              {errors.phoneNumber.message}
             </p>
           )}
         </div>
+        {pathOwner && (
+          <div>
+            <p className='text-left mt-[15px] mb-[10px]'>
+              가게 위치{' '}
+              <span className='text-orange-300 relative top-[1px]'>*</span>
+            </p>
+            <Address editInfoControl={control} disabled={isPending} />
+            {errors.address && (
+              <p className='text-left mt-[10px] text-red'>
+                {errors.address.message}
+              </p>
+            )}
+          </div>
+        )}
         <div className='flex items-center justify-center mt-[24px]'>
           <button
             type='button'

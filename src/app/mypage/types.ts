@@ -128,6 +128,7 @@ export type PasswordWatchedFields = {
 
 export type EditProfileFormProps = {
   form: FieldValues;
+  pathOwner: boolean;
   user: UserDataProps;
   onSubmit: (formData: EditUserInput) => Promise<void>;
   isPending: boolean;
