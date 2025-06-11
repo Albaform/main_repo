@@ -77,14 +77,42 @@ export const fetchMyForms = async () => {
 };
 
 // 내가 지원한 알바폼 목록 조회
-export const fetchMyAppications = async () => {
+export const fetchMyAppications = async ({
+  status,
+  itemsPerPage,
+  cursor,
+  keyword,
+}: {
+  status:
+    | ''
+    | 'REJECTED'
+    | 'INTERVIEW_PENDING'
+    | 'INTERVIEW_COMPLETED'
+    | 'HIRED';
+  itemsPerPage: number;
+  cursor: number;
+  keyword: string;
+}) => {
   try {
-    const response = await instance.get('/users/me/applications');
+    const requestUrl =
+      cursor === 1
+        ? `/users/me/applications?limit=${itemsPerPage}${
+            status.length > 0 ? `&status=${status}` : ''
+          }&keyword=${keyword}`
+        : `/users/me/applications?limit=${itemsPerPage}${
+            status.length > 0 ? `&status=${status}` : ''
+          }&cursor=${cursor}&keyword=${keyword}`;
+
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
       throw new Error('내 지원서 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
+
+    return {
+      result: response.data.data,
+      nextPage: response.data.nextCursor,
+    };
   } catch (error) {
     console.error('내 지원서 데이터 불러오는 중 에러 발생:', error);
     throw error;
@@ -104,7 +132,7 @@ export const fetchMyScrap = async ({
   cursor: number;
   isPublic?: boolean;
   isRecruiting?: boolean;
-}):Promise<{result:ListData[]; nextPage:number}> => {
+}): Promise<{ result: ListData[]; nextPage: number }> => {
   try {
     const requestUrl =
       cursor === 1
