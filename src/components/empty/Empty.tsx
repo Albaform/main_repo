@@ -7,6 +7,7 @@ export default function Empty({
   albaform,
   albatalk,
   comments,
+  applications,
 }: EmptyProps) {
   const tabPostText = () => {
     return (
@@ -56,10 +57,21 @@ export default function Empty({
     );
   };
 
+  const applicationsText = () => {
+    return (
+      <>
+        지원한 알바폼이 없어요.
+        <br />
+        알바폼을 둘러보고 지원해보세요!
+      </>
+    );
+  };
+
   const renderContent = () => {
     if (albaform) return albaformText();
     if (albatalk) return albatalkText();
     if (comments) return commentsText();
+    if (applications) return applicationsText();
     if (selectedTab === 'post') return tabPostText();
     if (selectedTab === 'comment') return tabCommentText();
     if (selectedTab === 'scrap') return tabScrapsText();
@@ -73,6 +85,8 @@ export default function Empty({
             ? '/images/empty/albaform.svg'
             : selectedTab === 'scrap'
             ? '/images/empty/scrap.svg'
+            : applications
+            ? '/images/empty/applications.svg'
             : '/images/empty/mypage.svg'
         }
         alt='마이페이지'

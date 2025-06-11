@@ -21,7 +21,7 @@ export default function ContentsList({
   return (
     <>
       {!isLoading && listData?.length === 0 ? (
-        <Empty albatalk />
+        <Empty applications />
       ) : (
         <div className='min-lg:min-h-[500px]'>
           <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-lg:gap-y-[16px]'>
