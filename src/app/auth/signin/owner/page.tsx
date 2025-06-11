@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
 import Toast from '@/components/tooltip/Toast';
-import { useEffect, useState } from 'react';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
 
@@ -99,12 +100,21 @@ export default function SignIn() {
           <p className='text-red text-sm'>{errors.password.message}</p>
         )}
       </div>
+
       <Button type='submit' disabled={!isValid}>
         {isPending ? '로그인 중...' : '로그인'}
       </Button>
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>로그인되었습니다 !</Toast>
       )}
+      <div className='flex justify-center mt-20'>
+        <Image
+          src='/images/logo_kakao.svg'
+          alt='카카오 로그인 이미지'
+          width={72}
+          height={72}
+        />
+      </div>
     </form>
   );
 }
