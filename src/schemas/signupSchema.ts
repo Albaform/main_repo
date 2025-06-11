@@ -1,3 +1,4 @@
+import { profile } from 'console';
 import { z } from 'zod';
 
 export const signUpSchema1Base = z.object({
@@ -61,17 +62,13 @@ export const ownerSignUpSchema2 = ownerSignUpSchema2Base.superRefine(
 );
 
 export const applicantSignUpSchema2Base = z.object({
+  profileImage: z.string().url().optional(),
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
   name: z.string().or(z.literal('')),
   phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
     message: '전화번호 형식이 올바르지 않습니다.',
   }),
   role: z.enum(['OWNER', 'APPLICANT']),
-  storeName: z.string().min(1, { message: '가게 이름을 입력해주세요.' }),
-  storePhoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
-    message: '전화번호 형식이 올바르지 않습니다.',
-  }),
-  location: z.string().min(1, { message: '주소를 입력해주세요.' }),
 });
 
 export const applicantSignUpSchema2 = applicantSignUpSchema2Base.superRefine(

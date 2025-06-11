@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
-import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import {
@@ -59,37 +59,54 @@ export default function SignInInfo() {
           추가 정보를 입력하여 회원가입을 완료해주세요.
         </p>
       </div>
+
       <div className='flex flex-col mt-[60px] mb-[52px] gap-8'>
-        <Input
-          id='name'
-          label='이름'
-          placeholder='이름을 입력해주세요'
-          className={errors.name ? 'border-red' : ''}
-          {...register('name')}
-        />
-        {errors.name && (
-          <p className='text-red text-sm'>{errors.name.message}</p>
-        )}
-        <Input
-          id='phoneNumber'
-          label='연락처'
-          placeholder='숫자만 입력해주세요'
-          className={errors.phoneNumber ? 'border-red' : ''}
-          {...register('phoneNumber')}
-        />
-        {errors.phoneNumber && (
-          <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
-        )}
-        <Input
-          id='nickname'
-          label='닉네임'
-          placeholder='닉네임을 입력해주세요'
-          className={errors.nickname ? 'border-red' : ''}
-          {...register('nickname')}
-        />
-        {errors.nickname && (
-          <p className='text-red text-sm'>{errors.nickname.message}</p>
-        )}
+        <div className='flex justify-center'>
+          <Image
+            src={'/images/mypage/editProfileImg.svg'}
+            alt='profile image'
+            width={100}
+            height={100}
+          />
+        </div>
+        <div className='flex flex-col'>
+          <Input
+            id='name'
+            label='이름'
+            placeholder='이름을 입력해주세요'
+            className={errors.name ? 'border-red' : ''}
+            {...register('name')}
+          />
+          {errors.name && (
+            <p className='text-red text-sm mt-2 text-right'>
+              {errors.name.message}
+            </p>
+          )}
+        </div>
+        <div>
+          <Input
+            id='phoneNumber'
+            label='연락처'
+            placeholder='숫자만 입력해주세요'
+            className={errors.phoneNumber ? 'border-red' : ''}
+            {...register('phoneNumber')}
+          />
+          {errors.phoneNumber && (
+            <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
+          )}
+        </div>
+        <div>
+          <Input
+            id='nickname'
+            label='닉네임'
+            placeholder='닉네임을 입력해주세요'
+            className={errors.nickname ? 'border-red' : ''}
+            {...register('nickname')}
+          />
+          {errors.nickname && (
+            <p className='text-red text-sm'>{errors.nickname.message}</p>
+          )}
+        </div>
       </div>
       <Button type='submit' disabled={!isValid}>
         {isPending ? '정보 저장 중...' : '시작하기'}
