@@ -27,7 +27,7 @@ export default function SignIn() {
   const onSubmit = (formData: SignUp1Input) => {
     const { confirmPassword, ...step1Data } = formData;
     setStep1(step1Data);
-    router.push(`/signup/owner/authinfo`);
+    router.push(`/auth/authinfo/applicant`);
   };
 
   useEffect(() => {

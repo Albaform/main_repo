@@ -72,7 +72,7 @@ export default function SignInInfo() {
         )}
         <Input
           id='phoneNumber'
-          label='사장님 전화번호'
+          label='연락처'
           placeholder='숫자만 입력해주세요'
           className={errors.phoneNumber ? 'border-red' : ''}
           {...register('phoneNumber')}
