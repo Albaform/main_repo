@@ -31,10 +31,12 @@ export default function myAlbaform() {
 
   return (
     <div className='h-[100%] bg-background-100'>
-      <div className='border-solid border-b-[1px] border-line-100'>
-        <FilterResponsive>
-          <FilterContainer setKeyword={setKeyword} />
-        </FilterResponsive>
+      <div className='border-solid border-b-[1px] border-line-100 bg-white'>
+        <div className='border-solid border-b-[1px] border-line-100'>
+          <FilterResponsive>
+            <FilterContainer setKeyword={setKeyword} />
+          </FilterResponsive>
+        </div>
         <SortResponsive>
           <StatusSortButton status={status} setStatus={setStatus} />
         </SortResponsive>

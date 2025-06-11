@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const FilterResponsive = styled.div`
   position: relative;
   padding: 112px 120px 24px;
-  border-bottom: 1px solid var(--line100);
   background: var(--white);
 
   @media ${media.desktop} {
@@ -34,7 +33,7 @@ export const SortResponsive = styled.div`
   background: var(--white);
 
   @media ${media.desktop} {
-    padding: 24px 120px;
+    padding: 24px 0;
     max-width: 1480px;
     margin: 0 auto;
   }
