@@ -4,4 +4,5 @@ export interface EmptyProps {
   albatalk?: boolean;
   comments?: boolean;
   applications?: boolean;
+  myAlbaform?: boolean;
 }

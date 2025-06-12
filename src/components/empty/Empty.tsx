@@ -8,6 +8,7 @@ export default function Empty({
   albatalk,
   comments,
   applications,
+  myAlbaform,
 }: EmptyProps) {
   const tabPostText = () => {
     return (
@@ -67,11 +68,22 @@ export default function Empty({
     );
   };
 
+  const myAlbaformText = () => {
+    return (
+      <>
+        표시할 알바폼이 없어요.
+        <br />
+        1분 만에 등록하고 알바를 구해보세요!
+      </>
+    );
+  };
+
   const renderContent = () => {
     if (albaform) return albaformText();
     if (albatalk) return albatalkText();
     if (comments) return commentsText();
     if (applications) return applicationsText();
+    if (myAlbaform) return myAlbaformText();
     if (selectedTab === 'post') return tabPostText();
     if (selectedTab === 'comment') return tabCommentText();
     if (selectedTab === 'scrap') return tabScrapsText();
@@ -85,7 +97,7 @@ export default function Empty({
             ? '/images/empty/albaform.svg'
             : selectedTab === 'scrap'
             ? '/images/empty/scrap.svg'
-            : applications
+            : applications || myAlbaform
             ? '/images/empty/applications.svg'
             : '/images/empty/mypage.svg'
         }

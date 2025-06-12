@@ -29,7 +29,7 @@ export default function ContentsList({
   return (
     <>
       {!isLoading && listData?.length === 0 ? (
-        <Empty albatalk />
+        <Empty myAlbaform />
       ) : (
         <div className='min-lg:min-h-[500px]'>
           <div className='flex flex-wrap gap-x-[2%] gap-y-16 max-lg:gap-y-12 max-md:gap-y-8'>
