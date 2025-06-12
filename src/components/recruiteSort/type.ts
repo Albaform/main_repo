@@ -1,6 +1,6 @@
 import { SetStateAction } from 'react';
 
-export interface SortDropdownProps {
+export interface RecruitSortDropdownProps {
   isSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
   setIsSort?: React.Dispatch<
     SetStateAction<

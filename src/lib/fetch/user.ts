@@ -62,14 +62,36 @@ export const fetchUpdatePassword = async (formData: PasswordWatchedFields) => {
 };
 
 // 내가 생성한 알바폼 목록 조회
-export const fetchMyForms = async () => {
+export const fetchMyForms = async ({
+  itemsPerPage,
+  postSort,
+  publicSort,
+  recruitingSort,
+  keyword,
+  cursor,
+}: {
+  itemsPerPage: number;
+  postSort: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  publicSort: boolean;
+  recruitingSort: boolean;
+  keyword: string;
+  cursor: number;
+}) => {
   try {
-    const response = await instance.get('/users/me/forms');
+    const requestUrl =
+      cursor === 1
+        ? `/users/me/forms?limit=${itemsPerPage}&orderBy=${postSort}&isPublic=${publicSort}&isRecruiting=${recruitingSort}&keyword=${keyword}`
+        : `/users/me/forms?limit=${itemsPerPage}&orderBy=${postSort}&isPublic=${publicSort}&isRecruiting=${recruitingSort}&keyword=${keyword}&cursor=${cursor}`;
+
+    const response = await instance.get(requestUrl);
     if (!response.data) {
       throw new Error('내 폼 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
+
+    return {
+      result: response.data.data,
+      nextPage: response.data.nextCursor,
+    };
   } catch (error) {
     console.error('내 폼 데이터 불러오는 중 에러 발생:', error);
     throw error;

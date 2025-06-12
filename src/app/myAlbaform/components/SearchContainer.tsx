@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import React from 'react';
-import { FilterContainerProps } from '../../types';
+import { SearchContainerProps } from '../types';
 
-export default function FilterContainer({ setKeyword }: FilterContainerProps) {
+export default function SearchContainer({
+  $applicant,
+  setKeyword,
+}: SearchContainerProps) {
   const handleEnterSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -25,7 +28,9 @@ export default function FilterContainer({ setKeyword }: FilterContainerProps) {
           <input
             name='search'
             type='text'
-            placeholder='어떤 알바를 찾고 계세요?'
+            placeholder={
+              $applicant ? '어떤 알바를 찾고 계세요?' : '검색어로 조회해보세요.'
+            }
             className='ml-[8px] bg-background-200 text-[20px] w-full max-md:text-[16px] max-md:ml-[2px]'
           />
         </div>

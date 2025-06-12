@@ -1,7 +1,7 @@
 import { SlideBg, TabButton, TabWrapper } from '../../styles';
 import { FilterContainerProps } from '../../types';
 import PostSortButton from '@/components/postSort/PostSortButton';
-import ScrapSortButton from './scrapSort/ScrapSortButton';
+import RecruitSortButton from '../../../../components/recruiteSort/RecruitSortButton';
 import PublicSortButton from './publicSort/PublicSortButton';
 import RecruitingSortButton from './recruitingSort/RecruitingSortButton';
 
@@ -65,14 +65,14 @@ export default function FilterContainer({
       </div>
       {selectedTab === 'scrap' && (
         <div className='flex justify-between items-center py-4 px-0 mb-4'>
-          <div className='flex justify-between items-center'>
+          <div className='flex items-center'>
             <PublicSortButton isSort={isPublic} setIsSort={setIsPublic} />
             <RecruitingSortButton
               isSort={isRecruiting}
               setIsSort={setIsRecruiting}
             />
           </div>
-          <ScrapSortButton isSort={isScrapSort} setIsSort={setIsScrapSort} />
+          <RecruitSortButton isSort={isScrapSort} setIsSort={setIsScrapSort} />
         </div>
       )}
     </>

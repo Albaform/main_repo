@@ -1,6 +1,33 @@
 import { media } from '@/styles/media';
 import styled from 'styled-components';
 
+type SortResponsiveProps = {
+  $type2?: boolean;
+};
+
+type DropdownProps = {
+  $active?: boolean;
+};
+
+type DropdownButtonProps = {
+  $active?: boolean;
+};
+
+export const KebabButton = styled.div`
+  min-width: 36px;
+  margin-top: -3px;
+  position: relative;
+  cursor: pointer;
+
+  .kebabImgWrapper {
+    display: none;
+
+    @media ${media.tabletPC} {
+      display: block;
+    }
+  }
+`;
+
 export const FilterResponsive = styled.div`
   position: relative;
   padding: 112px 120px 24px;
@@ -27,10 +54,10 @@ export const FilterResponsive = styled.div`
   }
 `;
 
-export const SortResponsive = styled.div`
+export const SortResponsive = styled.div<SortResponsiveProps>`
   position: relative;
   padding: 24px 120px;
-  background: var(--white);
+  background: ${({ $type2 }) => ($type2 ? '' : 'var(--white);')};
 
   @media ${media.desktop} {
     padding: 24px 0;
@@ -100,6 +127,31 @@ export const PostWrapper = styled.div`
   }
 `;
 
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 32%;
+  width: 32%;
+  position: relative;
+  cursor: pointer;
+
+  @media (max-width: 1450px) {
+    min-width: 49%;
+    width: 49%;
+  }
+
+  @media ${media.tabletPC} {
+    flex-direction: column;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 0 100px;
+  }
+`;
+
 export const Title = styled.p`
   text-overflow: ellipsis;
   overflow: hidden;
@@ -122,4 +174,39 @@ export const Description = styled.p`
   -webkit-box-orient: vertical;
   font-weight: 300;
   color: var(--gray500);
+`;
+
+export const PostDropdownContainer = styled.div<DropdownProps>`
+  display: ${({ $active }) => ($active ? 'block' : 'none')};
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 7px;
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--line100);
+  box-shadow: 4px 4px 4px rgba(228, 228, 228, 0.1);
+  z-index: 100;
+  font-size: 16px;
+`;
+
+export const PostDropdownButton = styled.button<DropdownButtonProps>`
+  width: 118px;
+  height: 38px;
+  margin-bottom: 7px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 400;
+  color: var(--gray400);
+
+  &:hover {
+    background: var(--primary-orange100);
+    color: var(--black400);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;

@@ -4,7 +4,7 @@ import { Description, PostWrapper, Title } from '../../styles';
 import Empty from '@/components/empty/Empty';
 import Image from 'next/image';
 import { formattedDate } from '@/utils/formattedDate';
-import { ListContainerProps } from '../../types';
+import { ApplicantListProps } from '../../types';
 import { useRouter } from 'next/navigation';
 import getRecruitStatus from '@/utils/getRecruitStatus';
 
@@ -12,7 +12,7 @@ export default function ContentsList({
   listData,
   isLoading,
   isFetchingNextPage,
-}: ListContainerProps) {
+}: ApplicantListProps) {
   const router = useRouter();
 
   const { img, defaultImg, handleImgError } = useImgError(

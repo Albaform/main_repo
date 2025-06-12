@@ -50,13 +50,17 @@ export default function ScrapContainer({
           }}
         >
           <Image
-            src={img[String(item.imageUrl)] || item.imageUrl || defaultImg}
+            src={
+              img[String(item.imageUrls?.[0])] ||
+              item.imageUrls?.[0] ||
+              defaultImg
+            }
             alt='기본이미지'
             fill
             style={{
               objectFit: 'cover',
             }}
-            onError={() => handleImgError(String(item.imageUrl))}
+            onError={() => handleImgError(String(item.imageUrls?.[0]))}
           />
         </div>
         <div className='flex items-center justify-between mt-6'>

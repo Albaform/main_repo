@@ -3,7 +3,7 @@
 import { getItemsPerPage } from '@/app/albatalk/utils/getItemsPerPage';
 import { useState } from 'react';
 import { FilterResponsive, ListResponsive, SortResponsive } from '../styles';
-import FilterContainer from './components/FilterContainer';
+import SearchContainer from '../components/SearchContainer';
 import StatusSortButton from './components/statusSort/StatusSortButton';
 import { useMyApplications } from '@/hooks/query/useMyApplications';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
@@ -34,7 +34,7 @@ export default function myAlbaform() {
       <div className='border-solid border-b-[1px] border-line-100 bg-white'>
         <div className='border-solid border-b-[1px] border-line-100'>
           <FilterResponsive>
-            <FilterContainer setKeyword={setKeyword} />
+            <SearchContainer $applicant setKeyword={setKeyword} />
           </FilterResponsive>
         </div>
         <SortResponsive>

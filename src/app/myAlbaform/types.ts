@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface FilterContainerProps {
+export interface SearchContainerProps {
+  $applicant?: boolean;
   setKeyword: Dispatch<SetStateAction<string>>;
 }
 
@@ -19,7 +20,7 @@ type FormData = {
   id: number;
 };
 
-export interface ListData {
+export interface ApplicantListData {
   updatedAt: string;
   createdAt: string;
   status: string;
@@ -29,8 +30,57 @@ export interface ListData {
   id: number;
 }
 
-export interface ListContainerProps {
-  listData: ListData[];
+export interface ApplicantListProps {
+  listData: ApplicantListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;
+}
+
+export interface OwnerListData {
+  updatedAt: string;
+  createdAt: string;
+  isPublic: boolean;
+  scrapCount: number;
+  applyCount: number;
+  imageUrls: string[];
+  recruitmentEndDate: string;
+  recruitmentStartDate: string;
+  title: string;
+  id: number;
+}
+
+export interface OwnerListProps {
+  listData: OwnerListData[];
+  isLoading: boolean;
+  isFetchingNextPage: boolean;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
+}
+
+export interface KebabDropdownProps {
+  postId: number;
+  setPostId?: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
+  >;
 }

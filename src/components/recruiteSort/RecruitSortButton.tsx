@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { DropdownBox, DropdownContainer } from './styles';
-import ScrapSortDropdown from './ScrapSortDropdown';
+import RecruitSortDropdown from './RecruitSortDropdown';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
-import { SortDropdownProps } from './type';
+import { RecruitSortDropdownProps } from './type';
 
-export default function ScrapSortButton({
+export default function RecruitSortButton({
   isSort,
   setIsSort,
-}: SortDropdownProps) {
+}: RecruitSortDropdownProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   return (
@@ -40,7 +40,7 @@ export default function ScrapSortButton({
       <DropdownContainer $active={dropdown}>
         {dropdown && (
           <DropdownBox>
-            <ScrapSortDropdown isSort={isSort} setIsSort={setIsSort} />
+            <RecruitSortDropdown isSort={isSort} setIsSort={setIsSort} />
           </DropdownBox>
         )}
       </DropdownContainer>

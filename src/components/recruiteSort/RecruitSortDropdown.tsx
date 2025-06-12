@@ -1,10 +1,10 @@
 import { DropdownButton } from './styles';
-import { SortDropdownProps } from './type';
+import { RecruitSortDropdownProps } from './type';
 
-export default function ScrapSortDropdown({
+export default function RecruitSortDropdown({
   isSort,
   setIsSort,
-}: SortDropdownProps) {
+}: RecruitSortDropdownProps) {
   return (
     <>
       <DropdownButton
