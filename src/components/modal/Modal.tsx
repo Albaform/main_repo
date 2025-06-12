@@ -13,6 +13,7 @@ import { useDeletePost } from '@/hooks/mutation/useDeletePosts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteComments } from '@/hooks/mutation/useDeleteComments';
 import { useCancelScrapForms } from '@/hooks/mutation/useCancelScrapForms';
+import { useDeleteForm } from '@/hooks/mutation/useDeleteForm';
 
 function Modal({
   showModal,
@@ -20,6 +21,7 @@ function Modal({
   mainMessage,
   subMessage,
   $deletePost,
+  $deleteForm,
   $deleteComment,
   $deleteAlbaform,
   $deadLine,
@@ -41,9 +43,14 @@ function Modal({
     useDeleteComments();
   const { mutate: fetchDeleteScrap, isPending: ScrapDeletePending } =
     useCancelScrapForms();
+  const { mutate: fetchDeleteForm, isPending: FormDeletePending } =
+    useDeleteForm();
 
   const isPending =
-    postDeletePending || commentDeletePending || ScrapDeletePending;
+    postDeletePending ||
+    commentDeletePending ||
+    ScrapDeletePending ||
+    FormDeletePending;
 
   const queryClient = useQueryClient();
 
@@ -86,6 +93,20 @@ function Modal({
           onSuccess: () => {
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === 'myScrap',
+            });
+            onSuccess?.();
+          },
+          onSettled: () => {
+            setShowModal(false);
+          },
+        });
+      }
+    } else if ($deleteForm) {
+      if (deletePostId) {
+        fetchDeleteForm(deletePostId, {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === 'forms',
             });
             onSuccess?.();
           },

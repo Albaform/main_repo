@@ -24,7 +24,7 @@ export default function MenuDropdown({
     setShowModal(true);
     setModalType('cancelScrap');
     setMainMessage('선택하신 알바폼의 스크랩을 취소할까요?');
-    setSubMessage('삭제 후 정보를 복구할 수 없어요.');
+    setSubMessage('취소 후 정보를 복구할 수 없어요.');
   };
 
   return (

@@ -40,14 +40,16 @@ export interface ListContainerProps {
     | 'editPassword'
     | 'deletePost'
     | 'deleteComment'
-    | 'cancelScrap';
+    | 'cancelScrap'
+    | 'deleteForms';
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
-      | 'editPassword'
-      | 'deletePost'
-      | 'deleteComment'
-      | 'cancelScrap'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap'
+    | 'deleteForms'
     >
   >;
   onSuccess: () => void;
@@ -155,10 +157,11 @@ export interface KebabDropdownProps {
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
-      | 'editPassword'
-      | 'deletePost'
-      | 'deleteComment'
-      | 'cancelScrap'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap'
+    | 'deleteForms'
     >
   >;
 }
@@ -173,10 +176,11 @@ export interface PostContainerProps {
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
-      | 'editPassword'
-      | 'deletePost'
-      | 'deleteComment'
-      | 'cancelScrap'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap'
+    | 'deleteForms'
     >
   >;
 }
@@ -190,10 +194,11 @@ export interface ScrapContainerProps {
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
-      | 'editPassword'
-      | 'deletePost'
-      | 'deleteComment'
-      | 'cancelScrap'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap'
+    | 'deleteForms'
     >
   >;
 }

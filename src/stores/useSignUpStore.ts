@@ -1,20 +1,28 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import {
   SignUp1Input,
-  SignUp2Input,
-  SignUpInput,
+  OwnerSignUp2Input,
+  ApplicantSignUp2Input,
+  OwnerSignUpInput,
+  ApplicantSignUpInput,
 } from '@/schemas/signupSchema';
 
-type PartialSignUpInput = Partial<SignUpInput>;
+type PartialOwnerInput = Partial<OwnerSignUpInput>;
+type PartialApplicantInput = Partial<ApplicantSignUpInput>;
 
 interface SignUpStore {
-  data: PartialSignUpInput;
-  // 1차 confirmPassword는 저장 X
+  // 유동적으로 owner/applicant 타입 모두 가능하도록 설정
+  data: PartialOwnerInput | PartialApplicantInput;
+
+  // step1: 공통 (owner/applicant 동일)
   setStep1: (step1: Omit<SignUp1Input, 'confirmPassword'>) => void;
-  // 2차 전체저장
-  setStep2: (step2: SignUp2Input) => void;
-  // localstroage 비움
+
+  // step2: owner 또는 applicant
+  setStep2: (step2: OwnerSignUp2Input | ApplicantSignUp2Input) => void;
+
+  // 초기화
   reset: () => void;
 }
 
@@ -26,12 +34,10 @@ export const useSignUpStore = create<SignUpStore>()(
         set((state) => ({
           data: { ...state.data, ...step1 },
         })),
-
       setStep2: (step2) =>
         set((state) => ({
           data: { ...state.data, ...step2 },
         })),
-
       reset: () => set({ data: {} }),
     }),
     {

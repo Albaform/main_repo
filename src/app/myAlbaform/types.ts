@@ -64,6 +64,7 @@ export interface OwnerListProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
 }
@@ -81,6 +82,7 @@ export interface KebabDropdownProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
 }

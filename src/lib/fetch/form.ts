@@ -47,11 +47,7 @@ export const fetchEditForms = async (formId: number) => {
 // 알바폼 삭제
 export const fetchDeleteForms = async (formId: number) => {
   try {
-    const response = await instance.delete(`/forms/${formId}`);
-    if (!response.data) {
-      throw new Error('알바폼 삭제 실패');
-    }
-    return response.data;
+    await instance.delete(`/forms/${formId}`);
   } catch (error) {
     console.error('알바 폼 삭제 중 에러 발생', error);
     throw error;

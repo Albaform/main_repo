@@ -10,6 +10,7 @@ export interface ModalProps {
   mainMessage: string;
   subMessage?: string;
   $deletePost?: boolean;
+  $deleteForm?: boolean;
   $deleteComment?: boolean;
   $deleteAlbaform?: boolean;
   $deadLine?: boolean;

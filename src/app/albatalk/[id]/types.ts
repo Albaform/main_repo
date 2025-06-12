@@ -15,7 +15,8 @@ export interface PostDetailProps {
     | 'editPassword'
     | 'deletePost'
     | 'deleteComment'
-    | 'cancelScrap';
+    | 'cancelScrap'
+    | 'deleteForms';
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
@@ -23,6 +24,7 @@ export interface PostDetailProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
   isLoading: boolean;
@@ -48,7 +50,8 @@ export interface CommentsProps {
     | 'editPassword'
     | 'deletePost'
     | 'deleteComment'
-    | 'cancelScrap';
+    | 'cancelScrap'
+    | 'deleteForms';
   setModalType: Dispatch<
     SetStateAction<
       | 'editUser'
@@ -56,6 +59,7 @@ export interface CommentsProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
   isLoading: boolean;
@@ -105,6 +109,7 @@ export interface KebabDropdownProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
   handleEdit?: () => void;
@@ -143,6 +148,7 @@ export interface CommentListProps {
       | 'deletePost'
       | 'deleteComment'
       | 'cancelScrap'
+      | 'deleteForms'
     >
   >;
 }

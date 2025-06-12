@@ -7,7 +7,12 @@ export function useModalController() {
   const [mainMessage, setMainMessage] = useState('');
   const [subMessage, setSubMessage] = useState('');
   const [modalType, setModalType] = useState<
-    'editUser' | 'editPassword' | 'deletePost' | 'deleteComment' | 'cancelScrap'
+    | 'editUser'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap'
+    | 'deleteForms'
   >('editUser');
 
   return {
