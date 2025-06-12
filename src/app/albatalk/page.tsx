@@ -4,7 +4,7 @@ import FilterContainer from './components/FilterContainer';
 import { useState } from 'react';
 import { FilterResponsive, ListResponsive } from './styles';
 import ContentsList from './components/ContentsList';
-import FloatingButton from './components/FloatingButton';
+import FloatingButton from '../../components/floatingbutton/FloatingButton';
 import { getItemsPerPage } from './utils/getItemsPerPage';
 import { useGetPosts } from '@/hooks/query/useGetPosts';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';

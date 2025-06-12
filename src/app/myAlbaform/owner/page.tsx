@@ -13,6 +13,7 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useModalController } from '@/hooks/common/useModalController';
 import Modal from '@/components/modal/Modal';
 import Toast from '@/components/tooltip/Toast';
+import FloatingButton from '@/components/floatingbutton/FloatingButton';
 
 export default function myAlbaform() {
   const [postId, setPostId] = useState<number>();
@@ -103,6 +104,7 @@ export default function myAlbaform() {
           </Toast>
         )}
       </div>
+      <FloatingButton $myAlbaform/>
     </>
   );
 }
