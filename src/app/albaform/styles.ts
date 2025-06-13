@@ -6,6 +6,7 @@ type SortResponsiveProps = {
   $type2?: boolean;
   $type3?: boolean;
   $type4?: boolean;
+  $list?: boolean;
 };
 
 export const FilterResponsive = styled.div`
@@ -37,8 +38,12 @@ export const FilterResponsive = styled.div`
 export const SortResponsive = styled.div<SortResponsiveProps>`
   position: relative;
   padding: 24px 120px;
-  background: ${({ $type2, $type3, $type4 }) =>
-    $type2 ? '' : $type3 || $type4 ? 'var(--background100)' : 'var(--white)'};
+  background: ${({ $type2, $type3, $type4, $list }) =>
+    $type2
+      ? ''
+      : $type3 || $type4 || $list
+      ? 'var(--background100)'
+      : 'var(--white)'};
 
   ${({ $type4 }) =>
     $type4 &&
@@ -47,7 +52,12 @@ export const SortResponsive = styled.div<SortResponsiveProps>`
     `}
 
   @media ${media.desktop} {
-    padding: ${({ $type3 }) => ($type3 ? '24px 0 0 0' : '24px 0')};
+    padding: ${({ $type3, $list }) =>
+      $type3
+        ? '24px 0 0 0'
+        : $list
+        ? '24px 0 calc(env(safe-area-inset-bottom) + 62px) 0'
+        : '24px 0'};
     max-width: 1480px;
     margin: 0 auto;
   }

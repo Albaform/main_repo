@@ -56,7 +56,7 @@ export default function ClientAlbaform({
               <RecruitSortButton isSort={postSort} setIsSort={setPostSort} />
             </div>
           </SortResponsive>
-          <SortResponsive $type3>
+          <SortResponsive $list>
             <ContentsList listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
           </SortResponsive>
           {hasNextPage && <div ref={observerRef} style={{ height: 1 }} />}
