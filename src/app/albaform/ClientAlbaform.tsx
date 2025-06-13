@@ -24,12 +24,8 @@ export default function ClientAlbaform({
   );
   const [keyword, setKeyword] = useState(initialParams.keyword);
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useAlbaForms(
-    initialParams.itemsPerPage,
-    postSort,
-    recruitingSort,
-    keyword,
-  );
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useAlbaForms(initialParams.itemsPerPage, postSort, recruitingSort, keyword);
 
   const listData = data?.pages.flatMap((page) => page.result) ?? [];
 
@@ -38,14 +34,14 @@ export default function ClientAlbaform({
   return (
     <>
       <div className='h-[100%] bg-background-100'>
-        <div className='border-solid border-b-[1px] border-line-100'>
+        <div className='border-solid border-b-[1px] border-line-100 bg-white'>
           <FilterResponsive>
             <SearchContainer setKeyword={setKeyword} />
           </FilterResponsive>
         </div>
         <div></div>
         <div className=' border-solid border-b-[1px] border-line-100'>
-          <SortResponsive $type3 $type4>
+          <SortResponsive $type3>
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
                 <RecruitingSortButton
@@ -56,11 +52,15 @@ export default function ClientAlbaform({
               <RecruitSortButton isSort={postSort} setIsSort={setPostSort} />
             </div>
           </SortResponsive>
-          <SortResponsive $list>
-            <ContentsList listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
-          </SortResponsive>
-          {hasNextPage && <div ref={observerRef} style={{ height: 1 }} />}
         </div>
+        <SortResponsive $list>
+          <ContentsList
+            listData={listData}
+            isLoading={isLoading}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        </SortResponsive>
+        {hasNextPage && <div ref={observerRef} style={{ height: 1 }} />}
       </div>
       <FloatingButton $myAlbaform />
     </>
