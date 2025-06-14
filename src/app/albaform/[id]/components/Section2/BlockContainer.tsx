@@ -1,6 +1,12 @@
 import Image from 'next/image';
 
-export default function BlockContainer() {
+export default function BlockContainer({
+  role,
+  isLoading,
+}: {
+  role: 'OWNER' | 'APPLICANT';
+  isLoading: boolean;
+}) {
   return (
     <>
       <p className='text-3xl font-semibold mb-10'>모집 조건</p>
@@ -47,34 +53,54 @@ export default function BlockContainer() {
           <p className='text-black400 ml-1'>010-1234-5678</p>
         </div>
       </div>
-      <div className='mt-[46px]'>
-        <button
-          type='button'
-          className='flex items-center w-full h-[68px] bg-orange-400 rounded-[8px] justify-center text-white font-semibold'
+      {!isLoading && (
+        <div
+          className={`mt-[46px] left-[0] right-[0] bottom-[0] rounded-t-lg border-t border-solid border-line-200 max-lg:fixed max-lg:bg-white max-lg:pt-[20px] max-lg:px-6 max-lg:pb-[calc(30px+theme(spacing.safe-bottom))] z-[10] ${
+            role === 'OWNER' && 'max-lg:flex max-lg:flex-row-reverse'
+          }`}
         >
-          <Image
-            src='/images/albaformDetail/buttonWriting.svg'
-            alt='지원하기'
-            width={24}
-            height={24}
-            className='mr-1'
-          />
-          지원하기
-        </button>
-        <button
-          type='button'
-          className='flex items-center w-full h-[68px] border border-solid border-orange-400 rounded-[8px] mt-4 justify-center text-orange-400 font-semibold'
-        >
-          <Image
-            src='/images/albaformDetail/buttonApplyList.svg'
-            alt='내역보기'
-            width={24}
-            height={24}
-            className='mr-1'
-          />
-          내 지원 내역 보기
-        </button>
-      </div>
+          <button
+            type='button'
+            className='flex items-center w-full h-[68px] bg-orange-400 rounded-[8px] justify-center text-white font-semibold'
+          >
+            <Image
+              src={
+                role === 'OWNER'
+                  ? '/images/albaformDetail/buttonEdit.svg'
+                  : '/images/albaformDetail/buttonWriting.svg'
+              }
+              alt='지원하기'
+              width={24}
+              height={24}
+              className='mr-1'
+            />
+            {role === 'OWNER' ? '수정하기' : '지원하기'}
+          </button>
+          <button
+            type='button'
+            className={`flex items-center w-full h-[68px] border border-solid font-semibold rounded-[8px] mt-4 justify-center ${
+              role === 'OWNER'
+                ? 'border-[0] bg-line-200 text-gray-400 max-lg:mt-[0] max-lg:mr-2 max-lg:max-w-[70px]'
+                : 'border-orange-400 text-orange-400'
+            }`}
+          >
+            <Image
+              src={
+                role === 'OWNER'
+                  ? '/images/albaformDetail/buttonTrash.svg'
+                  : '/images/albaformDetail/buttonApplyList.svg'
+              }
+              alt='내역보기'
+              width={24}
+              height={24}
+              className='mr-1'
+            />
+            <p className={`${role === 'OWNER' && 'max-lg:hidden'}`}>
+              {role === 'OWNER' ? '삭제하기' : '내 지원 내역 보기'}
+            </p>
+          </button>
+        </div>
+      )}
     </>
   );
 }

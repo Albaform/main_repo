@@ -2,6 +2,10 @@
 import { media } from '@/styles/media';
 import styled from 'styled-components';
 
+type DetailResponsiveProps = {
+  $owner?: boolean;
+};
+
 export const CarouselPagination = styled.div`
   position: absolute;
   bottom: 20px;
@@ -61,7 +65,7 @@ export const CarouselReponsive = styled.div`
   }
 `;
 
-export const DetailResponsive = styled.div`
+export const DetailResponsive = styled.div<DetailResponsiveProps>`
   position: relative;
   padding: 40px 120px calc(env(safe-area-inset-bottom) + 62px);
 
@@ -71,12 +75,49 @@ export const DetailResponsive = styled.div`
     margin: 0 auto;
   }
 
+  @media ${media.tabletPC} {
+    padding: ${({ $owner }) =>
+      $owner
+        ? '40px 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '40px 24px calc(env(safe-area-inset-bottom) + 262px)'};
+  }
+
   @media ${media.tablet} {
-    padding: 16px 24px calc(env(safe-area-inset-bottom) + 62px);
+    padding: ${({ $owner }) =>
+      $owner
+        ? '16px 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '16px 24px calc(env(safe-area-inset-bottom) + 262px)'};
     margin: 0;
   }
 
   @media ${media.mobile} {
-    padding: 0 24px calc(env(safe-area-inset-bottom) + 62px);
+    padding: ${({ $owner }) =>
+      $owner
+        ? '0 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '0 24px calc(env(safe-area-inset-bottom) + 262px)'};
+  }
+`;
+
+export const InfiniteScrollResponsive = styled.div`
+  position: relative;
+  padding: 80px 120px calc(env(safe-area-inset-bottom) + 162px);
+
+  @media ${media.desktop} {
+    padding: 40px 0 calc(env(safe-area-inset-bottom) + 162px);
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tabletPC} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
+  }
+
+  @media ${media.tablet} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
   }
 `;
