@@ -89,7 +89,11 @@ export default function DetailContainer({
             <DynamicImage src={post?.imageUrl} />
           </div>
           <p className='mt-[30px] mb-[100px] whitespace-pre-wrap text-gray-400 font-light'>
-            {post?.content}
+            {post?.content.split(/\n{2,}/).map((para, i) => (
+              <p key={i} className='whitespace-pre-wrap'>
+                {para}
+              </p>
+            ))}
           </p>
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
             <button

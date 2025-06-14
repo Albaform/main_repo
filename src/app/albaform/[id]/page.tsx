@@ -1,12 +1,16 @@
 'use client';
 
 import BannerImagesCarousel from './components/BannerImagesCarousel';
-import JobDescription from './components/JobDescription';
-import JobLocation from './components/JobLocation';
-import Title from './components/Title';
+import Section2 from './components/Section2/Section2';
+import Section1 from './components/Section1/Section1';
 import { CarouselReponsive, DetailResponsive } from './styles';
+import { useState } from 'react';
+import Toast from '@/components/tooltip/Toast';
+import FloatingButton from '@/components/floatingbutton/FloatingButton';
 
 export default function detailPage() {
+  const [copied, setCopied] = useState(false);
+
   return (
     <>
       <CarouselReponsive>
@@ -15,10 +19,15 @@ export default function detailPage() {
         </div>
       </CarouselReponsive>
       <DetailResponsive>
-        <Title />
-        <JobDescription />
-        <JobLocation />
+        <Section1 />
+        <Section2 setCopied={setCopied} />
       </DetailResponsive>
+      {copied && (
+        <Toast onClose={() => setCopied(false)}>
+          {copied ? '복사 완료 !' : ''}
+        </Toast>
+      )}
+      <FloatingButton $albaformDetail/>
     </>
   );
 }

@@ -8,6 +8,9 @@ module.exports = {
         'safe-top': 'env(safe-area-inset-top)',
         'safe-bottom': 'env(safe-area-inset-bottom)',
       },
+      boxShadow: {
+        gray: '0 1px 4px 2px rgba(152,152,152,0.08)',
+      },
       screens: {
         s: '320px',
         xs: '480px',
