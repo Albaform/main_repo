@@ -1,33 +1,49 @@
 import Image from 'next/image';
+import { DetailFormDataProps } from '../../types';
+import getRecruitStatus from '@/utils/getRecruitStatus';
+import { formattedDate } from '@/utils/formattedDate';
 
-export default function TextContainer() {
+export default function TextContainer({ form }: { form: DetailFormDataProps }) {
+  const recruitmentStatus = getRecruitStatus(
+    form?.recruitmentStartDate,
+    form?.recruitmentEndDate,
+  );
   return (
     <div className='flex flex-col flex-[1]'>
       <div className='flex items-center mb-12 max-md:mb-6'>
-        <div className='h-[38px] leading-[38px] rounded-[4px] mr-2 px-3 bg-orange-100 text-orange-400 max-md:text-[14px]'>
-          공개
+        <div
+          className={`h-[38px] leading-[38px] rounded-[4px] mr-2 px-3 max-md:text-[14px] ${
+            form?.isPublic
+              ? 'bg-orange-100 text-orange-400'
+              : 'bg-gray-200 text-gray-400'
+          }`}
+        >
+          {form?.isPublic ? '공개' : '비공개'}
         </div>
-        <div className='h-[38px] leading-[38px] rounded-[4px] mr-4 px-3 bg-orange-100 text-orange-400 max-md:text-[14px]'>
-          모집중
+        <div
+          className={`h-[38px] leading-[38px] rounded-[4px] mr-4 px-3 max-md:text-[14px] ${
+            recruitmentStatus === '모집 중'
+              ? 'bg-orange-100 text-orange-400'
+              : 'bg-gray-200 text-gray-400'
+          }`}
+        >
+          {recruitmentStatus}
         </div>
         <div className='text-gray-500 font-light text-[18px] max-md:text-[16px]'>
-          2024. 05. 04 12:30:54 등록
+          {formattedDate(form?.createdAt)}
         </div>
       </div>
       <div>
         <div className='flex items-center mb-4'>
           <p className='text-black-400 underline font-semibold mr-4 text-[24px] max-md:text-[18px]'>
-            코드잇
+            {form?.storeName}
           </p>
           <p className='text-gray-400 text-[20px] max-md:text-[16px]'>
-            서울 종로구 ・ 경력 무관
+            {form?.location} ・ {form?.preferred}
           </p>
         </div>
         <p className='text-[32px] line-clamp-2 font-semibold mb-10 max-md:text-[20px]'>
-          코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울 종로구 용산구
-          서대문코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울 종로구 용산구
-          서대문코드잇 스터디카페 관리 (주말 오전) 모집합니다 서울 종로구 용산구
-          서대문
+          {form?.title}
         </p>
         <div className='border-b border-t border-solid border-line-100 px-4 py-8'>
           <div className='flex items-center'>
@@ -40,7 +56,7 @@ export default function TextContainer() {
             <p className='min-w-[100px] ml-2 text-[18px] font-semibold text-black400 max-md:text-[14px]'>
               스크랩
             </p>
-            <p className='max-md:text-[14px]'>8회</p>
+            <p className='max-md:text-[14px]'>{form?.scrapCount}회</p>
           </div>
           <div className='flex items-center'>
             <Image
@@ -53,7 +69,7 @@ export default function TextContainer() {
               지원현황
             </p>
             <p className='max-md:text-[14px]'>
-              현재까지 5명이 알바폼에 지원했어요!
+              현재까지 {form?.applyCount}명이 알바폼에 지원했어요!
             </p>
           </div>
         </div>

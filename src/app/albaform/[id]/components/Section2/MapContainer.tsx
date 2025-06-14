@@ -3,8 +3,10 @@ import { Dispatch, SetStateAction, useRef } from 'react';
 
 export default function MapContainer({
   setCopied,
+  location,
 }: {
   setCopied: Dispatch<SetStateAction<boolean>>;
+  location: string;
 }) {
   const addressRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +23,7 @@ export default function MapContainer({
     <>
       <p className='text-3xl font-semibold'>근무 지역</p>
       <div className='text-[20px] mt-[24px] mb-[48px] flex items-center'>
-        <p ref={addressRef}>서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층</p>
+        <p ref={addressRef}>{location}</p>
         <button
           type='button'
           onClick={handleCopy}
@@ -31,7 +33,7 @@ export default function MapContainer({
         </button>
       </div>
       <div className='w-full'>
-        <StoreMap address='서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층' />
+        <StoreMap address={location} />
       </div>
     </>
   );

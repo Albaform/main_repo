@@ -26,9 +26,10 @@ export const fetchAlbaForms = async (params: {
   const { postSort, recruitingSort, keyword, itemsPerPage, cursor } = params;
 
   try {
-    const requestUrl = cursor === 1
-      ? `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}`
-      : `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}&cursor=${cursor}`;
+    const requestUrl =
+      cursor === 1
+        ? `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}`
+        : `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}&cursor=${cursor}`;
 
     const res = await instance.get(requestUrl);
     if (!res.data) {

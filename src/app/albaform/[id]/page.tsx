@@ -9,30 +9,43 @@ import Toast from '@/components/tooltip/Toast';
 import FloatingButton from '@/components/floatingbutton/FloatingButton';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import Section3 from './components/section3/Section3';
+import { useParams } from 'next/navigation';
+import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 
-export default function detailPage() {
+export default function DetailPage() {
+  const params = useParams();
+  const paramsId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
+  const formId = Number(paramsId);
+
   const [copied, setCopied] = useState(false);
 
-  const { data: userData, isLoading: getUserLoading } = useGetMyInfo();
-  const { role } = userData ?? {};
+  const { data: form } = useGetFormsById(formId);
+  const { data: user, isLoading: getUserLoading } = useGetMyInfo();
+
+  const { imageUrls } = form ?? {};
+  const { role, id: userId } = user ?? {};
+
+  const myPost = userId === form?.ownerId;
 
   return (
     <>
       <CarouselReponsive>
         <div className='pt-[78px] max-lg:pt-[0]'>
-          <BannerImagesCarousel />
+          <BannerImagesCarousel imageUrls={imageUrls} />
         </div>
       </CarouselReponsive>
       <DetailResponsive $owner={role === 'OWNER'}>
-        <Section1 />
+        <Section1 form={form} />
         <Section2
+          form={form}
           setCopied={setCopied}
           role={role}
           isLoading={getUserLoading}
+          myPost={myPost}
         />
       </DetailResponsive>
       {/* + 유저아이디와 알바폼생성유저가 일치할 때만 보여야함 */}
-      {!getUserLoading && role === 'OWNER' && <Section3 />}
+      {!getUserLoading && role === 'OWNER' && myPost && <Section3 />}
       {copied && (
         <Toast onClose={() => setCopied(false)}>
           {copied ? '복사 완료 !' : ''}
