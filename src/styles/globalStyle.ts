@@ -1,6 +1,7 @@
 'use client';
 
-import { createGlobalStyle } from 'styled-components';
+import Slider from 'react-slick';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -251,6 +252,22 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     color: var(--black);
     font-family: 'Pretendard', sans-serif;
+  }
+`;
+
+export const CustomSlider = styled(Slider)`
+  .slick-dots {
+    bottom: 20px;
+  }
+
+  .slick-dots li button:before {
+    font-size: 12px;
+    color: lightgray;
+    opacity: 1;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: var(--primary-orange300);
   }
 `;
 

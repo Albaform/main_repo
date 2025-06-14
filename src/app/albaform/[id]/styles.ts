@@ -1,73 +1,18 @@
 'use client';
-import { media } from "@/styles/media";
-import styled from "styled-components";
-
-//배너이미지
-export const BannerImages = styled.div`
-     margin: 78px auto 80px auto;
-    width: 1560px;
-    height: 562px;
-    border-radius: 8px;
-   
-    display: flex;
-    justify-content: center;
-  
-    
-
-
-     @media ${media.tablet} {
-    margin-bottom: 32px;
-    max-width: 1480px;
-    margin: 0 auto;
-    width: 744px;
-    height: 260px;
-    display: flex;
-    justify-content: center;
-  }
-
-     @media ${media.mobile} {
-    margin-bottom: 32px;
-    max-width: 1480px;
-    margin: 0 auto;
-    width: 375px;
-    height: 260px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
-
-`
-
-export const BannerImg = styled.img`
-    width: 1560px;
-    height: 562px;
-    margin-top: 78px;
-    object-fit: cover;
-    @media ${media.tablet} {
-        width: 744px;
-        height: 260px;
-      
-  }
-
-     @media ${media.mobile} {
-        width: 375px;
-        height: 260px;
-
-  }
-`
+import { media } from '@/styles/media';
+import styled from 'styled-components';
 
 export const CarouselPagination = styled.div`
   position: absolute;
-  bottom: 16px;
-  right: 200px;
-  background-color: rgba(0, 0, 0, 0.2); 
+  bottom: 20px;
+  right: 14px;
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--gray100);
   padding: 8px 15px;
   border-radius: 100px;
   font-size: 14px;
 
-
-   span {
+  span {
     font-weight: 600;
     color: white;
   }
@@ -75,21 +20,21 @@ export const CarouselPagination = styled.div`
 
 //Title Component
 export const Tag = styled.div`
-    background-color: #FFF7EB;
-    color: var(--primary-orange300);
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    margin-right: 8px;
-    padding: 6px 12px;
-    border-radius: 4px;
-`
+  background-color: #fff7eb;
+  color: var(--primary-orange300);
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+`;
 
 export const Dates = styled.div`
-    color: var(--black100);
-    margin: 6px 8px;
-    font-size: 16px;
-`
+  color: var(--black100);
+  margin: 6px 8px;
+  font-size: 16px;
+`;
 
 export const TextArea = styled.div`
   width: 100%;
@@ -99,4 +44,49 @@ export const TextArea = styled.div`
   font-size: 24px;
   color: var(--black400);
   margin-bottom: 129px;
-  `
+`;
+
+export const CarouselReponsive = styled.div`
+  position: relative;
+  padding: 88px 120px 0;
+
+  @media ${media.desktop} {
+    padding: 88px 0 0;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tabletPC} {
+    padding: 88px 0 0;
+    width: 100%;
+  }
+
+  @media ${media.tablet} {
+    padding: 60px 0 0;
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: 54px 0 0;
+  }
+`;
+
+export const DetailResponsive = styled.div`
+  position: relative;
+  padding: 40px 120px calc(env(safe-area-inset-bottom) + 62px);
+
+  @media ${media.desktop} {
+    padding: 40px 0 calc(env(safe-area-inset-bottom) + 62px);
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tablet} {
+    padding: 16px 24px calc(env(safe-area-inset-bottom) + 62px);
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: 0 24px calc(env(safe-area-inset-bottom) + 62px);
+  }
+`;

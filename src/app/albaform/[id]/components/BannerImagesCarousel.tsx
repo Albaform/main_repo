@@ -1,21 +1,19 @@
 'use client';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
-import { BannerImages, BannerImg, CarouselPagination } from '../styles';
+import { CarouselPagination } from '../styles';
 import { useState } from 'react';
+import Image from 'next/image';
+import { CustomSlider } from '@/styles/globalStyle';
 
-interface Props {
-  images: string[];
-}
-
-export default function BannerImagesCarousel({ images }: Props) {
+export default function BannerImagesCarousel() {
   const [currentIndex, setCurrentIndex] = useState(1);
 
-  // fallback 이미지 설정
-  const fallbackImages = ['/images/albaformList/image7.png', '/images/landingImg/landing1.svg', '/images/landingImg/landing2.svg']; // ✅ 공백 제거 주의!
-
-  const displayImages = images.length > 0 ? images : fallbackImages;
+  const fallbackImages = [
+    '/images/testDetail.png',
+    '/images/testDetail.png',
+    '/images/testDetail.png',
+  ];
 
   const settings = {
     dots: true,
@@ -24,28 +22,31 @@ export default function BannerImagesCarousel({ images }: Props) {
     slidesToShow: 1,
     slidesToScroll: 1,
     afterChange: (index: number) => setCurrentIndex(index + 1),
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
-    <div className='relative mb-[80px]'>
-      <Slider {...settings}>
-        {displayImages.map((url, idx) => (
-          <div key={idx}>
-            <BannerImages>
-              <BannerImg
-                src={url}
-                alt={`banner-${idx}`}
-              />
-              
-            </BannerImages>
-            
+    <div className='relative'>
+      <CustomSlider {...settings}>
+        {fallbackImages.map((url, idx) => (
+          <div
+            key={idx}
+            className='relative block border border-solid border-line-100 rounded-[8px] overflow-hidden max-lg:rounded-[0] h-[calc(100vw_*_(562/1902))] max-lg:h-[calc(100vw_*_(260/744))] max-md:h-[calc(100vw_*_(260/375))]'
+          >
+            <Image
+              src={url}
+              alt={`banner-${idx}`}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
           </div>
         ))}
-      </Slider>
+      </CustomSlider>
       <CarouselPagination>
-        <span>{currentIndex}</span> / {displayImages.length}
+        <span>{currentIndex}</span> / {fallbackImages.length}
       </CarouselPagination>
-      
     </div>
   );
 }
