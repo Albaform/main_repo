@@ -109,15 +109,15 @@ export const InfiniteScrollResponsive = styled.div`
   }
 
   @media ${media.tabletPC} {
-    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
   }
 
   @media ${media.tablet} {
-    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
     margin: 0;
   }
 
   @media ${media.mobile} {
-    padding: 40px 24px calc(env(safe-area-inset-bottom) + 262px);
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
   }
 `;

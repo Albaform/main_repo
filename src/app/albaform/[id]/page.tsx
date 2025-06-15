@@ -13,6 +13,7 @@ import { useParams } from 'next/navigation';
 import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 import { useModalController } from '@/hooks/common/useModalController';
 import Modal from '@/components/modal/Modal';
+import Loader from '@/components/loader/Loader';
 
 export default function DetailPage() {
   const params = useParams();
@@ -21,7 +22,7 @@ export default function DetailPage() {
 
   const [copied, setCopied] = useState(false);
 
-  const { data: form } = useGetFormsById(formId);
+  const { data: form, isLoading: getFormLoading } = useGetFormsById(formId);
   const { data: user, isLoading: getUserLoading } = useGetMyInfo();
 
   const { imageUrls } = form ?? {};
@@ -52,6 +53,7 @@ export default function DetailPage() {
           deletePostId={formId}
         />
       )}
+      {getFormLoading && <Loader />}
       <CarouselReponsive>
         <div className='pt-[78px] max-lg:pt-[0]'>
           <BannerImagesCarousel imageUrls={imageUrls} />
@@ -71,7 +73,9 @@ export default function DetailPage() {
           setModalType={setModalType}
         />
       </DetailResponsive>
-      {!getUserLoading && role === 'OWNER' && myPost && <Section3 />}
+      {!getUserLoading && role === 'OWNER' && myPost && (
+        <Section3 formId={formId} />
+      )}
       {copied && (
         <Toast onClose={() => setCopied(false)}>
           {copied ? '복사 완료 !' : ''}
