@@ -3,6 +3,7 @@ import { DetailFormDataProps } from '../../types';
 import getDday from '@/utils/getDday';
 import { formattedDate } from '@/utils/formattedDate';
 import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function BlockContainer({
   form,
@@ -32,6 +33,8 @@ export default function BlockContainer({
     >
   >;
 }) {
+  const router = useRouter();
+
   const handleDeleteOpenModal = () => {
     setShowModal(true);
     setModalType('deleteForms');
@@ -118,7 +121,11 @@ export default function BlockContainer({
                 ? 'border-[0] bg-line-200 text-gray-400 max-lg:mt-[0] max-lg:mr-2 max-lg:max-w-[70px]'
                 : 'border-orange-400 text-orange-400'
             }`}
-            onClick={() => (myPost ? handleDeleteOpenModal() : '')}
+            onClick={() =>
+              myPost
+                ? handleDeleteOpenModal()
+                : router.push('/myAlbaform/applicant')
+            }
           >
             <Image
               src={
