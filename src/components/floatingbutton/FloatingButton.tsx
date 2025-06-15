@@ -8,6 +8,7 @@ export default function FloatingButton({
   isScrapped,
   handleToggleScrap,
   postScrapPending,
+  handleShare,
 }: {
   $myAlbaform?: boolean;
   $albaformDetail?: boolean;
@@ -15,10 +16,12 @@ export default function FloatingButton({
   isScrapped?: boolean;
   handleToggleScrap?: () => void;
   postScrapPending?: boolean;
+  handleShare: () => void;
 }) {
   const router = useRouter();
 
   if (role === 'OWNER') return;
+
   return (
     <>
       {role === 'APPLICANT' && $albaformDetail ? (
@@ -40,7 +43,10 @@ export default function FloatingButton({
               className='relative'
             />
           </button>
-          <button className='block rounded-[50%] bg-primary-orange300 w-[64px] h-[64px] content-center justify-items-center'>
+          <button
+            className='block rounded-[50%] bg-primary-orange300 w-[64px] h-[64px] content-center justify-items-center'
+            onClick={handleShare}
+          >
             <Image
               src='/images/floatingbutton/iconShare.svg'
               alt='공유하기'

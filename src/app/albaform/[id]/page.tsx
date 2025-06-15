@@ -9,15 +9,17 @@ import Toast from '@/components/tooltip/Toast';
 import FloatingButton from '@/components/floatingbutton/FloatingButton';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import Section3 from './components/section3/Section3';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 import { useModalController } from '@/hooks/common/useModalController';
 import Modal from '@/components/modal/Modal';
 import Loader from '@/components/loader/Loader';
 import { useScrapForms } from '@/hooks/mutation/useScrapForms';
+import KakaoShareButton from '@/components/common/KakaoShareButton';
 
 export default function DetailPage() {
   const params = useParams();
+  const path = usePathname();
   const paramsId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
   const formId = Number(paramsId);
 
@@ -32,6 +34,13 @@ export default function DetailPage() {
   const { role, id: userId } = user ?? {};
 
   const myPost = userId === form?.ownerId;
+
+  const { handleShare } = KakaoShareButton({
+    url: path,
+    title: form?.title,
+    description: form?.description,
+    imageUrl: form?.imageUrls[0],
+  });
 
   const {
     showModal,
@@ -101,7 +110,9 @@ export default function DetailPage() {
       )}
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>
-          {isScrapped ? '스크랩이 완료되었습니다 !' : '스크랩이 취소되었습니다 !'}
+          {isScrapped
+            ? '스크랩이 완료되었습니다 !'
+            : '스크랩이 취소되었습니다 !'}
         </Toast>
       )}
       <FloatingButton
@@ -110,6 +121,7 @@ export default function DetailPage() {
         isScrapped={isScrapped}
         handleToggleScrap={handleToggleScrap}
         postScrapPending={postScrapPending}
+        handleShare={handleShare}
       />
     </>
   );
