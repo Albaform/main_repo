@@ -16,7 +16,7 @@ export default function FloatingButton({
   isScrapped?: boolean;
   handleToggleScrap?: () => void;
   postScrapPending?: boolean;
-  handleShare: () => void;
+  handleShare?: () => void;
 }) {
   const router = useRouter();
 
