@@ -11,6 +11,8 @@ import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import Section3 from './components/section3/Section3';
 import { useParams } from 'next/navigation';
 import { useGetFormsById } from '@/hooks/query/useGetFormsById';
+import { useModalController } from '@/hooks/common/useModalController';
+import Modal from '@/components/modal/Modal';
 
 export default function DetailPage() {
   const params = useParams();
@@ -27,8 +29,29 @@ export default function DetailPage() {
 
   const myPost = userId === form?.ownerId;
 
+  const {
+    showModal,
+    setShowModal,
+    mainMessage,
+    setMainMessage,
+    subMessage,
+    setSubMessage,
+    modalType,
+    setModalType,
+  } = useModalController();
+
   return (
     <>
+      {showModal && modalType === 'deleteForms' && (
+        <Modal
+          $deleteForm
+          showModal={showModal}
+          setShowModal={setShowModal}
+          mainMessage={mainMessage}
+          subMessage={subMessage}
+          deletePostId={formId}
+        />
+      )}
       <CarouselReponsive>
         <div className='pt-[78px] max-lg:pt-[0]'>
           <BannerImagesCarousel imageUrls={imageUrls} />
@@ -42,9 +65,12 @@ export default function DetailPage() {
           role={role}
           isLoading={getUserLoading}
           myPost={myPost}
+          setShowModal={setShowModal}
+          setMainMessage={setMainMessage}
+          setSubMessage={setSubMessage}
+          setModalType={setModalType}
         />
       </DetailResponsive>
-      {/* + 유저아이디와 알바폼생성유저가 일치할 때만 보여야함 */}
       {!getUserLoading && role === 'OWNER' && myPost && <Section3 />}
       {copied && (
         <Toast onClose={() => setCopied(false)}>

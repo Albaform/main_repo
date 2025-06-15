@@ -39,7 +39,7 @@ export default function TextContainer({ form }: { form: DetailFormDataProps }) {
             {form?.storeName}
           </p>
           <p className='text-gray-400 text-[20px] max-md:text-[16px]'>
-            {form?.location} ・ {form?.preferred}
+            {form?.location.slice(0, 2)} ・ {form?.preferred}
           </p>
         </div>
         <p className='text-[32px] line-clamp-2 font-semibold mb-10 max-md:text-[20px]'>

@@ -2,18 +2,43 @@ import Image from 'next/image';
 import { DetailFormDataProps } from '../../types';
 import getDday from '@/utils/getDday';
 import { formattedDate } from '@/utils/formattedDate';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function BlockContainer({
   form,
   role,
   isLoading,
   myPost,
+  setShowModal,
+  setMainMessage,
+  setSubMessage,
+  setModalType,
 }: {
   form: DetailFormDataProps;
   role: 'OWNER' | 'APPLICANT';
   isLoading: boolean;
   myPost: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+      | 'deleteForms'
+    >
+  >;
 }) {
+  const handleDeleteOpenModal = () => {
+    setShowModal(true);
+    setModalType('deleteForms');
+    setMainMessage('선택하신 알바폼을 삭제할까요?');
+    setSubMessage('삭제 후 정보를 복구할 수 없어요.');
+  };
+
   return (
     <>
       <p className='text-3xl font-semibold mb-10'>모집 조건</p>
@@ -93,6 +118,7 @@ export default function BlockContainer({
                 ? 'border-[0] bg-line-200 text-gray-400 max-lg:mt-[0] max-lg:mr-2 max-lg:max-w-[70px]'
                 : 'border-orange-400 text-orange-400'
             }`}
+            onClick={() => (myPost ? handleDeleteOpenModal() : '')}
           >
             <Image
               src={

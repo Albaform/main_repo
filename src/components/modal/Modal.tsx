@@ -36,6 +36,7 @@ function Modal({
   const pathname = usePathname();
 
   const isAlbatalkDetail = /^\/albatalk\/[^/]+$/.test(pathname);
+  const isAlbaformDetail = /^\/albaform\/[^/]+$/.test(pathname);
 
   const { mutate: fetchDeletePost, isPending: postDeletePending } =
     useDeletePost();
@@ -108,6 +109,9 @@ function Modal({
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === 'forms',
             });
+            if (isAlbaformDetail) {
+              router.push('/albaform');
+            }
             onSuccess?.();
           },
           onSettled: () => {
