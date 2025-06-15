@@ -5,10 +5,16 @@ export default function FloatingButton({
   $myAlbaform,
   $albaformDetail,
   role,
+  isScrapped,
+  handleToggleScrap,
+  postScrapPending,
 }: {
   $myAlbaform?: boolean;
   $albaformDetail?: boolean;
   role?: 'OWNER' | 'APPLICANT';
+  isScrapped?: boolean;
+  handleToggleScrap?: () => void;
+  postScrapPending?: boolean;
 }) {
   const router = useRouter();
 
@@ -17,24 +23,32 @@ export default function FloatingButton({
     <>
       {role === 'APPLICANT' && $albaformDetail ? (
         <div className='fixed bottom-[calc(100px+theme(spacing.safe-bottom))] right-[120px] min-xlg:right-[calc((100vw-1480px)/2)] max-lg:right-[24px] cursor-pointer z-[10] max-lg:bottom-[calc(260px+theme(spacing.safe-bottom))]'>
-          <div className='rounded-[50%] bg-white w-[64px] h-[64px] content-center justify-items-center mb-4 shadow-grayTop shadow-gray'>
+          <button
+            className={`block rounded-[50%] w-[64px] h-[64px] content-center justify-items-center mb-4 shadow-grayTop shadow-gray disabled:cursor-not-allowed ${
+              isScrapped ? 'bg-orange-100' : 'bg-white'
+            }`}
+            disabled={postScrapPending}
+            onClick={handleToggleScrap}
+          >
             <Image
-              src='/images/floatingbutton/iconScrap.svg'
-              alt='작성하기'
+              src={`/images/floatingbutton/${
+                isScrapped ? 'iconScrapActive.svg' : 'iconScrap.svg'
+              }`}
+              alt='스크랩'
               width={16}
               height={20}
               className='relative'
             />
-          </div>
-          <div className='rounded-[50%] bg-primary-orange300 w-[64px] h-[64px] content-center justify-items-center'>
+          </button>
+          <button className='block rounded-[50%] bg-primary-orange300 w-[64px] h-[64px] content-center justify-items-center'>
             <Image
               src='/images/floatingbutton/iconShare.svg'
-              alt='작성하기'
+              alt='공유하기'
               width={24}
               height={24}
               className='relative'
             />
-          </div>
+          </button>
         </div>
       ) : $myAlbaform ? (
         <div

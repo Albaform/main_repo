@@ -90,7 +90,6 @@ export const fetchScrapForms = async (formId: number) => {
     if (!response.data) {
       throw new Error('알바폼 스크랩 실패');
     }
-    return response.data;
   } catch (error) {
     console.error('알바 폼 스크랩 중 에러 발생', error);
     throw error;
