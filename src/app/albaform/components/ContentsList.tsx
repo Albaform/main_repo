@@ -8,12 +8,16 @@ import getDday from '@/utils/getDday';
 import getRecruitStatus from '@/utils/getRecruitStatus';
 import { FormWrapper } from '../styles';
 import { AlbaformListProps } from '../types';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function ContentsList({
   listData,
   isLoading,
   isFetchingNextPage,
 }: AlbaformListProps) {
+  const { user: userData } = useAuthStore();
+  const { role } = userData ?? {};
+
   const router = useRouter();
 
   const { img, defaultImg, handleImgError } = useImgError(
@@ -34,7 +38,12 @@ export default function ContentsList({
                 String(item.recruitmentEndDate),
               );
               return (
-                <FormWrapper key={item.id}>
+                <FormWrapper
+                  key={item.id}
+                  onClick={() => {
+                    !role && router.push('/auth/signin/applicant');
+                  }}
+                >
                   <div
                     className='relative w-full h-[calc(100vw_*_(304/1920))] border border-solid border-gray-100 rounded-[16px] min-h-[304px] overflow-hidden'
                     style={{

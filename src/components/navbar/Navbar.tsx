@@ -14,9 +14,9 @@ import {
 } from './Navbar.styles';
 import { useAuthStore } from '@/stores/useAuthStore';
 import Toast from '../tooltip/Toast';
+import { useNavLink } from '@/hooks/common/useNavLink';
 
 export default function Navbar() {
-  const [activeMenu, setActiveMenu] = useState<string>('지원자 전용');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -29,6 +29,12 @@ export default function Navbar() {
   const isLoginPage =
     pathname.includes('/signin') || pathname.includes('/signup');
 
+  const { activeMenu, setActiveMenu, NavItems } = useNavLink(
+    isLoginPage,
+    pathname,
+    role,
+  );
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -36,51 +42,6 @@ export default function Navbar() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const NavItems = {
-    default: [
-      {
-        label: '알바 목록',
-        commonUrl: '/albaform',
-      },
-      {
-        label: '알바 토크',
-        commonUrl: '/albatalk',
-      },
-      {
-        label: '내 알바폼',
-        ownerUrl: '/myAlbaform/owner',
-        applicantUrl: '/myAlbaform/applicant',
-      },
-    ],
-    login: [
-      {
-        label: '사장님 전용',
-        url: '/auth/signin/owner',
-      },
-      {
-        label: '지원자 전용',
-        url: '/auth/signin/applicant',
-      },
-    ],
-  };
-
-  useEffect(() => {
-    if (isLoginPage) {
-      const activeItem = NavItems.login.find((item) =>
-        pathname.includes(item.url),
-      );
-      setActiveMenu(activeItem?.label ?? '');
-    } else {
-      const activeItem = NavItems.default.find((item) => {
-        const url =
-          item.commonUrl ??
-          (role === 'OWNER' ? item.ownerUrl : item.applicantUrl);
-        return url && pathname.includes(url);
-      });
-      setActiveMenu(activeItem?.label ?? '');
-    }
-  }, [pathname, role]);
 
   return (
     <div>
@@ -112,9 +73,15 @@ export default function Navbar() {
                   </MenuItem>
                 ))
               : NavItems['default'].map((item, id) => {
-                  const url =
-                    item.commonUrl ??
-                    (role === 'OWNER' ? item.ownerUrl : item.applicantUrl);
+                  const url = (() => {
+                    if (item.commonUrl) {
+                      if (item.label === '알바 토크' && !role)
+                        return '/auth/signin/applicant';
+                      return item.commonUrl;
+                    }
+                    if (!role) return '/auth/signin/applicant';
+                    return role === 'OWNER' ? item.ownerUrl : item.applicantUrl;
+                  })();
 
                   return (
                     <MenuItem
