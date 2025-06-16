@@ -11,11 +11,11 @@ export const Logo = styled.img`
   }
 `;
 
-export const NavbarWrapper = styled.nav<{ $bg: string }>`
+export const NavbarWrapper = styled.nav`
   position: fixed;
   width: 100%;
   z-index: 999;
-  background-color: ${(props) => props.$bg};
+  background-color: var(--white);
   border-bottom: 1px solid var(--gray100);
 `;
 
@@ -63,6 +63,14 @@ export const MenuItem = styled.li<{ $isActive?: boolean }>`
   cursor: pointer;
   &:hover {
     color: var(--primary-orange300);
+  }
+
+  @media ${media.tablet} {
+    font-size: 16px;
+  }
+
+  @media ${media.mobile} {
+    font-size: 14px;
   }
 `;
 

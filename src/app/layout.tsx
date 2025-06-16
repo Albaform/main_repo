@@ -7,6 +7,8 @@ import '@/styles/tailwindStyle.css';
 import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
 import KakaoMapScript from '@/components/common/KakaoMapScript';
 import Script from 'next/script';
+import { cookies } from 'next/headers';
+import Navbar from '@/components/navbar/Navbar';
 
 export const metadata: Metadata = {
   title: 'Albaform',
@@ -16,7 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang='ko'>
       <head>
@@ -34,7 +40,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <KakaoMapScript />
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
-            <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>
+              <Navbar />
+              {children}
+            </ClientLayout>
           </GlobalStyleProvider>
         </StyledComponentsRegistry>
       </body>
