@@ -16,11 +16,18 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import Toast from '../tooltip/Toast';
 
 export default function Navbar() {
-  const [activeMenu, setActiveMenu] = useState<string>('');
+  const [activeMenu, setActiveMenu] = useState<string>('지원자 전용');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
   const { user: userData, hasHydrate } = useAuthStore();
+  const { role } = userData ?? {};
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isLoginPage =
+    pathname.includes('/signin') || pathname.includes('/signup');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -30,16 +37,12 @@ export default function Navbar() {
     setIsModalOpen(false);
   };
 
-  const pathname = usePathname();
-  const isLoginPage =
-    pathname.includes('/signin') || pathname.includes('/signup');
-
-  const router = useRouter();
-
-  const menuItems = {
+  const NavItems = {
     default: ['알바 목록', '알바 토크', '내 알바폼'],
     login: ['사장님 전용', '지원자 전용'],
   };
+
+  const NavUrl = {};
 
   return (
     <div>
@@ -59,7 +62,7 @@ export default function Navbar() {
           />
           <MenuList $alignRight={isLoginPage}>
             {isLoginPage
-              ? menuItems['login'].map((item) => (
+              ? NavItems['login'].map((item) => (
                   <MenuItem
                     key={item}
                     $isActive={item === activeMenu}
@@ -68,7 +71,7 @@ export default function Navbar() {
                     {item}
                   </MenuItem>
                 ))
-              : menuItems['default'].map((item) => (
+              : NavItems['default'].map((item) => (
                   <MenuItem
                     key={item}
                     $isActive={item === activeMenu}
@@ -78,10 +81,11 @@ export default function Navbar() {
                   </MenuItem>
                 ))}
           </MenuList>
-          {!userData && hasHydrate
-            ? !isLoginPage && (
+          {!userData
+            ? hasHydrate &&
+              !isLoginPage && (
                 <button
-                  onClick={() => router.push('/auth/signin/owner')}
+                  onClick={() => router.push('/auth/signin/applicant')}
                   style={{
                     fontSize: '16px',
                     background: 'var(--primary-orange300)',

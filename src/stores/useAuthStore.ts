@@ -16,9 +16,8 @@ interface User {
 
 interface AuthStore {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   clearUser: () => void;
-  isLoggedIn: boolean;
   hasHydrate: boolean;
   setHasHydrate: (state: boolean) => void;
 }
@@ -29,7 +28,6 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       setUser: (user) => set({ user }),
       clearUser: () => set({ user: null }),
-      isLoggedIn: false,
       hasHydrate: false,
       setHasHydrate: (state) => set({ hasHydrate: state }),
     }),

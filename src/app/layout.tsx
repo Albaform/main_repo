@@ -7,7 +7,6 @@ import '@/styles/tailwindStyle.css';
 import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
 import KakaoMapScript from '@/components/common/KakaoMapScript';
 import Script from 'next/script';
-import { cookies } from 'next/headers';
 import Navbar from '@/components/navbar/Navbar';
 
 export const metadata: Metadata = {
@@ -23,6 +22,7 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
+
   return (
     <html lang='ko'>
       <head>
@@ -41,7 +41,7 @@ export default async function RootLayout({
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
             <ClientLayout>
-              <Navbar />
+              <Navbar/>
               {children}
             </ClientLayout>
           </GlobalStyleProvider>
