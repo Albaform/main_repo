@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
   location: string;
@@ -18,11 +19,25 @@ interface AuthStore {
   setUser: (user: User) => void;
   clearUser: () => void;
   isLoggedIn: boolean;
+  hasHydrate: boolean;
+  setHasHydrate: (state: boolean) => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
-  isLoggedIn: false,
-}));
+export const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user) => set({ user }),
+      clearUser: () => set({ user: null }),
+      isLoggedIn: false,
+      hasHydrate: false,
+      setHasHydrate: (state) => set({ hasHydrate: state }),
+    }),
+    {
+      name: 'auth-storage',
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrate(true);
+      },
+    },
+  ),
+);

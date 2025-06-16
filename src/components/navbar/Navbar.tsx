@@ -20,7 +20,7 @@ export default function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const { user: accessToken } = useAuthStore();
+  const { user: userData, hasHydrate } = useAuthStore();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -78,7 +78,7 @@ export default function Navbar() {
                   </MenuItem>
                 ))}
           </MenuList>
-          {!accessToken
+          {!userData && hasHydrate
             ? !isLoginPage && (
                 <button
                   onClick={() => router.push('/auth/signin/owner')}
