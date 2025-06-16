@@ -13,10 +13,12 @@ import {
   NavbarWrapper,
 } from './Navbar.styles';
 import { useAuthStore } from '@/stores/useAuthStore';
+import Toast from '../tooltip/Toast';
 
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const { user: accessToken } = useAuthStore();
 
@@ -100,9 +102,16 @@ export default function Navbar() {
                   onClick={handleOpenModal}
                 />
               )}
-          {isModalOpen && <NavModal onClose={handleCloseModal} />}
+          {isModalOpen && (
+            <NavModal onClose={handleCloseModal} setShowToast={setShowToast} />
+          )}
         </ContentsWrapper>
       </NavbarWrapper>
+      {showToast && (
+        <Toast onClose={() => setShowToast(false)}>
+          로그아웃이 완료 되었습니다 !
+        </Toast>
+      )}
     </div>
   );
 }

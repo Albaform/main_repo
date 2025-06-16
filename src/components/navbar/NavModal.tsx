@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
@@ -16,15 +16,28 @@ const myPageIcon = '/images/mypage.png';
 const logoutIcon = '/images/logout.png';
 const closeButtonImg = '/images/X.png';
 
-export default function NavModal({ onClose }: { onClose: () => void }) {
+export default function NavModal({
+  onClose,
+  setShowToast,
+}: {
+  onClose: () => void;
+  setShowToast: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
+  const { clearUser: logout } = useAuthStore();
+
   const handleBackgroundClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  const { clearUser: logout } = useAuthStore();
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+    onClose();
+    setShowToast(true);
+  };
 
   return (
     <div>
@@ -43,13 +56,7 @@ export default function NavModal({ onClose }: { onClose: () => void }) {
             />
             <p onClick={() => router.push('/mypage')}>마이 페이지</p>
           </ModalContent>
-          <ModalContent
-            onClick={() => {
-              logout();
-              router.push('/');
-              onClose();
-            }}
-          >
+          <ModalContent onClick={handleLogout}>
             <Image src={logoutIcon} alt='logout' width={36} height={36} />
             <p>로그아웃</p>
           </ModalContent>
