@@ -37,11 +37,19 @@ export default function ContentsList({
                 String(item.recruitmentStartDate),
                 String(item.recruitmentEndDate),
               );
+              const detailUrl = (() => {
+                if (!role) {
+                  return '/auth/signin/applicant';
+                } else {
+                  return `/albaform/${item.id}`;
+                }
+              })();
+
               return (
                 <FormWrapper
                   key={item.id}
                   onClick={() => {
-                    !role && router.push('/auth/signin/applicant');
+                    router.push(detailUrl);
                   }}
                 >
                   <div
