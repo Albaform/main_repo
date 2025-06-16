@@ -13,6 +13,10 @@ type DropdownButtonProps = {
   $active?: boolean;
 };
 
+type FormWrapperProps = {
+  $noActive?: boolean;
+};
+
 export const KebabButton = styled.div`
   min-width: 36px;
   margin-top: -3px;
@@ -127,14 +131,14 @@ export const PostWrapper = styled.div`
   }
 `;
 
-export const FormWrapper = styled.div`
+export const FormWrapper = styled.div<FormWrapperProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 32%;
   width: 32%;
   position: relative;
-  cursor: pointer;
+  cursor: ${({ $noActive }) => ($noActive ? 'default' : 'pointer')};
 
   @media (max-width: 1450px) {
     min-width: 49%;

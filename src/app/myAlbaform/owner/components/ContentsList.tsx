@@ -40,7 +40,13 @@ export default function ContentsList({
                 String(item.recruitmentEndDate),
               );
               return (
-                <FormWrapper key={item.id}>
+                <FormWrapper
+                  $noActive={!item.isPublic}
+                  key={item.id}
+                  onClick={() =>
+                    item.isPublic && router.push(`/albaform/${item.id}`)
+                  }
+                >
                   <div
                     className='relative w-full h-[calc(100vw_*_(304/1920))] border border-solid border-gray-100 rounded-[16px] min-h-[304px] overflow-hidden'
                     style={{
