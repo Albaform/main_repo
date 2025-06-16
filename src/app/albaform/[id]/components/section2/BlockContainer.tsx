@@ -4,6 +4,7 @@ import getDday from '@/utils/getDday';
 import { formattedDate } from '@/utils/formattedDate';
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
+import getRecruitStatus from '@/utils/getRecruitStatus';
 
 export default function BlockContainer({
   form,
@@ -41,6 +42,10 @@ export default function BlockContainer({
     setMainMessage('선택하신 알바폼을 삭제할까요?');
     setSubMessage('삭제 후 정보를 복구할 수 없어요.');
   };
+
+  const recruitmentDeadline =
+    getRecruitStatus(form?.recruitmentStartDate, form?.recruitmentEndDate) ===
+    '모집 마감';
 
   return (
     <>
@@ -99,7 +104,10 @@ export default function BlockContainer({
         >
           <button
             type='button'
-            className='flex items-center w-full h-[68px] bg-orange-400 rounded-[8px] justify-center text-white font-semibold'
+            className={`flex items-center w-full h-[68px] rounded-[8px] justify-center text-white font-semibold ${
+              recruitmentDeadline ? 'bg-gray-400' : 'bg-orange-400'
+            }`}
+            disabled={recruitmentDeadline}
           >
             <Image
               src={
@@ -110,9 +118,13 @@ export default function BlockContainer({
               alt='지원하기'
               width={24}
               height={24}
-              className='mr-1'
+              className={`mr-1 ${recruitmentDeadline && 'hidden'}`}
             />
-            {myPost ? '수정하기' : '지원하기'}
+            {myPost
+              ? '수정하기'
+              : recruitmentDeadline
+              ? '모집 마감'
+              : '지원하기'}
           </button>
           <button
             type='button'
