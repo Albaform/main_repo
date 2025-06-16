@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NavModal from './NavModal';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -38,11 +38,49 @@ export default function Navbar() {
   };
 
   const NavItems = {
-    default: ['알바 목록', '알바 토크', '내 알바폼'],
-    login: ['사장님 전용', '지원자 전용'],
+    default: [
+      {
+        label: '알바 목록',
+        commonUrl: '/albaform',
+      },
+      {
+        label: '알바 토크',
+        commonUrl: '/albatalk',
+      },
+      {
+        label: '내 알바폼',
+        ownerUrl: '/myAlbaform/owner',
+        applicantUrl: '/myAlbaform/applicant',
+      },
+    ],
+    login: [
+      {
+        label: '사장님 전용',
+        url: '/auth/signin/owner',
+      },
+      {
+        label: '지원자 전용',
+        url: '/auth/signin/applicant',
+      },
+    ],
   };
 
-  const NavUrl = {};
+  useEffect(() => {
+    if (isLoginPage) {
+      const activeItem = NavItems.login.find((item) =>
+        pathname.includes(item.url),
+      );
+      setActiveMenu(activeItem?.label ?? '');
+    } else {
+      const activeItem = NavItems.default.find((item) => {
+        const url =
+          item.commonUrl ??
+          (role === 'OWNER' ? item.ownerUrl : item.applicantUrl);
+        return url && pathname.includes(url);
+      });
+      setActiveMenu(activeItem?.label ?? '');
+    }
+  }, [pathname, role]);
 
   return (
     <div>
@@ -62,30 +100,45 @@ export default function Navbar() {
           />
           <MenuList $alignRight={isLoginPage}>
             {isLoginPage
-              ? NavItems['login'].map((item) => (
+              ? NavItems['login'].map((item, id) => (
                   <MenuItem
-                    key={item}
-                    $isActive={item === activeMenu}
-                    onClick={() => setActiveMenu(item)}
+                    key={id}
+                    $isActive={item.label === activeMenu}
+                    onClick={() => {
+                      router.push(item.url);
+                    }}
                   >
-                    {item}
+                    {item.label}
                   </MenuItem>
                 ))
-              : NavItems['default'].map((item) => (
-                  <MenuItem
-                    key={item}
-                    $isActive={item === activeMenu}
-                    onClick={() => setActiveMenu(item)}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
+              : NavItems['default'].map((item, id) => {
+                  const url =
+                    item.commonUrl ??
+                    (role === 'OWNER' ? item.ownerUrl : item.applicantUrl);
+
+                  return (
+                    <MenuItem
+                      key={id}
+                      $isActive={item.label === activeMenu}
+                      onClick={() => {
+                        if (url) {
+                          router.push(url);
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </MenuItem>
+                  );
+                })}
           </MenuList>
           {!userData
             ? hasHydrate &&
               !isLoginPage && (
                 <button
-                  onClick={() => router.push('/auth/signin/applicant')}
+                  onClick={() => {
+                    router.push('/auth/signin/applicant');
+                    setActiveMenu('지원자 전용');
+                  }}
                   style={{
                     fontSize: '16px',
                     background: 'var(--primary-orange300)',
