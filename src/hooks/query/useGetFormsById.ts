@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetFormsById = (formId: number) => {
   return useQuery({
-    queryKey: ['albaforms', formId],
+    queryKey: ['albaform', formId],
     queryFn: () => fetchGetFormsById(formId),
   });
 };

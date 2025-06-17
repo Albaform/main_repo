@@ -122,10 +122,7 @@ export const fetchPostLikePosts = async (postId: number) => {
 // 게시글 좋아요 취소
 export const fetchDeleteLikePosts = async (postId: number) => {
   try {
-    const response = await instance.delete(`/posts/${postId}/like`);
-    if (!response.data) {
-      throw new Error('게시물 좋아요 취소 실패');
-    }
+    await instance.delete(`/posts/${postId}/like`);
   } catch (error) {
     console.error('게시물 좋아요 취소 중 에러 발생:', error);
     throw error;

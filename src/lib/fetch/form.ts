@@ -99,10 +99,7 @@ export const fetchScrapForms = async (formId: number) => {
 // 알바폼 스크랩 취소
 export const fetchCancelScrapForms = async (formId: number) => {
   try {
-    const response = await instance.delete(`/forms/${formId}/scrap`);
-    if (!response.data) {
-      throw new Error('알바폼 스크랩 취소 실패');
-    }
+    await instance.delete(`/forms/${formId}/scrap`);
   } catch (error) {
     console.error('알바 폼 스크랩 취소 중 에러 발생', error);
     throw error;
