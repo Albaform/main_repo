@@ -5,9 +5,9 @@ import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 import { useParams, useSearchParams } from 'next/navigation';
 import Section1 from './components/section1/Section1';
 import Section2 from './components/section2/Section2';
-import { ResponsiveStyle } from '@/styles/responsiveStyle';
 import Loader from '@/components/loader/Loader';
 import { DetailResponsive } from './styles';
+import { useGetMyInfo } from '@/hooks/query/useGetUser';
 
 export default function ApplicationDetail() {
   const searchParams = useSearchParams();
@@ -20,16 +20,22 @@ export default function ApplicationDetail() {
   const { data: form, isLoading: getFormLoading } = useGetFormsById(formId);
   const { data: application, isLoading: getApplicationLoading } =
     useGetApplicationsById(formId, applicationId);
+  const { data: user, isLoading: getUserLoading } = useGetMyInfo();
 
   const { status } = application ?? {};
+  const { role } = user ?? {};
 
-  const isLoading = getFormLoading || getApplicationLoading;
+  const isLoading = getFormLoading || getApplicationLoading || getUserLoading;
 
   return (
     <>
       {isLoading && <Loader />}
       <DetailResponsive>
-        <Section1 formData={form} userStatus={status} />
+        <Section1
+          formData={form}
+          userStatus={status}
+          role={role}
+        />
       </DetailResponsive>
       <div className='h-3 bg-line-100' />
       <DetailResponsive>
