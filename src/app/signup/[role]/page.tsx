@@ -19,6 +19,7 @@ import {
 
 export default function SignUp({ params }: { params: { role: string } }) {
   const { role } = params;
+
   if (role !== 'applicant' && role !== 'owner') {
     notFound();
   }
@@ -81,7 +82,10 @@ export default function SignUp({ params }: { params: { role: string } }) {
   const isApplicant = role === 'applicant';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='max-w-[640px] mx-auto py-[200px]'
+    >
       <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
 
       {/* 상단 안내 문구 */}
