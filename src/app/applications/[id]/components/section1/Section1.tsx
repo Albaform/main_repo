@@ -7,10 +7,14 @@ export default function Section1({
   formData,
   userStatus,
   role,
+  resumeId,
+  resumeName,
 }: {
   formData: DetailFormDataProps;
   userStatus: string;
   role: string;
+  resumeId: number;
+  resumeName: string;
 }) {
   return (
     <>
@@ -20,7 +24,13 @@ export default function Section1({
           <DetailContainer form={formData} />
         </div>
         <div className='flex-[1] w-full'>
-          <StatusContainer form={formData} userStatus={userStatus} role={role} />
+          <StatusContainer
+            form={formData}
+            userStatus={userStatus}
+            role={role}
+            resumeId={resumeId}
+            resumeName={resumeName}
+          />
         </div>
       </div>
     </>

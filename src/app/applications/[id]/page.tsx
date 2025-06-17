@@ -22,10 +22,12 @@ export default function ApplicationDetail() {
     useGetApplicationsById(formId, applicationId);
   const { data: user, isLoading: getUserLoading } = useGetMyInfo();
 
-  const { status } = application ?? {};
+  const { status, resumeId, resumeName } = application ?? {};
   const { role } = user ?? {};
 
   const isLoading = getFormLoading || getApplicationLoading || getUserLoading;
+
+  console.log(application)
 
   return (
     <>
@@ -35,6 +37,8 @@ export default function ApplicationDetail() {
           formData={form}
           userStatus={status}
           role={role}
+          resumeId={resumeId}
+          resumeName={resumeName}
         />
       </DetailResponsive>
       <div className='h-3 bg-line-100' />

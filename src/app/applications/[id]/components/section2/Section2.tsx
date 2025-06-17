@@ -30,7 +30,7 @@ export default function Section2({
         <div className='py-[14px]'>
           <p className='font-light text-black100'>이력서</p>
           <div className='flex items-center justify-between bg-background-200 p-[14px] rounded-[8px] font-light text-black300 mt-[14px] text-black300'>
-            <p>김가나_이력서.pdf</p>
+            <p>{applicationData?.resumeName}</p>
             <Image
               src='/images/applicationDetail/iconDownload.svg'
               alt='Download'

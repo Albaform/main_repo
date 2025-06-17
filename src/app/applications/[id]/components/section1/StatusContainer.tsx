@@ -1,4 +1,5 @@
 import { DetailFormDataProps } from '@/app/albaform/[id]/types';
+import { fetchDownloadResume } from '@/lib/fetch/file';
 import { formattedDate } from '@/utils/formattedDate';
 import getDday from '@/utils/getDday';
 import Image from 'next/image';
@@ -7,12 +8,20 @@ export default function StatusContainer({
   form,
   userStatus,
   role,
+  resumeId,
+  resumeName,
 }: {
   form: DetailFormDataProps;
   userStatus: string;
   role: string;
+  resumeId: number;
+  resumeName: string;
 }) {
   const ownerType = role === 'OWNER';
+
+  const handleResumeDownload = async () => {
+    await fetchDownloadResume(resumeId, resumeName);
+  };
 
   return (
     <div className='border border-solid border-line-100 px-6 py-10 rounded-[8px] max-lg:mt-[40px] max-md:border-[0] max-md:bg-white max-md:mt-[0] max-md:px-0'>
@@ -31,7 +40,11 @@ export default function StatusContainer({
         <div className='flex items-center'>
           <p className='text-black100 font-light mr-2'>진행 상태</p>
           {ownerType && (
-            <button type='button' className='text-orange-400 font-semibold'>
+            <button
+              type='button'
+              className='text-orange-400 font-semibold'
+              onClick={handleResumeDownload}
+            >
               <Image
                 src='/images/applicationDetail/iconEdit.svg'
                 alt='변경하기'
