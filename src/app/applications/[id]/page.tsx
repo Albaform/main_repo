@@ -21,13 +21,15 @@ export default function ApplicationDetail() {
   const { data: application, isLoading: getApplicationLoading } =
     useGetApplicationsById(formId, applicationId);
 
+  const { status } = application;
+
   const isLoading = getFormLoading || getApplicationLoading;
 
   return (
     <>
       {isLoading && <Loader />}
       <DetailResponsive>
-        <Section1 formData={form} />
+        <Section1 formData={form} userStatus={status}/>
       </DetailResponsive>
       <div className='h-3 bg-line-100' />
       <DetailResponsive>

@@ -5,8 +5,10 @@ import StatusContainer from './StatusContainer';
 
 export default function Section1({
   formData,
+  userStatus,
 }: {
   formData: DetailFormDataProps;
+  userStatus: string;
 }) {
   return (
     <>
@@ -16,7 +18,7 @@ export default function Section1({
           <DetailContainer form={formData} />
         </div>
         <div className='flex-[1] w-full'>
-          <StatusContainer />
+          <StatusContainer form={formData} userStatus={userStatus}/>
         </div>
       </div>
     </>
