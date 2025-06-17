@@ -26,6 +26,7 @@ export const useSignUpStore = create<SignUpStore>()(
           step1,
           data: { ...step1, ...(state.step2 ?? {}) },
         })),
+
       setStep2: (step2) =>
         set((state) => ({
           step2,
