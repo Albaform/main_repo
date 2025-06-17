@@ -47,14 +47,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             >
               {showPassword ? (
                 <Image
-                  src='/images/visibility_off.svg'
+                  src='/images/visibility_on.svg'
                   alt='password unvisible'
                   width={24}
                   height={24}
                 />
               ) : (
                 <Image
-                  src='/images/visibility_on.svg'
+                  src='/images/visibility_off.svg'
                   alt='password visible'
                   width={24}
                   height={24}
