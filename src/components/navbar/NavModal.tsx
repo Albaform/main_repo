@@ -25,9 +25,11 @@ const slideVariants = {
 export default function NavModal({
   onClose,
   setShowToast,
+  role,
 }: {
   onClose: () => void;
   setShowToast: Dispatch<SetStateAction<boolean>>;
+  role: string | undefined;
 }) {
   const router = useRouter();
   const { clearUser: logout } = useAuthStore();
@@ -45,6 +47,16 @@ export default function NavModal({
     setShowToast(true);
   };
 
+  const mypageUrl = () => {
+    onClose();
+    if (role)
+      if (role === 'OWNER') {
+        router.push('/mypage/owner');
+      } else {
+        router.push('/mypage/applicant');
+      }
+  };
+
   return (
     <div>
       <Overlay onClick={handleBackgroundClick}>
@@ -59,17 +71,9 @@ export default function NavModal({
             <CloseButtonWrapper>
               <CloseButton src={closeButtonImg} onClick={onClose} />
             </CloseButtonWrapper>
-            <ModalContent>
-              <Image
-                src={myPageIcon}
-                alt='mypage'
-                width={36}
-                height={36}
-                onClick={() => router.push('/mypage')}
-              />
-              <p className='mt-[2px]' onClick={() => router.push('/mypage')}>
-                마이 페이지
-              </p>
+            <ModalContent onClick={mypageUrl}>
+              <Image src={myPageIcon} alt='mypage' width={36} height={36} />
+              <p className='mt-[2px]'>마이 페이지</p>
             </ModalContent>
             <ModalContent onClick={handleLogout}>
               <Image src={logoutIcon} alt='logout' width={36} height={36} />

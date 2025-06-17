@@ -127,7 +127,11 @@ export default function Navbar() {
                 />
               )}
           {isModalOpen && (
-            <NavModal onClose={handleCloseModal} setShowToast={setShowToast} />
+            <NavModal
+              onClose={handleCloseModal}
+              setShowToast={setShowToast}
+              role={role}
+            />
           )}
         </ContentsWrapper>
       </NavbarWrapper>
