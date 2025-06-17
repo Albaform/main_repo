@@ -41,11 +41,8 @@ export default function ContentsList({
               );
               return (
                 <FormWrapper
-                  $noActive={!item.isPublic}
                   key={item.id}
-                  onClick={() =>
-                    item.isPublic && router.push(`/albaform/${item.id}`)
-                  }
+                  onClick={() => router.push(`/albaform/${item.id}`)}
                 >
                   <div
                     className='relative w-full h-[calc(100vw_*_(304/1920))] border border-solid border-gray-100 rounded-[16px] min-h-[304px] overflow-hidden'

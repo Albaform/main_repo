@@ -27,7 +27,10 @@ export default function ScrapContainer({
     String(item.recruitmentEndDate),
   );
   return (
-    <ScrapWrapper onClick={() => router.push(`/albaformList/${`${item.id}`}`)}>
+    <ScrapWrapper
+      $noActive={!item.isPublic}
+      onClick={() => item.isPublic && router.push(`/albaform/${`${item.id}`}`)}
+    >
       <div className='relative'>
         {!item.isPublic && (
           <>
