@@ -1,4 +1,5 @@
 import { media } from '@/styles/media';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const Logo = styled.img`
@@ -93,30 +94,39 @@ export const Overlay = styled.div`
   z-index: 1000;
 `;
 
-export const ModalContainer = styled.div`
+export const ModalContainer = styled(motion.div)`
   background: white;
-  width: 560px;
+  width: calc(100vw * (560 / 1920));
+  min-width: 300px;
   height: 100vh;
   text-align: left;
   display: flex;
   flex-direction: column;
-  position: relative;
 `;
 
 export const CloseButtonWrapper = styled.div`
-  width: 560px;
+  position: relative;
+  width: 100%;
   height: 88px;
   border-bottom: 1px solid var(--gray100);
-  position: relative;
+
+  @media ${media.tablet} {
+    height: 60px;
+  }
+
+  @media ${media.mobile} {
+    height: 55px;
+  }
 `;
 
 export const CloseButton = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
   width: 36px;
   height: 36px;
   cursor: pointer;
-  top: 26px;
-  right: 56px;
-  position: absolute;
 `;
 
 export const ModalContent = styled.div`
@@ -126,6 +136,6 @@ export const ModalContent = styled.div`
   padding: 32px 56px;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
   cursor: pointer;
 `;
