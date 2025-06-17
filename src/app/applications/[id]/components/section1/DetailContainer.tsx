@@ -78,7 +78,9 @@ export default function DetailContainer({
           </div>
         </div>
       </div>
-      <div className='mt-[120px] max-md:hidden'>{form?.description}</div>
+      <div className='mt-[120px] max-lg:mt-[80px] max-md:hidden'>
+        {form?.description}
+      </div>
     </>
   );
 }
