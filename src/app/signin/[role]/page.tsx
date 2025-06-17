@@ -67,7 +67,7 @@ export default function SignIn({
     >
       {isApplicant ? (
         <div className='flex flex-col items-center'>
-          <p className='font-semibold text-3xl mb-[32px]'>사장님 로그인</p>
+          <p className='font-semibold text-3xl mb-[32px]'>지원자 로그인</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               아직 계정이 없으신가요?
@@ -92,7 +92,7 @@ export default function SignIn({
         </div>
       ) : (
         <div className='flex flex-col items-center'>
-          <p className='font-semibold text-3xl mb-[32px]'>지원자 로그인</p>
+          <p className='font-semibold text-3xl mb-[32px]'>사장님 로그인</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               사장님 계정이 없으신가요?
