@@ -1,16 +1,20 @@
-import Image from 'next/image';
-import { DetailFormDataProps } from '../../types';
-import getRecruitStatus from '@/utils/getRecruitStatus';
+import { DetailFormDataProps } from '@/app/albaform/[id]/types';
 import { formattedDate } from '@/utils/formattedDate';
+import getRecruitStatus from '@/utils/getRecruitStatus';
+import Image from 'next/image';
 
-export default function TextContainer({ form }: { form: DetailFormDataProps }) {
+export default function DetailContainer({
+  form,
+}: {
+  form: DetailFormDataProps;
+}) {
   const recruitmentStatus = getRecruitStatus(
     form?.recruitmentStartDate,
     form?.recruitmentEndDate,
   );
   return (
-    <div className='flex flex-col flex-[1]'>
-      <div className='flex items-center mb-12 max-md:mb-6'>
+    <>
+      <div className='flex items-center mb-12 max-md:mb-6 max-md:hidden'>
         <div
           className={`h-[38px] leading-[38px] rounded-[4px] mr-2 px-3 max-md:text-[14px] ${
             form?.isPublic
@@ -34,7 +38,7 @@ export default function TextContainer({ form }: { form: DetailFormDataProps }) {
         </div>
       </div>
       <div>
-        <div className='flex items-center mb-4'>
+        <div className='flex items-center mb-4 max-md:hidden'>
           <p className='text-black-400 underline font-semibold mr-4 text-[24px] max-md:text-[18px]'>
             {form?.storeName}
           </p>
@@ -45,7 +49,7 @@ export default function TextContainer({ form }: { form: DetailFormDataProps }) {
         <p className='text-[32px] line-clamp-2 font-semibold mb-10 max-md:text-[20px]'>
           {form?.title}
         </p>
-        <div className='border-b border-t border-solid border-line-100 px-4 py-8'>
+        <div className='border-b border-t border-solid border-line-100 px-4 py-8 max-md:hidden'>
           <div className='flex items-center'>
             <Image
               src='/images/albaformDetail/iconScrap.svg'
@@ -74,6 +78,9 @@ export default function TextContainer({ form }: { form: DetailFormDataProps }) {
           </div>
         </div>
       </div>
-    </div>
+      <div className='mt-[120px] max-lg:mt-[80px] max-md:hidden'>
+        {form?.description}
+      </div>
+    </>
   );
 }

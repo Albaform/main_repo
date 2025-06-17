@@ -36,13 +36,29 @@ export const fetchUploadResume = async () => {
 };
 
 // 이력서 다운로드
-export const fetchDownloadResume = async () => {
+export const fetchDownloadResume = async (
+  resumeId: number,
+  resumeName: string,
+) => {
   try {
-    const response = await instance.get('/:resumeId/download');
+    const response = await instance.get<Blob>(`/${resumeId}/download`, {
+      responseType: 'blob',
+    });
+
     if (!response.data) {
       throw new Error('이력서 다운로드 실패');
     }
-    return response.data;
+
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = resumeName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   } catch (error) {
     console.error('이력서 다운로드 중 에러 발생', error);
     throw error;

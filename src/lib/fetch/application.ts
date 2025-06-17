@@ -60,13 +60,17 @@ export const fetchGetApplicationsById = async (applicationId: number) => {
 };
 
 // 지원 상태 수정
-export const fetchEditApplications = async (applicationId: number) => {
+export const fetchEditApplications = async ({
+  applicationId,
+  apiStatus,
+}: {
+  applicationId: number;
+  apiStatus: string;
+}) => {
   try {
-    const response = await instance.patch(`/applications/${applicationId}`);
-    if (!response.data) {
-      throw new Error('지원 상태 수정 실패');
-    }
-    return response.data;
+    await instance.patch(`/applications/${applicationId}`, {
+      status: apiStatus,
+    });
   } catch (error) {
     console.error('지원 상태 수정 중 에러 발생', error);
     throw error;

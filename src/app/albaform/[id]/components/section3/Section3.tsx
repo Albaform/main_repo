@@ -4,12 +4,15 @@ import { useState } from 'react';
 import { useGetApplications } from '@/hooks/query/useGetApplications';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { calcExperienceMonths } from '@/utils/calcExperienceMonths';
+import { useRouter } from 'next/navigation';
 
 export default function Section3({ formId }: { formId: number }) {
   const [orderByExperience, setOrderByExperience] = useState<'asc' | 'desc'>(
     'asc',
   );
   const [orderByStatus, setOrderByStatus] = useState<'asc' | 'desc'>('asc');
+
+  const router = useRouter();
 
   const {
     data: applications,
@@ -80,7 +83,13 @@ export default function Section3({ formId }: { formId: number }) {
             </thead>
             <tbody>
               {listData?.map((user) => (
-                <tr key={user.id} className='text-center text-black400'>
+                <tr
+                  key={user.id}
+                  className='text-center text-black400 cursor-pointer transition duration-200 hover:bg-gray-100'
+                  onClick={() =>
+                    router.push(`/applications/${user.id}?formId=${formId}`)
+                  }
+                >
                   <td className='p-2 underline'>{user.name}</td>
                   <td className='p-2'>{user.phoneNumber}</td>
                   <td className='p-2'>
