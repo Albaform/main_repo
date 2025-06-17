@@ -59,15 +59,14 @@ function Modal({
       if (deletePostId)
         fetchDeletePost(deletePostId, {
           onSuccess: () => {
+            queryClient.invalidateQueries({
+              predicate: (query) => {
+                const key = query.queryKey?.[0];
+                return key === 'myPosts' || key === 'posts';
+              },
+            });
             if (isAlbatalkDetail) {
               router.push('/albatalk');
-              queryClient.invalidateQueries({
-                predicate: (query) => query.queryKey[0] === 'posts',
-              });
-            } else {
-              queryClient.invalidateQueries({
-                predicate: (query) => query.queryKey[0] === 'myPosts',
-              });
             }
             onSuccess?.();
           },
@@ -110,7 +109,10 @@ function Modal({
         fetchDeleteForm(deletePostId, {
           onSuccess: () => {
             queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey[0] === 'forms',
+              predicate: (query) => {
+                const key = query.queryKey?.[0];
+                return key === 'albaforms' || key === 'forms';
+              },
             });
             if (isAlbaformDetail) {
               router.push('/albaform');

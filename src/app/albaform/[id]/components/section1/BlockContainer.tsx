@@ -39,7 +39,7 @@ export default function BlockContainer({
             <div className='relative w-9 h-9 max-lg:w-6 max-lg:h-6'>
               <Image
                 src='/images/albaformDetail/iconCalendarClock.svg'
-                alt='코인'
+                alt='코인달력'
                 fill
               />
             </div>
@@ -54,12 +54,12 @@ export default function BlockContainer({
             </p>
           </div>
         </div>
-        <div className='flex flex-[1] min-w-[49%] min-h-[calc(100vw_*_(140/1920))] items-center border-r border-solid border-line-200 border-t max-lg:border max-lg:max-w-[49%] max-lg:rounded-[8px] max-lg:mt-[10px] max-lg:px-2 max-lg:py-2'>
+        <div className='pt-5 pr-2 flex flex-[1] min-w-[49%] min-h-[calc(100vw_*_(140/1920))] items-center border-r border-solid border-line-200 border-t max-lg:border max-lg:max-w-[49%] max-lg:rounded-[8px] max-lg:mt-[10px]  max-lg:px-2 max-lg:py-2'>
           <div className='min-w-14 w-14 h-14 rounded-full bg-line-100 content-center justify-items-center mr-6 max-lg:min-w-9 max-lg:w-9 max-lg:h-9 max-lg:mr-2'>
             <div className='relative w-9 h-9 max-lg:w-6 max-lg:h-6'>
               <Image
                 src='/images/albaformDetail/iconCalendar.svg'
-                alt='코인'
+                alt='달력'
                 fill
               />
             </div>
@@ -78,7 +78,7 @@ export default function BlockContainer({
             <div className='relative w-9 h-9 max-lg:w-6 max-lg:h-6'>
               <Image
                 src='/images/albaformDetail/iconClock.svg'
-                alt='코인'
+                alt='시간'
                 fill
               />
             </div>
