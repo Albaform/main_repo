@@ -1,3 +1,4 @@
+import { UseMutateFunction } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface PostDetailProps {
@@ -120,10 +121,12 @@ type LikePostProps = {
   isLiked: boolean;
 };
 
+type ToggleLikePostFn = UseMutateFunction<any, unknown, LikePostProps, unknown>;
+
 export interface LikeButtonProps {
   post: PostData;
   postId: number;
-  toggleLikePost: (virables: LikePostProps) => void;
+  toggleLikePost: ToggleLikePostFn;
   isPending: boolean;
 }
 

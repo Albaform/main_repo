@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import { LikeButtonProps } from '../types';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function LikeButton({
   post,
@@ -9,14 +10,25 @@ export default function LikeButton({
   toggleLikePost,
   isPending,
 }: LikeButtonProps) {
+  const queryClient = useQueryClient();
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [clickedIsLiked, setClickedIsLiked] = useState(false);
 
   const handleClickLike = () => {
-    toggleLikePost({
-      postId,
-      isLiked: post.isLiked,
-    });
+    toggleLikePost(
+      {
+        postId,
+        isLiked: post.isLiked,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === 'posts',
+          });
+        },
+      },
+    );
     setClickedIsLiked(post.isLiked);
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 3500);
