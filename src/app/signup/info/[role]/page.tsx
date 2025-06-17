@@ -1,12 +1,13 @@
 'use client';
 
-import { use, useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { notFound, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/components/auth/Input';
 import Button from '@/components/auth/Button';
+import Toast from '@/components/tooltip/Toast';
 import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
@@ -32,20 +33,14 @@ export default function SignUpInfo({
   } = useForm<SignUpStep2Input>({
     resolver: zodResolver(SignUpStep2Schema),
     mode: 'onChange',
-    defaultValues: { role: role.toUpperCase() as 'OWNER' | 'APPLICANT' },
+    defaultValues: {
+      role: role.toUpperCase() as 'OWNER' | 'APPLICANT',
+    },
   });
 
-  useEffect(() => {
-    console.log('errors:', errors);
-    Object.entries(errors).forEach(([key, value]) => {
-      console.log('Field:', key, 'Error:', value?.message);
-    });
-    console.log('isValid:', isValid);
-    console.log('Step 1 Data:', useSignUpStore.getState().step1);
-    console.log('Step 2 Data:', useSignUpStore.getState().step2);
-  }, [errors, isValid]);
-
   const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
   const { data, isPending, error, reset } = useSignUp();
   const setStep2 = useSignUpStore((state) => state.setStep2);
   const accessToken =
@@ -53,32 +48,39 @@ export default function SignUpInfo({
 
   const onSubmit = async (formData: SignUpStep2Input) => {
     try {
+      const step1 = useSignUpStore.getState().step1;
       setStep2(formData);
-      router.push(`/signup/info/${role}`);
 
-      const payload: any = {
-        ...data,
-        ...formData,
+      const payload: Record<string, any> = {
+        email: step1?.email ?? '',
+        password: step1?.password ?? '',
+        name: formData.name ?? '',
+        nickname: formData.nickname ?? '',
+        role: step1?.role ?? formData.role ?? '',
+        storeName: formData.storeName ?? '',
+        storePhoneNumber: formData.storePhoneNumber ?? '',
+        phoneNumber: formData.phoneNumber ?? '',
+        location: formData.location ?? '',
       };
 
-      if (accessToken) {
-        payload.provider = 'kakao';
-        payload.accessToken = accessToken;
-      } else {
-        payload.provider = 'local';
-      }
+      console.log('전송 payload:', payload);
+      await instance.post(`/auth/sign-up`, payload);
 
-      const res = await instance.post(`/auth/sign-up`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      setToastMsg('가입되었습니다');
+      setShowToast(true);
 
-      localStorage.removeItem('accessToken');
-      reset();
-      router.push(`/auth/sign-up`);
+      // 토스트 띄운 후 2초 있다가 이동, 혹은 즉시 이동할 수도 있음
+      setTimeout(() => {
+        setShowToast(false);
+        router.push(`/`);
+      }, 2000);
     } catch (error) {
-      console.error(error);
+      setToastMsg('회원가입에 실패하였습니다');
+      setShowToast(true);
+
+      setTimeout(() => {
+        setShowToast(false);
+      }, 2000);
     }
   };
 
@@ -223,8 +225,15 @@ export default function SignUpInfo({
         )}
       </div>
 
-      <Button type='submit' disabled={!isValid}>
+      <Button
+        type='submit'
+        disabled={!isValid}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         {isPending ? '정보 저장 중...' : '시작하기'}
+        {showToast && (
+          <Toast onClose={() => setShowToast(false)}>{toastMsg}</Toast>
+        )}
       </Button>
     </form>
   );

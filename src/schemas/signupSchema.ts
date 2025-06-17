@@ -19,20 +19,16 @@ export const SignUpStep1Schema = z
 
 export type SignUpStep1Input = z.infer<typeof SignUpStep1Schema>;
 
-// 정보입력 스키마
+// 정보입력 스키마 (2단계)
 export const SignUpStep2Schema = z
   .object({
     nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
-    name: z.string().or(z.literal('')),
+    name: z.string().min(1, { message: '이름을 입력해주세요.' }), // name은 항상 필수
     phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
       message: '전화번호 형식이 올바르지 않습니다.',
     }),
     role: z.enum(['OWNER', 'APPLICANT']),
-
-    // APPLICANT
-    profileImage: z.string().url().optional(),
-
-    // OWNER
+    // OWNER만 필수, 나머진 undefined 가능
     storeName: z.string().optional(),
     storePhoneNumber: z.string().optional(),
     location: z.string().optional(),
@@ -64,23 +60,19 @@ export const SignUpStep2Schema = z
         });
       }
     }
-
-    if (data.role === 'APPLICANT') {
-      if (!data.name) {
-        ctx.addIssue({
-          path: ['name'],
-          code: z.ZodIssueCode.custom,
-          message: '이름을 입력해주세요.',
-        });
-      }
+    // APPLICANT는 name 필수
+    if (data.role === 'APPLICANT' && !data.name) {
+      ctx.addIssue({
+        path: ['name'],
+        code: z.ZodIssueCode.custom,
+        message: '이름을 입력해주세요.',
+      });
     }
   });
 
 export type SignUpStep2Input = z.infer<typeof SignUpStep2Schema>;
 
-//
-
-// shape 따로 정의
+// 합치기용 shape
 const SignUpStep1Shape = {
   email: z.string().email({ message: '이메일 형식으로 입력해주세요.' }),
   password: z
@@ -94,18 +86,16 @@ const SignUpStep1Shape = {
 
 const SignUpStep2Shape = {
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
-  name: z.string().or(z.literal('')),
+  name: z.string().min(1, { message: '이름을 입력해주세요.' }),
   phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
     message: '전화번호 형식이 올바르지 않습니다.',
   }),
   role: z.enum(['OWNER', 'APPLICANT']),
-  profileImage: z.string().url().optional(),
   storeName: z.string().optional(),
   storePhoneNumber: z.string().optional(),
   location: z.string().optional(),
 };
 
-// object로 만든 후 merge
 const SignUpStep1Object = z.object(SignUpStep1Shape);
 const SignUpStep2Object = z.object(SignUpStep2Shape);
 
@@ -144,14 +134,12 @@ export const SignUpSchema = MergedSchema.refine(
       });
     }
   }
-  if (data.role === 'APPLICANT') {
-    if (!data.name) {
-      ctx.addIssue({
-        path: ['name'],
-        code: z.ZodIssueCode.custom,
-        message: '이름을 입력해주세요.',
-      });
-    }
+  if (data.role === 'APPLICANT' && !data.name) {
+    ctx.addIssue({
+      path: ['name'],
+      code: z.ZodIssueCode.custom,
+      message: '이름을 입력해주세요.',
+    });
   }
 });
 
