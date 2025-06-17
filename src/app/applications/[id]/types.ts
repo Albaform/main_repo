@@ -1,3 +1,5 @@
+import { SetStateAction } from 'react';
+
 export interface DetailApplicationDataProps {
   id: number;
   name: string;
@@ -10,4 +12,14 @@ export interface DetailApplicationDataProps {
   createdAt: string;
   updatedAt: string;
   applicantId: number;
+}
+
+export interface EditModalProps {
+  showModal: boolean;
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  handleCloseModal: () => void;
+  onSuccess: () => void;
+  status: string;
+  applicationId: number;
+  formId: number;
 }

@@ -1,19 +1,25 @@
 import { DetailFormDataProps } from '@/app/albaform/[id]/types';
-import { fetchDownloadResume } from '@/lib/fetch/file';
 import { formattedDate } from '@/utils/formattedDate';
 import getDday from '@/utils/getDday';
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function StatusContainer({
   form,
   userStatus,
   role,
+  setShowModal,
 }: {
   form: DetailFormDataProps;
   userStatus: string;
   role: string;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const ownerType = role === 'OWNER';
+
+  const handleEditStatusModal = () => {
+    setShowModal(true);
+  };
 
   return (
     <div className='border border-solid border-line-100 px-6 py-10 rounded-[8px] max-lg:mt-[40px] max-md:border-[0] max-md:bg-white max-md:mt-[0] max-md:px-0'>
@@ -35,6 +41,7 @@ export default function StatusContainer({
             <button
               type='button'
               className='text-orange-400 font-semibold'
+              onClick={handleEditStatusModal}
             >
               <Image
                 src='/images/applicationDetail/iconEdit.svg'
@@ -46,9 +53,7 @@ export default function StatusContainer({
           )}
         </div>
         <p className='text-black300 font-light'>
-          {userStatus === ''
-            ? '전체'
-            : userStatus === 'REJECTED'
+          {userStatus === 'REJECTED'
             ? '거절'
             : userStatus === 'INTERVIEW_PENDING'
             ? '면접 대기'

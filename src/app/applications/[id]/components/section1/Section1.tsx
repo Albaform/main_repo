@@ -2,15 +2,18 @@ import { DetailFormDataProps } from '@/app/albaform/[id]/types';
 import MapContainer from './MapContainer';
 import DetailContainer from './DetailContainer';
 import StatusContainer from './StatusContainer';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function Section1({
   formData,
   userStatus,
   role,
+  setShowModal,
 }: {
   formData: DetailFormDataProps;
   userStatus: string;
   role: string;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <>
@@ -24,6 +27,7 @@ export default function Section1({
             form={formData}
             userStatus={userStatus}
             role={role}
+            setShowModal={setShowModal}
           />
         </div>
       </div>
