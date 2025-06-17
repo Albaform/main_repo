@@ -98,6 +98,7 @@ export const ModalContainer = styled(motion.div)`
   background: white;
   width: calc(100vw * (560 / 1920));
   min-width: 300px;
+  max-width: 500px;
   height: 100vh;
   text-align: left;
   display: flex;
