@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 import Image from 'next/image';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 // 알바폼 바로가기 버튼
-const Button = styled(Link)`
+const Button = styled.button`
   background-color: var(--primary-blue300);
   color: var(--white);
   width: 223px;
@@ -21,6 +22,10 @@ const Button = styled(Link)`
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
+  transition: 0.3s;
+  &:hover {
+    background: var(--primary-orange400);
+  }
 
   @media (max-width: 1199px) {
     width: 149px;
@@ -88,6 +93,18 @@ const BannerImg = styled.div`
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const { user: userData, hasHydrate } = useAuthStore();
+
+  const router = useRouter();
+  const albaformStartUrl = () => {
+    if (!userData) {
+      if (hasHydrate) {
+        router.push('/auth/signin/applicant');
+      }
+    } else {
+      router.push('/albaform');
+    }
+  };
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -115,7 +132,7 @@ export default function Home() {
       <div
         className='
         relative bg-[var(--black400)] w-full h-[633px] 
-        md:h-auto md:aspect-[1.23/1]'
+        md:h-auto md:aspect-[1.23/1] max-h-[calc(100%-88px)] mt-[88px] max-md:mt-[60px] max-xs:mt-[55px] max-xs:h-[600px] max-s:h-[500px]'
       >
         <Banner>
           <div
@@ -132,7 +149,7 @@ export default function Home() {
             />
           </div>
           <Title>한 곳에서 관리하는 알바 구인 플랫폼</Title>
-          <Button href={'/auth/signin/applicant'}>알바폼 시작하기</Button>
+          <Button onClick={albaformStartUrl}>알바폼 시작하기</Button>
           <BannerImg />
         </Banner>
       </div>
@@ -170,7 +187,7 @@ export default function Home() {
             <br />
             알바구인 플랫폼
           </p>
-          <Button href={'/auth/signin/applicant'}>알바폼 시작하기</Button>
+          <Button onClick={albaformStartUrl}>알바폼 시작하기</Button>
         </div>
       </div>
     </>
