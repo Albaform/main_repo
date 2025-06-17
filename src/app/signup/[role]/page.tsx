@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import KakaoSignUp from './OauthSignUp';
@@ -12,13 +13,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUpStore } from '@/stores/useSignUpStore';
-import {
-  UnifiedSignUpInput,
-  UnifiedSignUpSchema,
-} from '@/schemas/signupSchema';
+import { SignUpStep1Input, SignUpStep1Schema } from '@/schemas/signupSchema';
 
-export default function SignUp({ params }: { params: { role: string } }) {
-  const { role } = params;
+export default function SignUp({
+  params,
+}: {
+  params: Promise<{ role: string }>;
+}) {
+  const { role } = use(params);
 
   if (role !== 'applicant' && role !== 'owner') {
     notFound();
@@ -29,8 +31,8 @@ export default function SignUp({ params }: { params: { role: string } }) {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-  } = useForm<UnifiedSignUpInput>({
-    resolver: zodResolver(UnifiedSignUpSchema),
+  } = useForm<SignUpStep1Input>({
+    resolver: zodResolver(SignUpStep1Schema),
     mode: 'onChange',
   });
 
@@ -44,7 +46,7 @@ export default function SignUp({ params }: { params: { role: string } }) {
     setValue('role', 'OWNER');
   }, [setValue]);
 
-  const onSubmit = async (formData: UnifiedSignUpInput) => {
+  const onSubmit = async (formData: SignUpStep1Input) => {
     try {
       setStep2(formData);
 
@@ -86,55 +88,55 @@ export default function SignUp({ params }: { params: { role: string } }) {
       onSubmit={handleSubmit(onSubmit)}
       className='max-w-[640px] mx-auto py-[200px]'
     >
-      <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
-
-      {/* 상단 안내 문구 */}
-      {isApplicant ? (
-        <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
-          <p>
-            이미 계정이 있으신가요?
-            <Link
-              href='/signin/owner'
-              className='inline underline ml-1 text-black'
-            >
-              로그인 하기
-            </Link>
-          </p>
-          <p>
-            사장님 회원가입은{' '}
-            <Link
-              href='/signup/owner'
-              className='inline underline ml-1 text-black'
-            >
-              사장님 전용 페이지
-            </Link>
-            에서 할 수 있습니다.
-          </p>
-        </div>
-      ) : (
-        <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
-          <p>
-            이미 계정이 있으신가요?
-            <Link
-              href='/signin/applicant'
-              className='inline underline ml-1 text-black'
-            >
-              로그인 하기
-            </Link>
-          </p>
-          <p>
-            지원자 회원가입은{' '}
-            <Link
-              href='/signup/applicant'
-              className='inline underline ml-1 text-black'
-            >
-              지원자 전용 페이지
-            </Link>
-            에서 할 수 있습니다.
-          </p>
-        </div>
-      )}
-
+      <div className='flex flex-col items-center'>
+        <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
+        {/* 상단 안내 문구 */}
+        {isApplicant ? (
+          <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
+            <p>
+              이미 계정이 있으신가요?
+              <Link
+                href='/signin/owner'
+                className='inline underline ml-1 text-black'
+              >
+                로그인 하기
+              </Link>
+            </p>
+            <p>
+              사장님 회원가입은{' '}
+              <Link
+                href='/signup/owner'
+                className='inline underline ml-1 text-black'
+              >
+                사장님 전용 페이지
+              </Link>
+              에서 할 수 있습니다.
+            </p>
+          </div>
+        ) : (
+          <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
+            <p>
+              이미 계정이 있으신가요?
+              <Link
+                href='/signin/applicant'
+                className='inline underline ml-1 text-black'
+              >
+                로그인 하기
+              </Link>
+            </p>
+            <p>
+              지원자 회원가입은{' '}
+              <Link
+                href='/signup/applicant'
+                className='inline underline ml-1 text-black'
+              >
+                지원자 전용 페이지
+              </Link>
+              에서 할 수 있습니다.
+            </p>
+          </div>
+        )}
+      </div>
       {/* 입력 폼 */}
       <div className='flex flex-col mt-[60px] mb-[52px]'>
         <div className='mb-[32px]'>

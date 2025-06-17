@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -13,8 +14,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
 import KakaoSignIn from './OauthSignIn';
 
-export default function SignIn({ params }: { params: { role: string } }) {
-  const { role } = params;
+export default function SignIn({
+  params,
+}: {
+  params: Promise<{ role: string }>;
+}) {
+  const { role } = use(params);
 
   if (role !== 'applicant' && role !== 'owner') {
     notFound();
@@ -63,7 +68,7 @@ export default function SignIn({ params }: { params: { role: string } }) {
             <p>
               아직 계정이 없으신가요?
               <Link
-                href='/auth/signup/applicant'
+                href='/signup/applicant'
                 className='inline underline ml-1 text-black'
               >
                 회원가입 하기
@@ -72,7 +77,7 @@ export default function SignIn({ params }: { params: { role: string } }) {
             <p>
               사장님 로그인은{' '}
               <Link
-                href='/auth/signin/owner'
+                href='/signin/owner'
                 className='inline underline ml-1 text-black'
               >
                 사장님 전용 페이지
@@ -85,7 +90,7 @@ export default function SignIn({ params }: { params: { role: string } }) {
             <p>
               사장님 계정이 없으신가요?
               <Link
-                href='/auth/signup/owner'
+                href='/signup/owner'
                 className='inline underline ml-1 text-black'
               >
                 회원가입 하기
@@ -94,7 +99,7 @@ export default function SignIn({ params }: { params: { role: string } }) {
             <p>
               지원자 로그인은{' '}
               <Link
-                href='/auth/signin/applicant'
+                href='/signin/applicant'
                 className='inline underline ml-1 text-black'
               >
                 지원자 전용 페이지

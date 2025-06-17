@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-export const UnifiedSignUpSchema = z
+// 이메일, 비밀번호 입력 스키마
+export const SignUpStep1Schema = z
   .object({
-    // 공통: 1단계
     email: z.string().email({ message: '이메일 형식으로 입력해주세요.' }),
     password: z
       .string()
@@ -10,8 +10,18 @@ export const UnifiedSignUpSchema = z
       .regex(/[a-zA-Z]/, { message: '영문자를 포함해야 합니다.' })
       .regex(/\d/, { message: '숫자를 포함해야 합니다.' }),
     confirmPassword: z.string(),
+    role: z.enum(['OWNER', 'APPLICANT']),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });
 
-    // 공통: 2단계
+export type SignUpStep1Input = z.infer<typeof SignUpStep1Schema>;
+
+// 정보입력 스키마
+export const SignUpStep2Schema = z
+  .object({
     nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
     name: z.string().or(z.literal('')),
     phoneNumber: z.string().regex(/^\d{2,3}\d{3,4}\d{4}$/, {
@@ -19,17 +29,13 @@ export const UnifiedSignUpSchema = z
     }),
     role: z.enum(['OWNER', 'APPLICANT']),
 
-    // applicant 전용
+    // APPLICANT
     profileImage: z.string().url().optional(),
 
-    // owner 전용
+    // OWNER
     storeName: z.string().optional(),
     storePhoneNumber: z.string().optional(),
     location: z.string().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: '비밀번호가 일치하지 않습니다.',
-    path: ['confirmPassword'],
   })
   .superRefine((data, ctx) => {
     if (data.role === 'OWNER') {
@@ -70,4 +76,4 @@ export const UnifiedSignUpSchema = z
     }
   });
 
-export type UnifiedSignUpInput = z.infer<typeof UnifiedSignUpSchema>;
+export type SignUpStep2Input = z.infer<typeof SignUpStep2Schema>;
