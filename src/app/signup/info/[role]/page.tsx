@@ -11,8 +11,9 @@ import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { SignUpStep2Input, SignUpStep2Schema } from '@/schemas/signupSchema';
+import instance from '@/lib/api/api';
 
-export default function SignInInfo({
+export default function SignUpInfo({
   params,
 }: {
   params: Promise<{ role: string }>;
@@ -31,23 +32,54 @@ export default function SignInInfo({
   } = useForm<SignUpStep2Input>({
     resolver: zodResolver(SignUpStep2Schema),
     mode: 'onChange',
+    defaultValues: { role: role.toUpperCase() as 'OWNER' | 'APPLICANT' },
   });
 
   useEffect(() => {
-    setValue('role', 'OWNER', {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
+    console.log('errors:', errors);
+    Object.entries(errors).forEach(([key, value]) => {
+      console.log('Field:', key, 'Error:', value?.message);
     });
-  }, [setValue]);
+    console.log('isValid:', isValid);
+    console.log('Step 1 Data:', useSignUpStore.getState().step1);
+    console.log('Step 2 Data:', useSignUpStore.getState().step2);
+  }, [errors, isValid]);
 
   const router = useRouter();
-  const { isPending, error } = useSignUp();
+  const { data, isPending, error, reset } = useSignUp();
   const setStep2 = useSignUpStore((state) => state.setStep2);
+  const accessToken =
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
-  const onSubmit = (formData: SignUpStep2Input) => {
-    setStep2(formData);
-    router.push('/');
+  const onSubmit = async (formData: SignUpStep2Input) => {
+    try {
+      setStep2(formData);
+      router.push(`/signup/info/${role}`);
+
+      const payload: any = {
+        ...data,
+        ...formData,
+      };
+
+      if (accessToken) {
+        payload.provider = 'kakao';
+        payload.accessToken = accessToken;
+      } else {
+        payload.provider = 'local';
+      }
+
+      const res = await instance.post(`/auth/sign-up`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      localStorage.removeItem('accessToken');
+      reset();
+      router.push(`/auth/sign-up`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -69,16 +101,17 @@ export default function SignInInfo({
           추가 정보를 입력하여 회원가입을 완료해주세요.
         </p>
       </div>
-
       <div className='flex flex-col mt-[60px] mb-[52px] gap-8'>
         {isApplicant ? (
           <>
-            <Image
-              src='/images/mypage/editProfileImg.svg'
-              alt='profile image'
-              width={100}
-              height={100}
-            />
+            <div className='flex justify-center'>
+              <Image
+                src='/images/mypage/editProfileImg.svg'
+                alt='profile image'
+                width={100}
+                height={100}
+              />
+            </div>
             <div className='flex flex-col'>
               <Input
                 id='name'

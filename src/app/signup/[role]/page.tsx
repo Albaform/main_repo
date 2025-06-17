@@ -38,46 +38,19 @@ export default function SignUp({
 
   const router = useRouter();
   const { isPending, error } = useSignUp();
-  const { data, setStep2, reset } = useSignUpStore.getState();
-  const accessToken =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+  const setStep1 = useSignUpStore((s) => s.setStep1);
 
   useEffect(() => {
-    setValue('role', 'OWNER');
-  }, [setValue]);
+    setValue('role', role.toUpperCase() as 'OWNER' | 'APPLICANT');
+  }, [setValue, role]);
 
   const onSubmit = async (formData: SignUpStep1Input) => {
     try {
-      setStep2(formData);
-
-      const payload: any = {
-        ...data,
-        ...formData,
-      };
-
-      if (accessToken) {
-        payload.provider = 'kakao';
-        payload.accessToken = accessToken;
-      } else {
-        payload.provider = 'local';
-      }
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/signup/owner`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (!res.ok) throw new Error('회원가입 실패');
-
-      localStorage.removeItem('accessToken');
-      reset();
-      router.push('/signup/owner/success');
+      setStep1(formData);
+      console.log(formData);
+      router.push(`/signup/info/${role}`);
     } catch (error) {
-      alert('회원가입 처리 중 오류가 발생했습니다.');
+      console.error(error);
     }
   };
 

@@ -6,7 +6,7 @@ import instance from '@/lib/api/api';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { OwnerSignUpInput } from '@/schemas/signupSchema';
+import { SignUpInput } from '@/schemas/signupSchema';
 
 const signUp = async ({
   email,
@@ -18,7 +18,7 @@ const signUp = async ({
   storePhoneNumber,
   phoneNumber,
   location,
-}: OwnerSignUpInput) => {
+}: SignUpInput) => {
   const response = await instance.post('/auth/sign-up', {
     email,
     password,
