@@ -17,7 +17,9 @@ import EditPasswordModal from '../components/modal/editPassword/EditPasswordModa
 export default function Mypage() {
   const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>('post');
+  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>(
+    'post',
+  );
   const [isSort, setIsSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
