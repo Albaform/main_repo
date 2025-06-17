@@ -23,7 +23,6 @@ function Modal({
   $deletePost,
   $deleteForm,
   $deleteComment,
-  $deleteAlbaform,
   $deadLine,
   $writeingForm,
   $deleteScrap,
@@ -60,11 +59,15 @@ function Modal({
       if (deletePostId)
         fetchDeletePost(deletePostId, {
           onSuccess: () => {
-            queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey[0] === 'myPosts',
-            });
             if (isAlbatalkDetail) {
               router.push('/albatalk');
+              queryClient.invalidateQueries({
+                predicate: (query) => query.queryKey[0] === 'posts',
+              });
+            } else {
+              queryClient.invalidateQueries({
+                predicate: (query) => query.queryKey[0] === 'myPosts',
+              });
             }
             onSuccess?.();
           },
