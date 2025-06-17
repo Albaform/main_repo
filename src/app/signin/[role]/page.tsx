@@ -33,6 +33,7 @@ export default function SignIn({
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
   });
+
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const { mutate, isPending, error } = useSignIn(() => setShowToast(true));
@@ -44,12 +45,12 @@ export default function SignIn({
   useEffect(() => {
     if (showToast) {
       const timer = setTimeout(() => {
+        setShowToast(false);
         router.push('/');
-      }, 1000);
-
+      }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [showToast]);
+  }, [showToast, router]);
 
   useEffect(() => {
     if (error) {
@@ -60,7 +61,10 @@ export default function SignIn({
   const isApplicant = role === 'applicant';
 
   return (
-    <form className='max-w-[640px] mx-auto py-[200px]'>
+    <form
+      className='max-w-[640px] mx-auto py-[200px]'
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className='flex flex-col items-center'>
         <p className='font-semibold text-3xl mb-[32px]'>로그인</p>
         {isApplicant ? (

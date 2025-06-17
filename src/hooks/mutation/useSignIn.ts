@@ -8,7 +8,7 @@ import { SignInInput } from '@/schemas/signinSchema';
 const signIn = async ({ email, password }: SignInInput) => {
   const response = await instance.post('/auth/sign-in', { email, password });
   const { accessToken, refreshToken, user } = response.data;
-
+  console.log('로그인 응답:', response.data); // 여기!
   // 쿠키에 토큰 저장
   Cookies.set('accessToken', accessToken, { path: '/' });
   Cookies.set('refreshToken', refreshToken, { path: '/' });
