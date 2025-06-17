@@ -61,7 +61,7 @@ const Banner = styled.div`
 
 const Title = styled.h1`
   color: var(--white);
-  font-size: 56px;
+  font-size: 48px;
   font-weight: 400;
   line-height: 80px;
 
