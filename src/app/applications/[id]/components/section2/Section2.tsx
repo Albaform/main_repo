@@ -1,12 +1,21 @@
 import Image from 'next/image';
 import { DetailApplicationDataProps } from '../../types';
 import { calcExperienceMonths } from '@/utils/calcExperienceMonths';
+import { fetchDownloadResume } from '@/lib/fetch/file';
 
 export default function Section2({
   applicationData,
+  resumeId,
+  resumeName,
 }: {
   applicationData: DetailApplicationDataProps;
+  resumeId: number;
+  resumeName: string;
 }) {
+  const handleResumeDownload = async () => {
+    await fetchDownloadResume(resumeId, resumeName);
+  };
+
   return (
     <div className='w-1/2 pr-[80px] pb-[150px] max-[1480px]:pr-[50px] max-lg:pr-[0] max-lg:w-full'>
       <p className='text-3xl font-semibold'>제출 내용</p>
@@ -37,6 +46,7 @@ export default function Section2({
               width={36}
               height={36}
               className='cursor-pointer'
+              onClick={handleResumeDownload}
             />
           </div>
         </div>

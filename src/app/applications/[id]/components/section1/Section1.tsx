@@ -7,14 +7,10 @@ export default function Section1({
   formData,
   userStatus,
   role,
-  resumeId,
-  resumeName,
 }: {
   formData: DetailFormDataProps;
   userStatus: string;
   role: string;
-  resumeId: number;
-  resumeName: string;
 }) {
   return (
     <>
@@ -28,8 +24,6 @@ export default function Section1({
             form={formData}
             userStatus={userStatus}
             role={role}
-            resumeId={resumeId}
-            resumeName={resumeName}
           />
         </div>
       </div>

@@ -8,20 +8,12 @@ export default function StatusContainer({
   form,
   userStatus,
   role,
-  resumeId,
-  resumeName,
 }: {
   form: DetailFormDataProps;
   userStatus: string;
   role: string;
-  resumeId: number;
-  resumeName: string;
 }) {
   const ownerType = role === 'OWNER';
-
-  const handleResumeDownload = async () => {
-    await fetchDownloadResume(resumeId, resumeName);
-  };
 
   return (
     <div className='border border-solid border-line-100 px-6 py-10 rounded-[8px] max-lg:mt-[40px] max-md:border-[0] max-md:bg-white max-md:mt-[0] max-md:px-0'>
@@ -43,7 +35,6 @@ export default function StatusContainer({
             <button
               type='button'
               className='text-orange-400 font-semibold'
-              onClick={handleResumeDownload}
             >
               <Image
                 src='/images/applicationDetail/iconEdit.svg'

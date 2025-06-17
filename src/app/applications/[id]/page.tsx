@@ -27,23 +27,19 @@ export default function ApplicationDetail() {
 
   const isLoading = getFormLoading || getApplicationLoading || getUserLoading;
 
-  console.log(application)
-
   return (
     <>
       {isLoading && <Loader />}
       <DetailResponsive>
-        <Section1
-          formData={form}
-          userStatus={status}
-          role={role}
-          resumeId={resumeId}
-          resumeName={resumeName}
-        />
+        <Section1 formData={form} userStatus={status} role={role} />
       </DetailResponsive>
       <div className='h-3 bg-line-100' />
       <DetailResponsive>
-        <Section2 applicationData={application} />
+        <Section2
+          applicationData={application}
+          resumeId={resumeId}
+          resumeName={resumeName}
+        />
       </DetailResponsive>
     </>
   );
