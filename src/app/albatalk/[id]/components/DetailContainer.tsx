@@ -88,13 +88,14 @@ export default function DetailContainer({
           <div className='max-w-[400px] mt-[88px] max-xs:max-w-[100%] '>
             <DynamicImage src={post?.imageUrl} />
           </div>
-          <p className='mt-[30px] mb-[100px] whitespace-pre-wrap text-gray-400 font-light'>
-            {post?.content.split(/\n{2,}/).map((para, i) => (
-              <p key={i} className='whitespace-pre-wrap'>
-                {para}
-              </p>
-            ))}
-          </p>
+          {post?.content.split(/\n{2,}/).map((para, i) => (
+            <p
+              key={i}
+              className='mt-[30px] mb-[100px] whitespace-pre-wrap text-gray-400 font-light'
+            >
+              {para}
+            </p>
+          ))}
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
             <button
               onClick={handleToggleComments}
