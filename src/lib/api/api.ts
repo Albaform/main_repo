@@ -73,7 +73,7 @@ instance.interceptors.response.use(
         console.error('Error refreshing token:', refreshError);
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
-        window.location.href = '/auth/signin/owner';
+        window.location.href = '/signin/owner';
         return Promise.reject(refreshError);
       }
     }

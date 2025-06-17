@@ -39,7 +39,7 @@ export default function ContentsList({
               );
               const detailUrl = (() => {
                 if (!role) {
-                  return '/auth/signin/applicant';
+                  return '/signin/applicant';
                 } else {
                   return `/albaform/${item.id}`;
                 }

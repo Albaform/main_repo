@@ -26,11 +26,11 @@ export const useNavLink = (
     login: [
       {
         label: '사장님 전용',
-        url: '/auth/signin/owner',
+        url: '/signin/owner',
       },
       {
         label: '지원자 전용',
-        url: '/auth/signin/applicant',
+        url: '/signin/applicant',
       },
     ],
   };

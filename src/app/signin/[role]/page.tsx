@@ -65,9 +65,9 @@ export default function SignIn({
       className='max-w-[640px] mx-auto py-[200px]'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='flex flex-col items-center'>
-        <p className='font-semibold text-3xl mb-[32px]'>로그인</p>
-        {isApplicant ? (
+      {isApplicant ? (
+        <div className='flex flex-col items-center'>
+          <p className='font-semibold text-3xl mb-[32px]'>사장님 로그인</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               아직 계정이 없으신가요?
@@ -89,7 +89,10 @@ export default function SignIn({
               에서 할 수 있습니다.
             </p>
           </div>
-        ) : (
+        </div>
+      ) : (
+        <div className='flex flex-col items-center'>
+          <p className='font-semibold text-3xl mb-[32px]'>지원자 로그인</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               사장님 계정이 없으신가요?
@@ -111,8 +114,9 @@ export default function SignIn({
               에서 할 수 있습니다.
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
       {isApplicant ? (
         <div className='flex flex-col mt-[60px] mb-[52px]'>
           <div className='mb-[32px]'>

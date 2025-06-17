@@ -99,7 +99,7 @@ export default function Home() {
   const albaformStartUrl = () => {
     if (!userData) {
       if (hasHydrate) {
-        router.push('/auth/signin/applicant');
+        router.push('/signin/applicant');
       }
     } else {
       router.push('/albaform');
