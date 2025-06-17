@@ -1,133 +1,149 @@
 'use client';
 
-import Link from 'next/link';
-import Input from '@/app/auth/components/Input';
-import Button from '@/app/auth/components/Button';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSignUp } from '@/hooks/mutation/useSignUp';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSignUpStore } from '@/stores/useSignUpStore';
-import { signUpSchema1, SignUp1Input } from '@/schemas/signupSchema';
-import KakaoSignUp from '../../oauth/signup/owner/page';
+import { useRouter } from 'next/navigation';
 
-export default function SignUp() {
+import Input from '@/app/auth/components/Input';
+import Button from '@/app/auth/components/Button';
+import { openKakaoAddress } from '@/utils/openKakaoAddress';
+import { useSignUpStore } from '@/stores/useSignUpStore';
+import {
+  OwnerSignUp2Input,
+  ownerSignUpSchema2Base,
+} from '@/schemas/signupSchema';
+
+export default function OwnerAuthInfoPage() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<SignUp1Input>({
-    resolver: zodResolver(signUpSchema1),
+    setValue,
+  } = useForm<OwnerSignUp2Input>({
+    resolver: zodResolver(ownerSignUpSchema2Base),
     mode: 'onChange',
   });
-  const [showToast, setShowToast] = useState(true);
-  const router = useRouter();
-  const { isPending, error } = useSignUp();
-  const setStep1 = useSignUpStore((state) => state.setStep1);
 
-  const onSubmit = (formData: SignUp1Input) => {
-    const { confirmPassword, ...step1Data } = formData;
-    setStep1(step1Data);
-    router.push(`/auth/authinfo/owner`);
-  };
+  const router = useRouter();
+  const { data, setStep2, reset } = useSignUpStore.getState();
+  const accessToken =
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
   useEffect(() => {
-    if (error) {
-      alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
+    setValue('role', 'OWNER');
+  }, [setValue]);
+
+  const onSubmit = async (formData: OwnerSignUp2Input) => {
+    try {
+      setStep2(formData);
+
+      const payload: any = {
+        ...data,
+        ...formData,
+      };
+
+      if (accessToken) {
+        payload.provider = 'kakao';
+        payload.accessToken = accessToken;
+      } else {
+        payload.provider = 'local';
+      }
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/signup/owner`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      if (!res.ok) throw new Error('회원가입 실패');
+
+      localStorage.removeItem('accessToken');
+      reset();
+      router.push('/signup/owner/success');
+    } catch (err) {
+      alert('회원가입 처리 중 오류가 발생했습니다.');
     }
-  }, [error]);
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className='max-w-[640px] mx-auto py-[200px] max-md:px-[24px]'
     >
-      <div className='flex flex-col items-center'>
-        <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
-        <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
-          <p>
-            이미 사장님 계정이 있으신가요?
-            <Link
-              href='/auth/signin/owner'
-              className='inline underline ml-1 text-black'
-            >
-              로그인 하기
-            </Link>
-          </p>
-          <p>
-            지원자 회원가입은{' '}
-            <Link
-              href='/auth/signup/applicant'
-              className='inline underline ml-1 text-black'
-            >
-              지원자 전용 페이지
-            </Link>
-            에서 할 수 있습니다.
-          </p>
-        </div>
-      </div>
-      <div className='flex flex-col mt-[60px] mb-[52px]'>
-        <div className='mb-[32px]'>
-          <Input
-            id='email'
-            label='이메일'
-            placeholder='이메일을 입력해주세요'
-            className={errors.email ? 'border-red' : ''}
-            {...register('email')}
-          />
-          {errors.email && (
-            <p className='text-red text-sm'>{errors.email.message}</p>
-          )}
-        </div>
-        <div className='mb-[32px]'>
-          <Input
-            id='password'
-            type='password'
-            label='비밀번호'
-            placeholder='비밀번호를 입력해주세요'
-            className={errors.password ? 'border-red' : ''}
-            {...register('password')}
-          />
+      <p className='text-3xl font-bold text-center mb-6'>사장님 정보 입력</p>
 
-          {errors.password && (
-            <p className='text-red text-sm'>{errors.password.message}</p>
-          )}
-        </div>
-        <div>
-          <Input
-            id='confirmPassword'
-            type='password'
-            label='비밀번호확인'
-            placeholder='비밀번호를 한번 더 입력해주세요'
-            className={errors.password ? 'border-red' : ''}
-            {...register('confirmPassword')}
-          />
-        </div>
-        {errors.confirmPassword && (
-          <p className='text-red text-sm'>{errors.confirmPassword.message}</p>
-        )}
-      </div>
-      <Button
-        type='submit'
-        disabled={!isValid}
-        onClick={() => setShowToast(true)}
-      >
-        {isPending ? '정보 저장 중...' : '다음'}
+      <Input
+        id='nickname'
+        label='닉네임'
+        {...register('nickname')}
+        placeholder='닉네임'
+        className={errors.nickname ? 'border-red' : ''}
+      />
+      {errors.nickname && (
+        <p className='text-red text-sm'>{errors.nickname.message}</p>
+      )}
+
+      <Input
+        id='storeName'
+        label='가게 이름'
+        {...register('storeName')}
+        placeholder='상호명'
+        className={errors.storeName ? 'border-red' : ''}
+      />
+      {errors.storeName && (
+        <p className='text-red text-sm'>{errors.storeName.message}</p>
+      )}
+
+      <Input
+        id='storePhoneNumber'
+        label='가게 전화번호'
+        {...register('storePhoneNumber')}
+        placeholder='숫자만 입력'
+        className={errors.storePhoneNumber ? 'border-red' : ''}
+      />
+      {errors.storePhoneNumber && (
+        <p className='text-red text-sm'>{errors.storePhoneNumber.message}</p>
+      )}
+
+      <Input
+        id='phoneNumber'
+        label='사장님 전화번호'
+        {...register('phoneNumber')}
+        placeholder='숫자만 입력'
+        className={errors.phoneNumber ? 'border-red' : ''}
+      />
+      {errors.phoneNumber && (
+        <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
+      )}
+
+      <Input
+        id='location'
+        label='가게 위치'
+        readOnly
+        placeholder='주소를 선택해주세요'
+        className={errors.location ? 'border-red' : ''}
+        {...register('location')}
+        onClick={() =>
+          openKakaoAddress((addr) =>
+            setValue('location', addr, {
+              shouldValidate: true,
+              shouldDirty: true,
+              shouldTouch: true,
+            }),
+          )
+        }
+      />
+      {errors.location && (
+        <p className='text-red text-sm'>{errors.location.message}</p>
+      )}
+
+      <Button type='submit' disabled={!isValid}>
+        시작하기
       </Button>
-      <p className='flex items-center justify-center text-[16px] text-black100 my-[20px]'>
-        가입시{' '}
-        <Link
-          href='/auth/signup/applicant'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='inline underline ml-1 text-primary-orange300'
-        >
-          이용약관
-        </Link>
-        에 동의한 것으로 간주됩니다.
-      </p>
-      <KakaoSignUp />
     </form>
   );
 }

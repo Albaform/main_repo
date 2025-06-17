@@ -17,9 +17,7 @@ export default function KakaoSignUpRedirectPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth/signup/kakao`,
           {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               provider: 'kakao',
               code,
@@ -28,17 +26,14 @@ export default function KakaoSignUpRedirectPage() {
           },
         );
 
-        if (!res.ok) throw new Error('회원가입 실패');
+        if (!res.ok) throw new Error('카카오 인증 실패');
 
-        const data = await res.json();
+        const { accessToken } = await res.json();
+        localStorage.setItem('accessToken', accessToken);
 
-        if (data.accessToken) {
-          localStorage.setItem('accessToken', data.accessToken);
-        }
-        router.push('/auth/signup/owner/authinfo');
+        router.push('/auth/authinfo/owner');
       } catch (err) {
-        console.error('카카오 회원가입 오류:', err);
-        alert('회원가입 중 오류가 발생했습니다.');
+        alert('카카오 인증 실패. 다시 시도해주세요.');
         router.push('/auth/signup/owner');
       }
     };
@@ -46,5 +41,7 @@ export default function KakaoSignUpRedirectPage() {
     signup();
   }, [searchParams]);
 
-  return <p className='text-center mt-20 text-xl'>회원가입 처리 중입니다...</p>;
+  return (
+    <p className='text-center mt-20 text-xl'>카카오 인증 처리 중입니다...</p>
+  );
 }
