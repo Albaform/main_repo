@@ -61,10 +61,10 @@ export default function SignUp({
       onSubmit={handleSubmit(onSubmit)}
       className='max-w-[640px] mx-auto py-[200px]'
     >
-      <div className='flex flex-col items-center'>
-        <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
-        {/* 상단 안내 문구 */}
-        {isApplicant ? (
+      {/* 상단 안내 문구 */}
+      {isApplicant ? (
+        <div className='flex flex-col items-center'>
+          <p className='font-semibold text-3xl mb-[32px]'>지원자 회원가입</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               이미 계정이 있으신가요?
@@ -86,7 +86,10 @@ export default function SignUp({
               에서 할 수 있습니다.
             </p>
           </div>
-        ) : (
+        </div>
+      ) : (
+        <div className='flex flex-col items-center'>
+          <p className='font-semibold text-3xl mb-[32px]'>사장님 회원가입</p>
           <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
             <p>
               이미 계정이 있으신가요?
@@ -108,8 +111,8 @@ export default function SignUp({
               에서 할 수 있습니다.
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {/* 입력 폼 */}
       <div className='flex flex-col mt-[60px] mb-[52px]'>
         <div className='mb-[32px]'>

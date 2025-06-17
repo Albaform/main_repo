@@ -165,7 +165,16 @@ export default function SignUpInfo({
             {errors.nickname && (
               <p className='text-red text-sm'>{errors.nickname.message}</p>
             )}
-
+            <Input
+              id='name'
+              label='이름'
+              placeholder='이름을 입력해주세요'
+              className={errors.name ? 'border-red' : ''}
+              {...register('name')}
+            />
+            {errors.name && (
+              <p className='text-red text-sm'>{errors.name.message}</p>
+            )}
             <Input
               id='storeName'
               label='가게 이름'
