@@ -35,7 +35,7 @@ export default function TextContainer({ form }: { form: DetailFormDataProps }) {
       </div>
       <div>
         <div className='flex items-center mb-4'>
-          <p className='text-black-400 underline font-semibold mr-4 text-[24px] max-md:text-[18px]'>
+          <p className='min-w-max text-black-400 underline font-semibold mr-4 text-[24px] max-md:text-[18px]'>
             {form?.storeName}
           </p>
           <p className='text-gray-400 text-[20px] max-md:text-[16px]'>

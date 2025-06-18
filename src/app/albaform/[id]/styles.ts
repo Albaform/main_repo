@@ -93,8 +93,8 @@ export const DetailResponsive = styled.div<DetailResponsiveProps>`
   @media ${media.mobile} {
     padding: ${({ $owner }) =>
       $owner
-        ? '0 24px calc(env(safe-area-inset-bottom) + 62px)'
-        : '0 24px calc(env(safe-area-inset-bottom) + 262px)'};
+        ? '16px 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '16px 24px calc(env(safe-area-inset-bottom) + 262px)'};
   }
 `;
 
