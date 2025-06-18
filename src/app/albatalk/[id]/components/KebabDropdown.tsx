@@ -49,7 +49,11 @@ export default function KebabDropdown({
       <PostDropdownContainer $active={dropdown}>
         <PostDropwonButton
           type='button'
-          onClick={() => router.push(`/albatalk/${postId}/edit`)}
+          onClick={() =>
+            $deleteComment
+              ? handleEdit?.()
+              : router.push(`/albatalk/${postId}/edit`)
+          }
         >
           수정하기
         </PostDropwonButton>
