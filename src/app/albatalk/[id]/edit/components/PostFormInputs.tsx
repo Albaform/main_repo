@@ -63,7 +63,12 @@ export default function PostFormInputs(props: FormLogisProps) {
         {isPreview ? (
           <div className='relative w-fit'>
             <div className='relative w-[240px] h-[240px] rounded-[8px] max-md:w-[160px] max-md:h-[160px] border border-solid border-line-200 overflow-hidden'>
-              <Image src={isPreview} alt='썸네일' fill />
+              <Image
+                src={isPreview}
+                alt='썸네일'
+                fill
+                style={{ objectFit: 'cover' }}
+              />
             </div>
             <Image
               src='/images/closePreview.svg'
