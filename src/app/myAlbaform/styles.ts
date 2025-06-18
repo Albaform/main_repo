@@ -116,7 +116,6 @@ export const PostWrapper = styled.div`
   border: 1px solid var(--line100);
   border-radius: 16px;
   box-shadow: 4px 4px 6px 0 rgba(212, 212, 212, 0.1);
-  cursor: pointer;
   background: var(--white);
 
   @media (max-width: 1450px) {

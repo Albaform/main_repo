@@ -39,7 +39,7 @@ export default function DetailContainer({
       </div>
       <div>
         <div className='flex items-center mb-4 max-md:hidden'>
-          <p className='text-black-400 underline font-semibold mr-4 text-[24px] max-md:text-[18px]'>
+          <p className='text-black-400 underline font-semibold] min-w-max mr-4 text-[24px] max-md:text-[18px]'>
             {form?.storeName}
           </p>
           <p className='text-gray-400 text-[20px] max-md:text-[16px]'>

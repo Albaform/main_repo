@@ -39,8 +39,13 @@ export default function ContentsList({
                     <button
                       type='button'
                       className='underline text-black200 font-light'
+                      onClick={() =>
+                        router.push(
+                          `/applications/${item.id}?formId=${form.id}`,
+                        )
+                      }
                     >
-                      지원내역 보기
+                      지원상세 보기
                     </button>
                   </div>
                   <div className='flex items-center mb-4'>

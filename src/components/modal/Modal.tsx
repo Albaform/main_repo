@@ -111,7 +111,11 @@ function Modal({
             queryClient.invalidateQueries({
               predicate: (query) => {
                 const key = query.queryKey?.[0];
-                return key === 'albaforms' || key === 'forms';
+                return (
+                  key === 'albaforms' ||
+                  key === 'forms' ||
+                  key === 'myApplications'
+                );
               },
             });
             if (isAlbaformDetail) {
