@@ -15,7 +15,7 @@ export default function NotFound() {
 
   useEffect(() => {
     setIsNotFound(true);
-    return () => setIsNotFound(false); // 다른 페이지 이동 시 초기화
+    return () => setIsNotFound(false);
   }, [setIsNotFound]);
 
   return (
