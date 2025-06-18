@@ -28,7 +28,9 @@ export function useCreateCommentForm(postId: number) {
       { postId, createComment },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['comments'] });
+          ['comments', 'myComments', 'myPosts'].forEach((key) => {
+            queryClient.invalidateQueries({ queryKey: [key] });
+          });
           setValue('createComment', '');
         },
       },

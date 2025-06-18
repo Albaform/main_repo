@@ -62,7 +62,9 @@ function Modal({
             queryClient.invalidateQueries({
               predicate: (query) => {
                 const key = query.queryKey?.[0];
-                return key === 'myPosts' || key === 'posts';
+                return (
+                  key === 'myPosts' || key === 'posts' || key === 'myComments'
+                );
               },
             });
             if (isAlbatalkDetail) {
@@ -79,7 +81,10 @@ function Modal({
         fetchDeleteComment(deletePostId, {
           onSuccess: () => {
             queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey[0] === 'comments',
+              predicate: (query) => {
+                const key = query.queryKey?.[0];
+                return key === 'comments';
+              },
             });
             onSuccess?.();
           },

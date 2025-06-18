@@ -23,6 +23,7 @@ export const useGetMyContents = (
     staleTime: 1000 * 60,
     enabled: selectedTab === 'comment',
     placeholderData: keepPreviousData,
+    gcTime: 1,
   });
 
   const queryFn = ({ pageParam = 1 }) =>
