@@ -12,6 +12,7 @@ import Toast from '@/components/tooltip/Toast';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
+import { SignInResponse } from '@/types/SignInResponse';
 import KakaoSignIn from './OauthSignIn';
 
 export default function SignIn({
@@ -36,7 +37,16 @@ export default function SignIn({
 
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
-  const { mutate, isPending, error } = useSignIn(() => setShowToast(true));
+
+  const { mutate, isPending, error } = useSignIn(role, {
+    onSuccess: () => {
+      setShowToast(true);
+    },
+    onError: (err) => {
+      alert('지원자/사장님 페이지를 확인해주세요 !');
+      console.error(err);
+    },
+  });
 
   const onSubmit = (data: SignInInput) => {
     mutate(data);
@@ -117,60 +127,36 @@ export default function SignIn({
         </div>
       )}
 
-      {isApplicant ? (
-        <div className='flex flex-col mt-[60px] mb-[52px]'>
-          <div className='mb-[32px]'>
-            <Input
-              id='email'
-              label='이메일'
-              placeholder='이메일을 입력하세요'
-              className={errors.email ? 'border-red' : ''}
-              {...register('email')}
-            />
-            {errors.email && (
-              <p className='text-red text-sm'>{errors.email.message}</p>
-            )}
-          </div>
+      <div className='flex flex-col mt-[60px] mb-[52px]'>
+        <div className='mb-[32px]'>
           <Input
-            id='password'
-            type='password'
-            label='비밀번호'
-            placeholder='비밀번호를 입력하세요'
-            className={errors.password ? 'border-red' : ''}
-            {...register('password')}
+            id='email'
+            label='이메일'
+            placeholder={
+              isApplicant ? '이메일을 입력하세요' : '이메일을 입력해주세요'
+            }
+            className={errors.email ? 'border-red' : ''}
+            {...register('email')}
           />
-          {errors.password && (
-            <p className='text-red text-sm'>{errors.password.message}</p>
-          )}
-          {error && <p className='text-red text-sm'>{error.message}</p>}
-        </div>
-      ) : (
-        <div className='flex flex-col mt-[60px] mb-[52px]'>
-          <div className='mb-[32px]'>
-            <Input
-              id='email'
-              label='이메일'
-              placeholder='이메일을 입력해주세요'
-              className={errors.email ? 'border-red' : ''}
-              {...register('email')}
-            />
-            {errors.email && (
-              <p className='text-red text-sm'>{errors.email.message}</p>
-            )}
-          </div>
-          <Input
-            id='password'
-            type='password'
-            label='비밀번호'
-            placeholder='비밀번호를 입력해주세요'
-            className={errors.password ? 'border-red' : ''}
-            {...register('password')}
-          />
-          {errors.password && (
-            <p className='text-red text-sm'>{errors.password.message}</p>
+          {errors.email && (
+            <p className='text-red text-sm'>{errors.email.message}</p>
           )}
         </div>
-      )}
+        <Input
+          id='password'
+          type='password'
+          label='비밀번호'
+          placeholder={
+            isApplicant ? '비밀번호를 입력하세요' : '비밀번호를 입력해주세요'
+          }
+          className={errors.password ? 'border-red' : ''}
+          {...register('password')}
+        />
+        {errors.password && (
+          <p className='text-red text-sm'>{errors.password.message}</p>
+        )}
+        {error && <p className='text-red text-sm'>{error.message}</p>}
+      </div>
       <Button type='submit' disabled={!isValid}>
         {isPending ? '로그인 중...' : '로그인'}
       </Button>

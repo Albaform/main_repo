@@ -1,14 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import instance from '@/lib/api/api';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { SignInInput } from '@/schemas/signinSchema';
+import { SignInResponse } from '@/types/SignInResponse';
+import instance from '@/lib/api/api';
 
 const signIn = async ({ email, password }: SignInInput) => {
   const response = await instance.post('/auth/sign-in', { email, password });
   const { accessToken, refreshToken, user } = response.data;
-  console.log('로그인 응답:', response.data); // 여기!
   // 쿠키에 토큰 저장
   Cookies.set('accessToken', accessToken, { path: '/' });
   Cookies.set('refreshToken', refreshToken, { path: '/' });
@@ -16,18 +14,23 @@ const signIn = async ({ email, password }: SignInInput) => {
   return { user };
 };
 
-export const useSignIn = (onSuccess?: () => void) => {
-  const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+export function useSignIn(
+  expectedRole: string,
+  options?: {
+    onSuccess?: (data: { user: any }) => void;
+    onError?: (error: Error) => void;
+  },
+) {
+  return useMutation<{ user: any }, Error, SignInInput>({
+    mutationFn: async (input: SignInInput) => {
+      const data = await signIn(input);
+      const user = data.user?.[0];
 
-  return useMutation({
-    mutationFn: signIn,
-    onSuccess: (data) => {
-      setUser(data.user);
-      onSuccess?.();
+      if (!user || user.role.toLowerCase() !== expectedRole) {
+        throw new Error('이 페이지에서는 해당 역할로 로그인할 수 없습니다.');
+      }
+      return data;
     },
-    onError: (error) => {
-      console.error('로그인 실패:', error);
-    },
+    ...options,
   });
-};
+}
