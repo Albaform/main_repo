@@ -1,7 +1,7 @@
 // 댓글 불러오기
 
 import { fetchGetComments } from '@/lib/fetch/comment';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 // GET '/posts/:postId/comments'
 export const useGetComments = (page: number, postId: number) => {

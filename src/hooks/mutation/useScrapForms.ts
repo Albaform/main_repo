@@ -21,12 +21,14 @@ export const useScrapForms = () => {
         : fetchScrapForms(formId);
     },
     onMutate: async ({ formId, isScrapped }) => {
-      await queryClient.cancelQueries({ queryKey: ['albaforms', formId] });
+      await queryClient.cancelQueries({ queryKey: ['albaform', formId] });
+      await queryClient.cancelQueries({ queryKey: ['myScrap'] });
 
-      const previousData = queryClient.getQueryData(['albaforms', formId]);
+      const previousData = queryClient.getQueryData(['albaform', formId]);
+      const previousMyScrap = queryClient.getQueryData(['myScrap']);
 
       queryClient.setQueryData<DetailFormDataProps>(
-        ['albaforms', formId],
+        ['albaform', formId],
         (oldData) => {
           if (!oldData) return oldData;
 
@@ -39,20 +41,24 @@ export const useScrapForms = () => {
         },
       );
 
-      return { previousData };
+      return { previousData, previousMyScrap };
     },
     onError: (err, variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
-          ['albaforms', variables.formId],
+          ['albaform', variables.formId],
           context.previousData,
         );
+      }
+      if (context?.previousMyScrap) {
+        queryClient.setQueryData(['myScrap'], context.previousMyScrap);
       }
     },
     onSettled: (data, error, varialbes) => {
       queryClient.invalidateQueries({
-        queryKey: ['albaforms', varialbes.formId],
+        queryKey: ['albaform', varialbes.formId],
       });
+      queryClient.invalidateQueries({ queryKey: ['myScrap'] });
     },
   });
 };
