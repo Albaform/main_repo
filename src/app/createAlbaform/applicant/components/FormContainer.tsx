@@ -36,7 +36,7 @@ export default function FormContainer() {
           onClick={() => {
             router.back();
           }}
-          className='h-12 rounded-[8px] bg-gray-300 text-white text-[18px] px-6'
+          className='h-12 rounded-[8px] bg-gray-300 text-white px-6'
         >
           작성 취소
         </button>
