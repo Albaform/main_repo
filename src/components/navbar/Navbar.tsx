@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NavModal from './NavModal';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -15,10 +15,14 @@ import {
 import { useAuthStore } from '@/stores/useAuthStore';
 import Toast from '../tooltip/Toast';
 import { useNavLink } from '@/hooks/common/useNavLink';
+import { useAtomValue } from 'jotai';
+import { isNotFoundAtom } from '@/app/not-found';
 
 export default function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
+
+  const isNotFound = useAtomValue(isNotFoundAtom);
 
   const { user: userData, hasHydrate } = useAuthStore();
   const { role } = userData ?? {};
@@ -59,79 +63,85 @@ export default function Navbar() {
             className='block md:hidden'
             onClick={() => router.push('/')}
           />
-          <MenuList $alignRight={isLoginPage}>
-            {isLoginPage
-              ? NavItems['login'].map((item, id) => (
-                  <MenuItem
-                    key={id}
-                    $isActive={item.label === activeMenu}
-                    onClick={() => {
-                      router.push(item.url);
-                    }}
-                  >
-                    {item.label}
-                  </MenuItem>
-                ))
-              : NavItems['default'].map((item, id) => {
-                  const url = (() => {
-                    if (item.commonUrl) {
-                      if (item.label === '알바 토크' && !role)
-                        return '/signin/applicant';
-                      return item.commonUrl;
-                    }
-                    if (!role) return '/signin/applicant';
-                    return role === 'OWNER' ? item.ownerUrl : item.applicantUrl;
-                  })();
-
-                  return (
-                    <MenuItem
-                      key={id}
-                      $isActive={item.label === activeMenu}
-                      onClick={() => {
-                        if (url) {
-                          router.push(url);
+          {!isNotFound && (
+            <>
+              <MenuList $alignRight={isLoginPage}>
+                {isLoginPage
+                  ? NavItems['login'].map((item, id) => (
+                      <MenuItem
+                        key={id}
+                        $isActive={item.label === activeMenu}
+                        onClick={() => {
+                          router.push(item.url);
+                        }}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))
+                  : NavItems['default'].map((item, id) => {
+                      const url = (() => {
+                        if (item.commonUrl) {
+                          if (item.label === '알바 토크' && !role)
+                            return '/signin/applicant';
+                          return item.commonUrl;
                         }
+                        if (!role) return '/signin/applicant';
+                        return role === 'OWNER'
+                          ? item.ownerUrl
+                          : item.applicantUrl;
+                      })();
+
+                      return (
+                        <MenuItem
+                          key={id}
+                          $isActive={item.label === activeMenu}
+                          onClick={() => {
+                            if (url) {
+                              router.push(url);
+                            }
+                          }}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      );
+                    })}
+              </MenuList>
+              {!userData
+                ? hasHydrate &&
+                  !isLoginPage && (
+                    <button
+                      onClick={() => {
+                        router.push('/signin/applicant');
+                        setActiveMenu('지원자 전용');
+                      }}
+                      style={{
+                        fontSize: '16px',
+                        background: 'var(--primary-blue300)',
+                        border: '1px solid var(--primary-blue300)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        color: 'white',
                       }}
                     >
-                      {item.label}
-                    </MenuItem>
-                  );
-                })}
-          </MenuList>
-          {!userData
-            ? hasHydrate &&
-              !isLoginPage && (
-                <button
-                  onClick={() => {
-                    router.push('/signin/applicant');
-                    setActiveMenu('지원자 전용');
-                  }}
-                  style={{
-                    fontSize: '16px',
-                    background: 'var(--primary-orange300)',
-                    border: '1px solid var(--primary-orange300)',
-                    padding: '8px 16px',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    color: 'white',
-                  }}
-                >
-                  로그인
-                </button>
-              )
-            : !isLoginPage && (
-                <Hamburger
-                  src='/images/menu.png'
-                  alt='Menu'
-                  onClick={handleOpenModal}
+                      로그인
+                    </button>
+                  )
+                : !isLoginPage && (
+                    <Hamburger
+                      src='/images/menu.png'
+                      alt='Menu'
+                      onClick={handleOpenModal}
+                    />
+                  )}
+              {isModalOpen && (
+                <NavModal
+                  onClose={handleCloseModal}
+                  setShowToast={setShowToast}
+                  role={role}
                 />
               )}
-          {isModalOpen && (
-            <NavModal
-              onClose={handleCloseModal}
-              setShowToast={setShowToast}
-              role={role}
-            />
+            </>
           )}
         </ContentsWrapper>
       </NavbarWrapper>
