@@ -24,6 +24,5 @@ export const useMyForms = (
       }),
     getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     initialPageParam: 1,
-    staleTime: 1000 * 60,
   });
 };

@@ -22,6 +22,5 @@ export function useAlbaForms(
       }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     initialPageParam: 1,
-    staleTime: 1000 * 60,
   });
 }

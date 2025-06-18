@@ -20,6 +20,5 @@ export function useGetApplications(
       }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     initialPageParam: 1,
-    staleTime: 1000 * 60,
   });
 }

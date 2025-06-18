@@ -20,7 +20,6 @@ export const useGetMyContents = (
   const commentQuery = useQuery({
     queryKey: ['myComments', page, itemsPerPage],
     queryFn: () => fetchMyComments(page),
-    staleTime: 1000 * 60,
     enabled: selectedTab === 'comment',
     placeholderData: keepPreviousData,
     gcTime: 1,
@@ -47,7 +46,6 @@ export const useGetMyContents = (
     queryFn,
     getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
     initialPageParam: 1,
-    staleTime: 1000 * 60,
     enabled: selectedTab !== 'comment',
   });
 

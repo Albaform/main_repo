@@ -71,7 +71,10 @@ export const useEditForm = () => {
         queryKey: ['posts'],
         exact: false,
       });
-      await queryClient.invalidateQueries({ queryKey: ['post', postId] });
+
+      [['post', postId], ['myPosts'], ['posts']].forEach((key) => {
+        queryClient.invalidateQueries({ queryKey: key });
+      });
     };
 
     patchEditPosts(
