@@ -50,7 +50,8 @@ export default function BlockContainer({
               기간
             </p>
             <p className='text-[20px] text-orange-400 font-semibold max-lg:text-[14px]'>
-              {formattedDate(form?.workStartDate)} ~{' '}
+              {formattedDate(form?.workStartDate)} ~
+              <br className='max-lg:hidden' />{' '}
               {formattedDate(form?.workEndDate)}
             </p>
           </div>
