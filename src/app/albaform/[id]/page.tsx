@@ -25,6 +25,7 @@ export default function DetailPage() {
 
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const { data: form, isLoading: getFormLoading } = useGetFormsById(formId);
   const { data: user, isLoading: getUserLoading } = useGetMyInfo();
@@ -54,15 +55,19 @@ export default function DetailPage() {
   } = useModalController();
 
   const handleToggleScrap = () => {
-    setShowToast(true);
     scrapMutate(
       {
         formId,
         isScrapped,
       },
       {
-        onSettled: () => {
-          setTimeout(() => setShowToast(false), 3000);
+        onSuccess: () => {
+          setShowToast(true);
+          if (isScrapped) {
+            setToastMessage('스크랩이 취소되었습니다 !');
+          } else {
+            setToastMessage('스크랩이 완료되었습니다 !');
+          }
         },
       },
     );
@@ -109,11 +114,7 @@ export default function DetailPage() {
         </Toast>
       )}
       {showToast && (
-        <Toast onClose={() => setShowToast(false)}>
-          {isScrapped
-            ? '스크랩이 완료되었습니다 !'
-            : '스크랩이 취소되었습니다 !'}
-        </Toast>
+        <Toast onClose={() => setShowToast(false)}>{toastMessage}</Toast>
       )}
       <FloatingButton
         $albaformDetail
