@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import type { Metadata } from 'next';
 import GlobalStyleProvider from '@/context/GlobalStyleProvider';
 import StyledComponentsRegistry from '../lib/StyledRegistry';
@@ -35,16 +35,18 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <DaumPostcodeScript />
-        <KakaoMapScript />
-        <StyledComponentsRegistry>
-          <GlobalStyleProvider>
-            <ClientLayout>
-              <Navbar />
-              {children}
-            </ClientLayout>
-          </GlobalStyleProvider>
-        </StyledComponentsRegistry>
+        <Suspense fallback={<div />}>
+          <DaumPostcodeScript />
+          <KakaoMapScript />
+          <StyledComponentsRegistry>
+            <GlobalStyleProvider>
+              <ClientLayout>
+                <Navbar />
+                {children}
+              </ClientLayout>
+            </GlobalStyleProvider>
+          </StyledComponentsRegistry>
+        </Suspense>
       </body>
     </html>
   );
