@@ -1,31 +1,18 @@
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import FileInputContainer from './FileInputContainer';
 import TextareaContainer from './TextareaContainer';
 import TextInputcontainer from './TextInputContainer';
 import ButtonContainer from './ButtonContainer';
+import { INPUT_ITEMS } from '../constants/inputItems';
+import { useApplyForm } from '../hooks/useApplyForm';
 
-export default function FormContainer() {
-  const INPUT_ITEMS = [
-    {
-      label: '이름',
-      name: 'name',
-      type: 'text',
-      placeholder: '이름을 입력해주세요',
-    },
-    {
-      label: '연락처',
-      name: 'phoneNumber',
-      type: 'number',
-      placeholder: '숫자만 입력해주세요',
-    },
-    {
-      label: '경력(개월 수)',
-      name: 'experienceMonths',
-      type: 'number',
-      placeholder: '숫자만 입력해주세요',
-    },
-  ];
+export default function FormContainer({ formId }: { formId: number }) {
   const router = useRouter();
+
+  const formLogic = useApplyForm(formId);
+  const { form, onSubmit, isPending } = formLogic;
+  const { handleSubmit } = form;
 
   return (
     <>
@@ -41,21 +28,28 @@ export default function FormContainer() {
           작성 취소
         </button>
       </div>
-      <form>
-        {INPUT_ITEMS.map((item, i) => {
-          return (
-            <TextInputcontainer
-              key={i}
-              label={item.label}
-              name={item.name}
-              type={item.type}
-              placeholder={item.placeholder}
-            />
-          );
-        })}
-        <FileInputContainer />
-        <TextareaContainer />
-        <ButtonContainer />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset
+          disabled={isPending}
+          className={`${isPending ? 'pointer-events-none' : ''}`}
+        >
+          {INPUT_ITEMS.map(({ label, name, type, placeholder }, i) => {
+            return (
+              <React.Fragment key={i}>
+                <TextInputcontainer
+                  label={label}
+                  name={name}
+                  type={type}
+                  placeholder={placeholder}
+                  formLogic={formLogic}
+                />
+              </React.Fragment>
+            );
+          })}
+          <FileInputContainer {...formLogic} />
+          <TextareaContainer {...formLogic} />
+          <ButtonContainer {...formLogic} />
+        </fieldset>
       </form>
     </>
   );

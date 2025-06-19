@@ -6,6 +6,7 @@ import { DetailFormDataProps } from '../../types';
 
 export default function Section2({
   form,
+  formId,
   setCopied,
   role,
   isLoading,
@@ -16,6 +17,7 @@ export default function Section2({
   setModalType,
 }: {
   form: DetailFormDataProps;
+  formId: number;
   setCopied: Dispatch<SetStateAction<boolean>>;
   role: 'OWNER' | 'APPLICANT';
   isLoading: boolean;
@@ -43,6 +45,7 @@ export default function Section2({
       </div>
       <div className='flex-[1] max-lg:w-full max-lg:mt-20'>
         <BlockContainer
+          formId={formId}
           role={role}
           isLoading={isLoading}
           myPost={myPost}

@@ -1,9 +1,18 @@
 import instance from '../api/api';
+import { AlbaformApplyPayload } from '@/app/createAlbaform/types';
 
 // 지원하기
-export const fetchApplications = async (formId: number) => {
+export const fetchApplications = async ({
+  formId,
+  payload,
+}: {
+  formId: number;
+  payload: AlbaformApplyPayload;
+}) => {
   try {
-    const response = await instance.post(`/forms/${formId}/applications`);
+    const response = await instance.post(`/forms/${formId}/applications`, {
+      payload,
+    });
     if (!response.data) {
       throw new Error('지원하기 실패');
     }

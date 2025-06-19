@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
-import { FormLogisProps } from '../../../types';
+import { FormLogicsProps } from '../../../types';
 
-export default function HeadContainer(props: FormLogisProps) {
+export default function HeadContainer(props: FormLogicsProps) {
   const router = useRouter();
 
   const { form, isModified, isPending } = props;

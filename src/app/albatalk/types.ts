@@ -1,6 +1,6 @@
 import { AlbatalkInput } from '@/schemas/albatalkSchema';
 import { Dispatch, SetStateAction } from 'react';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FilterContainerProps {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
@@ -40,8 +40,8 @@ export interface ListContainerProps {
   isFetchingNextPage: boolean;
 }
 
-export interface FormLogisProps {
-  form: FieldValues;
+export interface FormLogicsProps {
+  form: UseFormReturn<AlbatalkInput>;
   postByIdData?: ListData;
   isModified?: boolean;
   isPending?: boolean;

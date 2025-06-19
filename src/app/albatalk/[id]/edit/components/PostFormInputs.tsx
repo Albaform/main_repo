@@ -1,8 +1,8 @@
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import Image from 'next/image';
-import { FormLogisProps } from '../../../types';
+import { FormLogicsProps } from '../../../types';
 
-export default function PostFormInputs(props: FormLogisProps) {
+export default function PostFormInputs(props: FormLogicsProps) {
   const { form, postByIdData, setSelectedImageFile } = props;
 
   const { register, formState, setValue, trigger } = form;

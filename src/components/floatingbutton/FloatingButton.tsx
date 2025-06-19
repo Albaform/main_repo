@@ -56,12 +56,12 @@ export default function FloatingButton({
             />
           </button>
         </div>
-      ) : $myAlbaform ? (
+      ) : (
         <div
           className='fixed rounded-[50%] bg-primary-orange300 w-[64px] h-[64px] content-center justify-items-center bottom-[calc(100px+theme(spacing.safe-bottom))] right-[120px] min-xlg:right-[calc((100vw-1480px)/2)] max-md:right-[24px] cursor-pointer'
           onClick={() =>
             router.push(
-              `${$myAlbaform ? 'createAlbaform/owner' : 'albatalk/new'}`,
+              `${$myAlbaform ? '/createAlbaform/owner' : '/albatalk/new'}`,
             )
           }
         >
@@ -75,8 +75,6 @@ export default function FloatingButton({
             className={`relative ${!$myAlbaform && 'top-[-2px] left-[-1px]'}`}
           />
         </div>
-      ) : (
-        ''
       )}
     </>
   );

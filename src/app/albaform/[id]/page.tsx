@@ -95,6 +95,7 @@ export default function DetailPage() {
         <Section1 form={form} />
         <Section2
           form={form}
+          formId={formId}
           setCopied={setCopied}
           role={role}
           isLoading={getUserLoading}
