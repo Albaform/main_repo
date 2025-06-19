@@ -117,16 +117,18 @@ export default function Section3({ formId }: { formId: number }) {
               </tbody>
             </table>
           ) : (
-            <div className='flex flex-col items-center justify-center text-gray-400 mt-[50px] mb-[30px]'>
-              <Image
-                src='/images/empty/albaform.svg'
-                alt='Loading...'
-                width={80}
-                height={80}
-                className='mb-3'
-              />
-              아직 아무도 지원하지 않았어요
-            </div>
+            !isLoading && (
+              <div className='flex flex-col items-center justify-center text-gray-400 mt-[50px] mb-[30px]'>
+                <Image
+                  src='/images/empty/albaform.svg'
+                  alt='Loading...'
+                  width={80}
+                  height={80}
+                  className='mb-3'
+                />
+                아직 아무도 지원하지 않았어요
+              </div>
+            )
           )}
         </div>
         {(isLoading || isFetchingNextPage) && (
