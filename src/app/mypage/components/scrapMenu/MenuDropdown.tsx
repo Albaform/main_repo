@@ -45,7 +45,7 @@ export default function MenuDropdown({
           type='button'
           onClick={(e) => {
             e.stopPropagation();
-            router.push(`/createAlbaform/applicant/${postId}`);
+            router.push(`/createAlbaform/applicant?formId=${postId}`);
           }}
         >
           지원하기
