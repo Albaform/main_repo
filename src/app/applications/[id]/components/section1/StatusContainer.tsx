@@ -1,4 +1,5 @@
 import { DetailFormDataProps } from '@/app/albaform/[id]/types';
+import Tooltip from '@/components/tooltip/ToolTip';
 import { formattedDate } from '@/utils/formattedDate';
 import getDday from '@/utils/getDday';
 import Image from 'next/image';
@@ -64,17 +65,8 @@ export default function StatusContainer({
             : ''}
         </p>
         {ownerType && (
-          <div className='absolute left-0 bottom-[-50px] pl-3 pr-4 h-10 leading-10 rounded-[14px] bg-primary-blue300 hidden text-white text-[14px] group-hover:block'>
-            <div className='flex item-center'>
-              <Image
-                src='/images/applicationDetail/iconInfo.svg'
-                alt='!'
-                width={24}
-                height={24}
-                className='mr-1'
-              />
-              <p>알바폼 현재 진행상태를 변경할 수 있어요!</p>
-            </div>
+          <div className='absolute left-0 bottom-[-80px] hidden text-white text-[14px] group-hover:block'>
+            <Tooltip>알바폼 현재 진행상태를 변경할 수 있어요!</Tooltip>
           </div>
         )}
       </div>

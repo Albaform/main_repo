@@ -13,24 +13,21 @@
 import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import CloseButton from '../closebutton/CloseButton';
 
 interface TooltipProps {
   children: React.ReactNode;
-  onClose: () => void;
 }
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  //justify-content: space-between;
   align-items: center;
   gap: 12px;
   border-radius: 8px;
   background-color: var(--primary-blue300);
   max-width: 476px;
   width: 100%;
-  padding: 16px 24px;
+  padding: 12px 24px 12px 15px;
 
   &::before {
     content: '';
@@ -45,17 +42,9 @@ const Wrapper = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 8px 12px;
+    padding: 8px 18px 8px 12px;
     max-width: 300px;
   }
-`;
-
-const Tail = styled.div`
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 10px solid var(--primary-blue300);
 `;
 
 const ContentWrapper = styled.div`
@@ -65,15 +54,10 @@ const ContentWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const StyledCloseButton = styled.div`
-  margin-left: auto;
-  flex-shrink: 0;
-`;
-
 const Text = styled.p`
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 14px;
   line-height: 32px;
   font-weight: 600;
   color: var(--white);
@@ -96,7 +80,7 @@ const Icon = styled(Image)`
   }
 `;
 
-export default function Tooltip({ children, onClose }: TooltipProps) {
+export default function Tooltip({ children }: TooltipProps) {
   return (
     <>
       <Wrapper>
@@ -109,9 +93,6 @@ export default function Tooltip({ children, onClose }: TooltipProps) {
           />
           <Text>{children}</Text>
         </ContentWrapper>
-        <StyledCloseButton>
-          <CloseButton onClose={() => onClose()} />
-        </StyledCloseButton>
       </Wrapper>
     </>
   );
