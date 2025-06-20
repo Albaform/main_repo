@@ -2,29 +2,35 @@
 
 import { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { notFound, useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/components/auth/Input';
+import Image from 'next/image';
 import Button from '@/components/auth/Button';
 import Toast from '@/components/tooltip/Toast';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
+import { useKakaoSignUpMutation } from '@/hooks/mutation/useOauth';
 import { SignUpStep2Input, SignUpStep2Schema } from '@/schemas/signupSchema';
-import instance from '@/lib/api/api';
 
 export default function SignUpInfo({
   params,
 }: {
   params: Promise<{ role: string }>;
 }) {
+  // 1. role, 라우터, 상태 등 준비
   const { role } = use(params);
   if (role !== 'applicant' && role !== 'owner') {
     notFound();
   }
   const isApplicant = role === 'applicant';
+  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+  const setStep2 = useSignUpStore((state) => state.setStep2);
 
+  // 2. form 상태 준비
   const {
     register,
     handleSubmit,
@@ -38,84 +44,86 @@ export default function SignUpInfo({
     },
   });
 
-  const router = useRouter();
-  const [showToast, setShowToast] = useState(false);
-  const [toastMsg, setToastMsg] = useState('');
-  const { data, isPending, error, reset } = useSignUp();
-  const setStep2 = useSignUpStore((state) => state.setStep2);
-  const accessToken =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-
+  // 3. 쿼리스트링, 스토어 값, mutation 훅들 준비
   const searchParams = useSearchParams();
   const kakaoCode = searchParams.get('code');
-
-  const onSubmit = async (formData: SignUpStep2Input) => {
-    try {
-      setStep2(formData);
-
-      const step1 = useSignUpStore.getState().step1;
-
-      // token 있으면 소셜 회원가입, 없으면 일반 회원가입
-      if (kakaoCode) {
-        // 소셜(카카오) 회원가입
-        const payload = {
-          location: formData.location ?? '',
-          phoneNumber: formData.phoneNumber ?? '',
-          storePhoneNumber: formData.storePhoneNumber ?? '',
-          storeName: formData.storeName ?? '',
-          role: role.toUpperCase(),
-          nickname: formData.nickname ?? '',
-          name: formData.name ?? '',
-          redirectUri: window.location.origin + `/oauth/signup/kakao/${role}`,
-          token: kakaoCode,
-        };
-        console.log('code:', kakaoCode);
-        console.log('redirectUri:', payload.redirectUri);
-        console.log('소셜 가입 payload:', payload);
-        await instance.post(`/oauth/sign-up/kakao`, payload, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-      } else {
-        // 일반 회원가입
-        const payload = {
-          email: step1?.email ?? '',
-          password: step1?.password ?? '',
-          name: formData.name ?? '',
-          nickname: formData.nickname ?? '',
-          role: step1?.role ?? formData.role ?? '',
-          storeName: formData.storeName ?? '',
-          storePhoneNumber: formData.storePhoneNumber ?? '',
-          phoneNumber: formData.phoneNumber ?? '',
-          location: formData.location ?? '',
-        };
-
-        console.log('일반 가입 payload:', payload);
-        await instance.post(`/auth/sign-up`, payload);
-      }
-
+  const { mutate: kakaoSignUp, isPending: isKakaoPending } =
+    useKakaoSignUpMutation({
+      onSuccess: () => {
+        setToastMsg('가입되었습니다');
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+          router.push('/');
+        }, 1000);
+      },
+      onError: () => {
+        setToastMsg('회원가입에 실패하였습니다');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      },
+    });
+  const {
+    mutate: signUp,
+    isPending: isSignUpPending,
+    error,
+  } = useSignUp({
+    onSuccess: () => {
       setToastMsg('가입되었습니다');
       setShowToast(true);
-
       setTimeout(() => {
         setShowToast(false);
-        router.push(`/`);
+        router.push('/');
       }, 1000);
-    } catch (error) {
+    },
+    onError: () => {
       setToastMsg('회원가입에 실패하였습니다');
       setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    },
+  });
 
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+  // 4. onSubmit 로직
+  const onSubmit = (formData: SignUpStep2Input) => {
+    setStep2(formData);
+    const step1 = useSignUpStore.getState().step1;
+
+    if (kakaoCode) {
+      // 소셜(카카오) 회원가입
+      kakaoSignUp({
+        location: formData.location ?? '',
+        phoneNumber: formData.phoneNumber ?? '',
+        storePhoneNumber: formData.storePhoneNumber ?? '',
+        storeName: formData.storeName ?? '',
+        role: role.toUpperCase(),
+        nickname: formData.nickname ?? '',
+        name: formData.name ?? '',
+        redirectUri: window.location.origin + `/oauth/signup/kakao/${role}`,
+        token: kakaoCode,
+      });
+    } else {
+      // 일반 회원가입
+      signUp({
+        email: step1?.email ?? '',
+        password: step1?.password ?? '',
+        confirmPassword: step1?.confirmPassword ?? '',
+        name: formData.name ?? '',
+        nickname: formData.nickname ?? '',
+        role: step1?.role ?? formData.role ?? '',
+        storeName: formData.storeName ?? '',
+        storePhoneNumber: formData.storePhoneNumber ?? '',
+        phoneNumber: formData.phoneNumber ?? '',
+        location: formData.location ?? '',
+      });
     }
   };
 
+  // 5. 추가 에러 처리
   useEffect(() => {
     if (error) {
       alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
     }
   }, [error]);
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -265,7 +273,7 @@ export default function SignUpInfo({
         disabled={!isValid}
         onSubmit={handleSubmit(onSubmit)}
       >
-        {isPending ? '정보 저장 중...' : '시작하기'}
+        {isSignUpPending || isKakaoPending ? '정보 저장 중...' : '시작하기'}
         {showToast && (
           <Toast onClose={() => setShowToast(false)}>{toastMsg}</Toast>
         )}

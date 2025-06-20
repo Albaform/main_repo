@@ -1,58 +1,39 @@
-// 회원가입
-// POST 'auth/sign-up'
-
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import instance from '@/lib/api/api';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { SignUpInput } from '@/schemas/signupSchema';
 
-const signUp = async ({
-  email,
-  password,
-  name,
-  nickname,
-  role,
-  storeName,
-  storePhoneNumber,
-  phoneNumber,
-  location,
-}: SignUpInput) => {
-  const response = await instance.post('/auth/sign-up', {
-    email,
-    password,
-    name,
-    nickname,
-    role,
-    storeName,
-    storePhoneNumber,
-    phoneNumber,
-    location,
-  });
-
-  const { accessToken, refreshToken, user } = response.data;
-
-  // 쿠키에 토큰 저장
-  Cookies.set('accessToken', accessToken, { path: '/' });
-  Cookies.set('refreshToken', refreshToken, { path: '/' });
-
-  return { user };
+type SignUpResponse = {
+  accessToken: string;
+  refreshToken: string;
+  user: any;
 };
 
-export const useSignUp = (onSuccess?: () => void) => {
+export function useSignUp(
+  options?: UseMutationOptions<SignUpResponse, unknown, SignUpInput>,
+) {
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
 
-  return useMutation({
-    mutationFn: signUp,
-    onSuccess: (data) => {
+  return useMutation<SignUpResponse, unknown, SignUpInput>({
+    mutationFn: async (input: SignUpInput) => {
+      const response = await instance.post('/auth/sign-up', input);
+      const { accessToken, refreshToken, user } = response.data;
+      Cookies.set('accessToken', accessToken, { path: '/' });
+      Cookies.set('refreshToken', refreshToken, { path: '/' });
+      return { user, accessToken, refreshToken };
+    },
+    onSuccess: (data, variables, context) => {
       setUser(data.user);
       router.push('/');
-      onSuccess?.();
+      options?.onSuccess?.(data, variables, context);
     },
-    onError: (error) => {
+    onError: (error, variables, context) => {
       console.error('회원가입 실패:', error);
+      options?.onError?.(error, variables, context);
     },
+    ...options,
   });
-};
+}
