@@ -33,5 +33,5 @@ export default function KakaoSignUpCallbackPage({
     router.replace(`/signup/info/${role}?code=${code}`);
   }, [code, router, role]);
 
-  return <LoadingSpinner text='카카오 로그인 처리중입니다...' />;
+  return <LoadingSpinner text='카카오 회원가입 처리중입니다...' />;
 }

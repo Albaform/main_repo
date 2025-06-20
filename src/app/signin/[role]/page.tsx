@@ -162,7 +162,7 @@ export default function SignIn({
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>로그인되었습니다 !</Toast>
       )}
-      <KakaoSignIn />
+      <KakaoSignIn role={role} />
     </form>
   );
 }
