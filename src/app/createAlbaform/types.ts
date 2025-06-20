@@ -17,7 +17,10 @@ export interface ApplyFormLogicsProps {
 
 export type AlbaformApplyPayload = Omit<
   AlbaformApplyInput,
-  'experienceMonths'
+  'experienceMonths' | 'resume'
 > & {
   experienceMonths: number;
+  resumeId: number;
+  resumeName: string;
+  password: string;
 };

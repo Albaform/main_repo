@@ -10,9 +10,11 @@ export const fetchApplications = async ({
   payload: AlbaformApplyPayload;
 }) => {
   try {
-    const response = await instance.post(`/forms/${formId}/applications`, {
+    console.log(payload);
+    const response = await instance.post(
+      `/forms/${formId}/applications`,
       payload,
-    });
+    );
     if (!response.data) {
       throw new Error('지원하기 실패');
     }

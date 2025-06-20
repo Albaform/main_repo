@@ -1,4 +1,5 @@
 import { useApplications } from '@/hooks/mutation/useApplications';
+import { useUploadResume } from '@/hooks/mutation/useUploadResume';
 import {
   AlbaformApplyInput,
   albaformApplySchema,
@@ -6,11 +7,19 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { AlbaformApplyPayload } from '../../types';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useApplyForm = (formId: number) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const { mutate: postApplyForm, isPending } = useApplications();
+  const { mutateAsync: postUploadResume, isPending: postFilePending } =
+    useUploadResume();
+  const { mutate: postApplyForm, isPending: postApplyPending } =
+    useApplications();
+
+  const isPending = postFilePending || postApplyPending;
 
   const form = useForm<AlbaformApplyInput>({
     resolver: zodResolver(albaformApplySchema),
@@ -18,18 +27,41 @@ export const useApplyForm = (formId: number) => {
   });
 
   const onSubmit = async (formData: AlbaformApplyInput) => {
-    let password = '';
+    const { name, phoneNumber, experienceMonths, introduction, resume } =
+      formData;
 
-    const payload = {
-      ...formData,
-      experienceMonths: Number(formData.experienceMonths),
+    let resumeId;
+    let resumeName;
+    let password = '12345678';
+
+    if (resume instanceof File && resume.size > 0) {
+      try {
+        const response = await postUploadResume(resume);
+        resumeId = response.resumeId;
+        resumeName = response.resumeName;
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+    }
+
+    if (!resumeId || !resumeName) return;
+
+    const payload: AlbaformApplyPayload = {
+      name,
+      phoneNumber,
+      introduction,
+      experienceMonths: Number(experienceMonths),
       password,
+      resumeId,
+      resumeName,
     };
     postApplyForm(
       { formId, payload },
       {
         onSuccess: () => {
           router.push('/myAlbaform/applicant');
+          queryClient.invalidateQueries({ queryKey: ['myApplications'] });
         },
       },
     );

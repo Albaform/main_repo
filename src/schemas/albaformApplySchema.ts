@@ -9,7 +9,9 @@ export const albaformApplySchema = z.object({
     .refine((val) => !isNaN(Number(val)), {
       message: '숫자만 입력해주세요',
     }),
-  resume: z.string().min(1, '이력서를 추가해주세요'),
+  resume: z.instanceof(File, {message:'이력서를 추가해주세요'}).refine((file) => file.size > 0, {
+    message:'이력서를 추가해주세요'
+  }),
   introduction: z.string().min(1, '자기소개를 입력해주세요'),
 });
 
