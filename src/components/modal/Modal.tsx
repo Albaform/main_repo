@@ -14,6 +14,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteComments } from '@/hooks/mutation/useDeleteComments';
 import { useCancelScrapForms } from '@/hooks/mutation/useCancelScrapForms';
 import { useDeleteForm } from '@/hooks/mutation/useDeleteForm';
+import { useToastStore } from '@/stores/useToastStore';
 
 function Modal({
   showModal,
@@ -33,6 +34,8 @@ function Modal({
 
   const router = useRouter();
   const pathname = usePathname();
+
+  const { showToast } = useToastStore();
 
   const isAlbatalkDetail = /^\/albatalk\/[^/]+$/.test(pathname);
   const isAlbaformDetail = /^\/albaform\/[^/]+$/.test(pathname);
@@ -68,6 +71,7 @@ function Modal({
               },
             });
             if (isAlbatalkDetail) {
+              showToast('게시글이 삭제되었습니다 !');
               router.push('/albatalk');
             }
             onSuccess?.();
