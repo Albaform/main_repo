@@ -8,6 +8,8 @@ import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
 import KakaoMapScript from '@/components/common/KakaoMapScript';
 import Script from 'next/script';
 import Navbar from '@/components/navbar/Navbar';
+import Toast from '@/components/tooltip/Toast';
+import GlobalToast from '@/components/tooltip/GlobalToast';
 
 export const metadata: Metadata = {
   title: 'Albaform',
@@ -43,6 +45,7 @@ export default async function RootLayout({
               <ClientLayout>
                 <Navbar />
                 {children}
+                <GlobalToast />
               </ClientLayout>
             </GlobalStyleProvider>
           </StyledComponentsRegistry>

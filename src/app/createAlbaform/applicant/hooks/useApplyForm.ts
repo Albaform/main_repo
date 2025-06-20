@@ -9,10 +9,13 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { AlbaformApplyPayload } from '../../types';
 import { useQueryClient } from '@tanstack/react-query';
+import { useToastStore } from '@/stores/useToastStore';
 
 export const useApplyForm = (formId: number) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const { showToast } = useToastStore();
 
   const { mutateAsync: postUploadResume, isPending: postFilePending } =
     useUploadResume();
@@ -62,6 +65,7 @@ export const useApplyForm = (formId: number) => {
         onSuccess: () => {
           router.push('/myAlbaform/applicant');
           queryClient.invalidateQueries({ queryKey: ['myApplications'] });
+          showToast('공고 지원이 완료 되었습니다 !');
         },
       },
     );

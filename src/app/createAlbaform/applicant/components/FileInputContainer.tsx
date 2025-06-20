@@ -6,10 +6,8 @@ export default function FileInputContainer(props: ApplyFormLogicsProps) {
   const [resumeName, setResumeName] = useState('');
 
   const { form } = props;
-  const { setValue, trigger, watch, register, formState } = form;
+  const { setValue, trigger, register, formState } = form;
   const { errors } = formState;
-
-  const resumeValue = watch('resume');
 
   return (
     <div className='mb-[50px]'>
