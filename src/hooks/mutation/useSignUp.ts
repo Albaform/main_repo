@@ -1,7 +1,7 @@
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import instance from '@/lib/api/api';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { SignUpInput } from '@/schemas/signupSchema';
 

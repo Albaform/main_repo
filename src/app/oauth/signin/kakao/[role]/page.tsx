@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, use } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
-import toast from 'react-hot-toast';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import instance from '@/lib/api/api';
 import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useKakaoSignInMutation } from '@/hooks/mutation/useOauth';
+import Toast from '@/components/tooltip/Toast';
 
 export default function KakaoSignInCallbackPage({
   params,
@@ -24,41 +24,48 @@ export default function KakaoSignInCallbackPage({
   const router = useRouter();
   const code = searchParams.get('code');
   const setUser = useAuthStore((state) => state.setUser);
+  const [showToast, setShowToast] = useState(false);
+
+  const { mutate } = useKakaoSignInMutation({
+    onSuccess: (data) => {
+      Cookies.set('accessToken', data.accessToken, { path: '/' });
+      Cookies.set('refreshToken', data.refreshToken, { path: '/' });
+      setUser?.(data.user);
+
+      setShowToast(true);
+    },
+    onError: (error: any) => {
+      setShowToast(true);
+      setTimeout(() => {
+        router.push(`/signin/${role}`);
+      }, 1500);
+    },
+  });
 
   useEffect(() => {
     if (!code) {
-      toast.error('인가 코드가 없습니다.');
+      setShowToast(true);
       setTimeout(() => {
         router.push(`/signin/${role}`);
       }, 1500);
       return;
     }
 
-    const loginWithKakao = async () => {
-      try {
-        const redirectUri =
-          window.location.origin + `/oauth/signin/kakao/${role}`;
-        const res = await instance.post('/oauth/sign-in/kakao', {
-          token: code,
-          redirectUri,
-        });
-        const { accessToken, refreshToken, user } = res.data;
+    mutate({
+      token: code,
+      redirectUri: window.location.origin + `/oauth/signin/kakao/${role}`,
+    });
+  }, [code, router, role, mutate]);
 
-        Cookies.set('accessToken', accessToken, { path: '/' });
-        Cookies.set('refreshToken', refreshToken, { path: '/' });
+  const handleToastClose = () => {
+    setShowToast(false);
+    router.replace('/');
+  };
 
-        setUser?.(user);
-
-        router.replace('/');
-      } catch (error: any) {
-        toast.error(
-          error?.response?.data?.message || '카카오 로그인에 실패했습니다.',
-        );
-      }
-    };
-
-    loginWithKakao();
-  }, [code, router, role, setUser]);
-
-  return <LoadingSpinner text='카카오 로그인 처리중입니다...' />;
+  return (
+    <>
+      <LoadingSpinner text='카카오 로그인 처리중입니다...' />
+      {showToast && <Toast onClose={handleToastClose}>로그인되었습니다!</Toast>}
+    </>
+  );
 }

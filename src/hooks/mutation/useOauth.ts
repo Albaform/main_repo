@@ -26,3 +26,30 @@ export function useKakaoSignUpMutation(
     ...options,
   });
 }
+
+type KakaoSignInPayload = {
+  token: string;
+  redirectUri: string;
+};
+
+type KakaoSignInResponse = {
+  accessToken: string;
+  refreshToken: string;
+  user: any;
+};
+
+export function useKakaoSignInMutation(
+  options?: UseMutationOptions<
+    KakaoSignInResponse,
+    unknown,
+    KakaoSignInPayload
+  >,
+) {
+  return useMutation({
+    mutationFn: async (payload: KakaoSignInPayload) => {
+      const res = await instance.post('/oauth/sign-in/kakao', payload);
+      return res.data;
+    },
+    ...options,
+  });
+}
