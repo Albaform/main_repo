@@ -176,7 +176,7 @@ export default function SignUp({
         </p>
       </div>
 
-      <KakaoSignUp />
+      <KakaoSignUp role={role} />
     </form>
   );
 }

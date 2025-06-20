@@ -12,7 +12,6 @@ import Toast from '@/components/tooltip/Toast';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
-import { SignInResponse } from '@/types/SignInResponse';
 import KakaoSignIn from './OauthSignIn';
 
 export default function SignIn({

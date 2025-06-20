@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/components/auth/Input';
@@ -46,41 +46,63 @@ export default function SignUpInfo({
   const accessToken =
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
+  const searchParams = useSearchParams();
+  const kakaoToken = searchParams.get('token');
+
   const onSubmit = async (formData: SignUpStep2Input) => {
     try {
-      const step1 = useSignUpStore.getState().step1;
       setStep2(formData);
 
-      const payload: Record<string, any> = {
-        email: step1?.email ?? '',
-        password: step1?.password ?? '',
-        name: formData.name ?? '',
-        nickname: formData.nickname ?? '',
-        role: step1?.role ?? formData.role ?? '',
-        storeName: formData.storeName ?? '',
-        storePhoneNumber: formData.storePhoneNumber ?? '',
-        phoneNumber: formData.phoneNumber ?? '',
-        location: formData.location ?? '',
-      };
+      const step1 = useSignUpStore.getState().step1;
 
-      console.log('전송 payload:', payload);
-      await instance.post(`/auth/sign-up`, payload);
+      // token 있으면 소셜 회원가입, 없으면 일반 회원가입
+      if (kakaoToken) {
+        // 소셜(카카오) 회원가입
+        const payload = {
+          location: formData.location ?? '',
+          phoneNumber: formData.phoneNumber ?? '',
+          storePhoneNumber: formData.storePhoneNumber ?? '',
+          storeName: formData.storeName ?? '',
+          role: role.toUpperCase(),
+          nickname: formData.nickname ?? '',
+          name: formData.name ?? '',
+          redirectUri: window.location.origin + `/oauth/kakao/${role}`,
+          token: kakaoToken,
+        };
+        console.log('소셜 가입 payload:', payload);
+        await instance.post(`/oauth/sign-up/kakao`, payload);
+      } else {
+        // 일반 회원가입
+        const payload = {
+          email: step1?.email ?? '',
+          password: step1?.password ?? '',
+          name: formData.name ?? '',
+          nickname: formData.nickname ?? '',
+          role: step1?.role ?? formData.role ?? '',
+          storeName: formData.storeName ?? '',
+          storePhoneNumber: formData.storePhoneNumber ?? '',
+          phoneNumber: formData.phoneNumber ?? '',
+          location: formData.location ?? '',
+        };
+
+        console.log('일반 가입 payload:', payload);
+        await instance.post(`/auth/sign-up`, payload);
+      }
 
       setToastMsg('가입되었습니다');
       setShowToast(true);
 
-      // 토스트 띄운 후 2초 있다가 이동, 혹은 즉시 이동할 수도 있음
       setTimeout(() => {
         setShowToast(false);
         router.push(`/`);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       setToastMsg('회원가입에 실패하였습니다');
       setShowToast(true);
 
       setTimeout(() => {
         setShowToast(false);
-      }, 2000);
+      }, 3000);
     }
   };
 
