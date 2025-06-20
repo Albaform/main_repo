@@ -47,7 +47,7 @@ export default function SignUpInfo({
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
   const searchParams = useSearchParams();
-  const kakaoToken = searchParams.get('token');
+  const kakaoCode = searchParams.get('code');
 
   const onSubmit = async (formData: SignUpStep2Input) => {
     try {
@@ -56,7 +56,7 @@ export default function SignUpInfo({
       const step1 = useSignUpStore.getState().step1;
 
       // token 있으면 소셜 회원가입, 없으면 일반 회원가입
-      if (kakaoToken) {
+      if (kakaoCode) {
         // 소셜(카카오) 회원가입
         const payload = {
           location: formData.location ?? '',
@@ -66,11 +66,15 @@ export default function SignUpInfo({
           role: role.toUpperCase(),
           nickname: formData.nickname ?? '',
           name: formData.name ?? '',
-          redirectUri: window.location.origin + `/oauth/kakao/${role}`,
-          token: kakaoToken,
+          redirectUri: window.location.origin + `/oauth/signup/kakao/${role}`,
+          token: kakaoCode,
         };
+        console.log('code:', kakaoCode);
+        console.log('redirectUri:', payload.redirectUri);
         console.log('소셜 가입 payload:', payload);
-        await instance.post(`/oauth/sign-up/kakao`, payload);
+        await instance.post(`/oauth/sign-up/kakao`, payload, {
+          headers: { 'Content-Type': 'application/json' },
+        });
       } else {
         // 일반 회원가입
         const payload = {

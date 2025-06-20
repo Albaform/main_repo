@@ -2,15 +2,11 @@
 
 import Image from 'next/image';
 
-export default function KakaoSignUp({ role }: { role: string }) {
+export default function KakaoSignIn() {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
-  const redirectBaseUri =
-    process.env.NEXT_PUBLIC_KAKAO_REDIRECT_SIGNUP_BASE_URI;
-  const redirectUri = `${redirectBaseUri}/${role}`;
-  console.log('redirectUri:', redirectUri);
-
+  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_SIGNUP_URI;
   // 카카오 인증 URL 구성 (인가 코드 받기 위한 URL)
-  const kakaoSignUpUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
     redirectUri ?? '',
   )}&response_type=code`;
 
@@ -23,7 +19,7 @@ export default function KakaoSignUp({ role }: { role: string }) {
         </span>
         <div className='flex-1 h-px bg-gray-100' />
       </div>
-      <a href={kakaoSignUpUrl}>
+      <a href={kakaoAuthUrl}>
         <Image
           src='/images/logo_kakao.svg'
           alt='카카오 로그인 이미지'

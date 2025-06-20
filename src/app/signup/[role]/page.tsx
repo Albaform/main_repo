@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { SignUpStep1Input, SignUpStep1Schema } from '@/schemas/signupSchema';
 
