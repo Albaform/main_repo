@@ -55,7 +55,7 @@
   <br/>![화면 기록 2025-06-21 오후 4 54 24](https://github.com/user-attachments/assets/1afa26be-023a-43dc-8b82-4d9d01d6c3bf)
 - 알바폼 지원하기 흐름<br/>
   <br/>![화면 기록 2025-06-21 오후 4 55 14](https://github.com/user-attachments/assets/cf386cc3-8275-40c6-b77e-385a67595932)
-- 마이페이지 및 알바토크 UI<br/>
+- 마이페이지 및 알바토크<br/>
   <br/>![화면 기록 2025-06-21 오후 5 02 36](https://github.com/user-attachments/assets/2bf63b4a-4dba-4e78-91e5-aacaff0ba27b)
 
 ---
@@ -81,7 +81,7 @@
 #### 🔸 정혜연
 - 초기 기획 및 회의 참여
 - Toast, Tooltip 등 공통 컴포넌트 제작
-- 로그인 / 간편 로그인, 회원가입 / 간편 회원가입, 알바폼 만들기 UIUX 및 개발 전담
+- 로그인, 간편 로그인 / 회원가입, 간편 회원가입 / 회원 정보 입력 / 알바폼 만들기 UIUX 및 개발 전담
 
 #### 🔸 이승환
 - 초기 기획 및 회의 참여
