@@ -39,7 +39,6 @@ export default function ClientAlbaform({
   );
 
   const { data: user, isLoading: getUserLoading } = useGetMyInfo();
-  const { role } = user ?? {};
 
   const isLoading = getAlbaformsLoading || getUserLoading;
 

@@ -1,8 +1,9 @@
 import { ApplyFormLogicsProps } from '../../types';
 
 export default function TextareaContainer(props: ApplyFormLogicsProps) {
-  const { form } = props;
+  const { form, handleDraftChange } = props;
   const { register, formState } = form;
+  const { onChange, ...rest } = register('introduction');
   const { errors } = formState;
 
   return (
@@ -12,8 +13,12 @@ export default function TextareaContainer(props: ApplyFormLogicsProps) {
       </label>
       <textarea
         id='introduction'
-        {...register('introduction')}
+        {...rest}
         name='introduction'
+        onChange={(e) => {
+          onChange(e);
+          handleDraftChange?.(e);
+        }}
         placeholder='최대 200자까지 입력 가능합니다.'
         className='w-full h-[calc(100vw_*_(160/640))] max-h-[260px] min-h-[160px] bg-gray-100 rounded-[8px] px-[14px] py-4 text-[18px]'
       />

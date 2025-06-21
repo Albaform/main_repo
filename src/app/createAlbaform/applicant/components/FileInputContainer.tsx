@@ -29,7 +29,7 @@ export default function FileInputContainer(props: ApplyFormLogicsProps) {
       <input
         id='file-upload'
         accept='.pdf, .doc, .docx'
-        {...register('resume')}
+        {...register('resume', { required: true })}
         type='file'
         className='hidden'
         onChange={(e) => {
@@ -39,6 +39,7 @@ export default function FileInputContainer(props: ApplyFormLogicsProps) {
           setResumeName(file.name);
           setValue('resume', file, {
             shouldDirty: true,
+            shouldValidate: true,
           });
           trigger('resume');
         }}

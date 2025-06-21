@@ -7,6 +7,7 @@ export default function TextInputcontainer({
   type,
   placeholder,
   formLogic,
+  handleDraftChange,
 }: TextInputProps) {
   const { form } = formLogic;
   const { register, formState, setValue } = form;
@@ -25,6 +26,8 @@ export default function TextInputcontainer({
         type={type}
         onWheel={(e) => name === 'experienceMonths' && e.currentTarget.blur()}
         onChange={(e) => {
+          handleDraftChange?.(e);
+
           const onlyNums = e.target.value.replace(/[^0-9]/g, '');
           const formatted = formattedPhoneNumber(onlyNums);
           name === 'phoneNumber'

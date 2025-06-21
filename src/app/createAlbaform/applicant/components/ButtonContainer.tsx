@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { ApplyFormLogicsProps } from '../../types';
 
 export default function ButtonContainer(props: ApplyFormLogicsProps) {
-  const { form, isPending } = props;
+  const { form, isPending, handleDraftSave } = props;
   const { formState } = form;
   const { isValid } = formState;
 
@@ -11,6 +11,7 @@ export default function ButtonContainer(props: ApplyFormLogicsProps) {
       <button
         type='button'
         className='flex-[1] h-14 px-6 border border-solid border-line-100 text-center text-gray-400 rounded-[8px]'
+        onClick={handleDraftSave}
       >
         임시 저장
       </button>

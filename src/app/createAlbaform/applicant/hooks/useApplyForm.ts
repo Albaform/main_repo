@@ -10,8 +10,9 @@ import { useForm } from 'react-hook-form';
 import { AlbaformApplyPayload } from '../../types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToastStore } from '@/stores/useToastStore';
+import { getStorageKey } from '../utils/getStorageKey';
 
-export const useApplyForm = (formId: number) => {
+export const useApplyForm = (formId: number, userId: number) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -66,6 +67,9 @@ export const useApplyForm = (formId: number) => {
           router.push('/myAlbaform/applicant');
           queryClient.invalidateQueries({ queryKey: ['myApplications'] });
           showToast('공고 지원이 완료 되었습니다 !');
+
+          const key = getStorageKey(userId, formId);
+          localStorage.removeItem(key);
         },
       },
     );

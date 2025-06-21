@@ -6,16 +6,43 @@ import TextInputcontainer from './TextInputContainer';
 import ButtonContainer from './ButtonContainer';
 import { INPUT_ITEMS } from '../constants/inputItems';
 import { useApplyForm } from '../hooks/useApplyForm';
+import { useGetMyInfo } from '@/hooks/query/useGetUser';
+import { useDraft } from '../hooks/useDraft';
+import RestoreModal from './RestoreModal';
+import { useDraftController } from '../hooks/useDraftController';
 
 export default function FormContainer({ formId }: { formId: number }) {
   const router = useRouter();
 
-  const formLogic = useApplyForm(formId);
+  const { data: user } = useGetMyInfo();
+  const { id: userId } = user ?? {};
+
+  const formLogic = useApplyForm(formId, userId);
   const { form, onSubmit, isPending } = formLogic;
   const { handleSubmit } = form;
 
+  const {
+    showRestoreModal,
+    isValue,
+    setIsValue,
+    onConfirm,
+    onCancel,
+    handleDraftChange,
+    handleDraftSave,
+  } = useDraftController(form, userId, formId);
+
+  useDraft({
+    userId,
+    formId,
+    data: isValue,
+    setData: setIsValue,
+  });
+
   return (
     <>
+      {showRestoreModal && (
+        <RestoreModal onConfirm={onConfirm} onCancel={onCancel} />
+      )}
       <div className='flex items-center justify-between my-10'>
         <p className='text-[26px] font-semibold'>알바폼 지원하기</p>
         <button
@@ -42,13 +69,17 @@ export default function FormContainer({ formId }: { formId: number }) {
                   type={type}
                   placeholder={placeholder}
                   formLogic={formLogic}
+                  handleDraftChange={handleDraftChange}
                 />
               </React.Fragment>
             );
           })}
           <FileInputContainer {...formLogic} />
-          <TextareaContainer {...formLogic} />
-          <ButtonContainer {...formLogic} />
+          <TextareaContainer
+            {...formLogic}
+            handleDraftChange={handleDraftChange}
+          />
+          <ButtonContainer {...formLogic} handleDraftSave={handleDraftSave} />
         </fieldset>
       </form>
     </>
