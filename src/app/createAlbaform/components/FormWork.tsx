@@ -2,12 +2,20 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
-import { FormWrapper, FormGroup, FormLabel, RequiredMark } from './Form.styles';
+import {
+  FormWrapper,
+  FormGroup,
+  FormLabel,
+  RequiredMark,
+  FormInput,
+  DateButton,
+} from './Form.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
+import { openKakaoAddress } from '@/utils/openKakaoAddress';
 
 export interface WorkFormValues {
   location: string;
@@ -26,6 +34,8 @@ interface FormWorkProps {
   initialValue: WorkFormValues;
 }
 
+const days = ['일', '월', '화', '수', '목', '금', '토'];
+
 export default function FormWork({
   onDataChange,
   initialValue,
@@ -43,6 +53,14 @@ export default function FormWork({
   );
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+
+  // 선택 날짜
+  const handleClick = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+    );
+  };
 
   // 날짜 변경 시 폼에 업데이트
   useEffect(() => {
@@ -56,6 +74,21 @@ export default function FormWork({
         <FormLabel>
           근무위치 <RequiredMark>*</RequiredMark>
         </FormLabel>
+        <FormInput
+          type='text'
+          placeholder='근무위치를 입력해주세요.'
+          readOnly
+          {...register('location')}
+          onClick={() =>
+            openKakaoAddress((address) =>
+              setValue('location', address, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              }),
+            )
+          }
+        />
       </FormGroup>
 
       <FormGroup>
@@ -100,6 +133,30 @@ export default function FormWork({
             </div>
           )}
         />
+      </FormGroup>
+      <FormGroup>
+        <FormLabel>
+          근무 시간 <RequiredMark>*</RequiredMark>
+        </FormLabel>
+        <div className='flex justify-center items-center gap-8'>
+          <FormInput type='time' {...register('workStartTime')} />
+          <FormInput type='time' {...register('workEndTime')} />
+        </div>
+      </FormGroup>
+      <FormGroup>
+        <FormLabel>
+          근무 요일 <RequiredMark>*</RequiredMark>
+        </FormLabel>
+        {days.map((day) => (
+          <DateButton
+            key={day}
+            type='button'
+            onClick={() => handleClick(day)}
+            className={selectedDays.includes(day) ? 'selected' : ''}
+          >
+            {day}
+          </DateButton>
+        ))}
       </FormGroup>
     </FormWrapper>
   );

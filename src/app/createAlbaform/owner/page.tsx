@@ -141,7 +141,6 @@ export default function CreateForm() {
             />
           )}
 
-          {/* 나중에 work 폼 추가 */}
           {currentStep === 'work' && (
             <FormWork
               onDataChange={handleWorkChange}

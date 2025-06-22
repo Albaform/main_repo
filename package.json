@@ -28,6 +28,7 @@
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-slick": "^0.30.3",
+    "react-time-picker": "^7.0.0",
     "slick-carousel": "^1.8.1",
     "styled-component": "^2.8.0",
     "styled-components": "^6.1.17",
