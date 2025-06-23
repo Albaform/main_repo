@@ -39,6 +39,7 @@ export default function SignIn({
 
   const { mutate, isPending, error } = useSignIn(role, {
     onSuccess: () => {
+      document.cookie = `role=${role}; path=/;`;
       setShowToast(true);
     },
     onError: (err) => {
