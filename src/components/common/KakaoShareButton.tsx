@@ -25,7 +25,7 @@ export default function KakaoShareButton({
       window.Kakao &&
       !window.Kakao.isInitialized()
     ) {
-      window.Kakao.init('f67b2213023de6e332711e951c139bb5');
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
     }
   }, []);
 

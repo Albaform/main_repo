@@ -13,6 +13,7 @@ import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, SignInInput } from '@/schemas/signinSchema';
 import KakaoSignIn from './OauthSignIn';
+import { AxiosError } from 'axios';
 
 export default function SignIn({
   params,
@@ -39,11 +40,25 @@ export default function SignIn({
 
   const { mutate, isPending, error } = useSignIn(role, {
     onSuccess: () => {
+      document.cookie = `role=${role}; path=/;`;
       setShowToast(true);
     },
     onError: (err) => {
-      alert('지원자/사장님 페이지를 확인해주세요 !');
-      console.error(err);
+      const axiosError = err as AxiosError;
+
+      const status = axiosError?.response?.status;
+      const message = axiosError?.message;
+
+      if (status === 400 || status === 401 || status === 404) {
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+      } else if (
+        status === 408 ||
+        message === '이 페이지에서는 해당 역할로 로그인할 수 없습니다.'
+      ) {
+        alert('이 페이지에서는 해당 역할로 로그인할 수 없습니다.');
+      } else {
+        alert('지원자/사장님 페이지를 확인해주세요 !');
+      }
     },
   });
 
@@ -60,12 +75,6 @@ export default function SignIn({
       return () => clearTimeout(timer);
     }
   }, [showToast, router]);
-
-  useEffect(() => {
-    if (error) {
-      alert('로그인에 실패하였습니다. 다시 시도해주세요.');
-    }
-  }, [error]);
 
   const isApplicant = role === 'applicant';
 
@@ -154,7 +163,11 @@ export default function SignIn({
         {errors.password && (
           <p className='text-red text-sm'>{errors.password.message}</p>
         )}
-        {error && <p className='text-red text-sm'>{error.message}</p>}
+        {!errors.password &&
+          error?.message ===
+            '이 페이지에서는 해당 역할로 로그인할 수 없습니다.' && (
+            <p className='text-red text-sm'>{error.message}</p>
+          )}
       </div>
       <Button type='submit' disabled={!isValid}>
         {isPending ? '로그인 중...' : '로그인'}

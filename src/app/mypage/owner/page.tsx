@@ -76,7 +76,7 @@ export default function Mypage() {
   const handleEditSuccess = () => {
     setShowToast(true);
   };
-  console.log(selectedTab)
+  console.log(selectedTab);
 
   return (
     <ResponsiveStyle>

@@ -18,7 +18,7 @@ export default function KakaoMapScript() {
 
   return (
     <Script
-      src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=f67b2213023de6e332711e951c139bb5&libraries=services&autoload=false`}
+      src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&libraries=services&autoload=false`}
       strategy='beforeInteractive'
       onLoad={() => {
         console.log('Kakao 스크립트 로드됨');
