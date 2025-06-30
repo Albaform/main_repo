@@ -20,6 +20,7 @@ interface StepSelectorProps {
   currentStep: 'info' | 'condition' | 'work';
   setCurrentStep: (step: 'info' | 'condition' | 'work') => void;
   isStepInProgress: (step: 'info' | 'condition' | 'work') => boolean;
+  formData: any;
 }
 
 const steps = [
@@ -32,12 +33,20 @@ export default function StepSelector({
   currentStep,
   setCurrentStep,
   isStepInProgress,
+  formData,
 }: StepSelectorProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+
   const createAlbaForm = useCreateAlbaForm();
   const handleSubmit = () => {
-    createAlbaForm.mutate(formData);
-    console.log(formData);
+    const requestData = {
+      ...formData.info,
+      ...formData.condition,
+      ...formData.work,
+    };
+
+    createAlbaForm.mutate(requestData);
+    console.log(requestData);
   };
 
   return (
