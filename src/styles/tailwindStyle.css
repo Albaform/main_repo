@@ -16,3 +16,21 @@
     transform: translateY(-40px) scale(0.8);
   }
 }
+
+@layer utilities {
+  .skeleton-animate {
+    @apply bg-gray-200 rounded;
+    animation: pulse-stretch 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-stretch {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.6);
+    opacity: 0.4;
+  }
+}

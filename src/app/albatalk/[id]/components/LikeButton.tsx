@@ -54,7 +54,7 @@ export default function LikeButton({
       >
         <Image
           src={
-            post?.likeCount ? '/images/iconLike.svg' : '/images/iconUnLike.svg'
+            post?.isLiked ? '/images/iconLike.svg' : '/images/iconUnLike.svg'
           }
           alt='좋아요'
           width={24}

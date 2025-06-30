@@ -1,11 +1,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export default function DynamicImage({
-  src,
-}: {
-  src: string;
-}) {
+export default function DynamicImage({ src }: { src: string }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(
     null,
   );
@@ -28,14 +24,16 @@ export default function DynamicImage({
   return (
     <>
       <div className='relative w-full'>
-        <Image
-          src={src}
-          alt='기본이미지'
-          layout='responsive'
-          width={size?.width}
-          height={size?.height}
-          className='object-cover'
-        />
+        {src !== '' && (
+          <Image
+            src={src}
+            alt='기본이미지'
+            layout='responsive'
+            width={size?.width}
+            height={size?.height}
+            className='object-cover'
+          />
+        )}
       </div>
     </>
   );

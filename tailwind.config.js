@@ -57,7 +57,51 @@ module.exports = {
           200: 'var(--line200)',
         },
       },
+      keyframes: {
+        pulseStretchLeft: {
+          '0%, 100%': {
+            transform: 'scaleX(1)',
+            opacity: '1',
+          },
+          '50%': {
+            transform: 'scaleX(0.6)',
+            opacity: '0.4',
+          },
+        },
+        pulseStretchLeftReserve: {
+          '0%': {
+            transform: 'scaleX(0.6)',
+            opacity: '0.4',
+          },
+          '50%': {
+            transform: 'scaleX(1)',
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'scaleX(0.6)',
+            opacity: '0.4',
+          },
+        },
+      },
+      animation: {
+        pulseStretchLeft: 'pulseStretchLeft 3.5s ease-in-out infinite',
+        pulseStretchLeftReserve:
+          'pulseStretchLeftReserve 3.5s ease-in-out infinite',
+      },
     },
   },
-  plugins: [require('tailwind-scrollbar-hide')],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+    function ({ addUtilities }) {
+      const delays = {
+        '.delay-0': { animationDelay: '0s' },
+        '.delay-100': { animationDelay: '0.1s' },
+        '.delay-200': { animationDelay: '0.2s' },
+        '.delay-300': { animationDelay: '0.3s' },
+        '.delay-400': { animationDelay: '0.4s' },
+        '.delay-500': { animationDelay: '0.5s' },
+      };
+      addUtilities(delays);
+    },
+  ],
 };

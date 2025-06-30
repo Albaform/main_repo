@@ -13,9 +13,10 @@ import { useParams, usePathname } from 'next/navigation';
 import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 import { useModalController } from '@/hooks/common/useModalController';
 import Modal from '@/components/modal/Modal';
-import Loader from '@/components/loader/Loader';
 import { useScrapForms } from '@/hooks/mutation/useScrapForms';
 import KakaoShareButton from '@/components/common/KakaoShareButton';
+import BannerSkeleton from './components/BannerSkeleton';
+import ContentsSkeleton from './components/ContentsSkeleton';
 
 export default function DetailPage() {
   const params = useParams();
@@ -85,26 +86,35 @@ export default function DetailPage() {
           deletePostId={formId}
         />
       )}
-      {getFormLoading && <Loader />}
       <CarouselReponsive>
         <div className='pt-[78px] max-lg:pt-[0]'>
-          <BannerImagesCarousel imageUrls={imageUrls} />
+          {getFormLoading ? (
+            <BannerSkeleton />
+          ) : (
+            <BannerImagesCarousel imageUrls={imageUrls} />
+          )}
         </div>
       </CarouselReponsive>
       <DetailResponsive $owner={role === 'OWNER'}>
-        <Section1 form={form} />
-        <Section2
-          form={form}
-          formId={formId}
-          setCopied={setCopied}
-          role={role}
-          isLoading={getUserLoading}
-          myPost={myPost}
-          setShowModal={setShowModal}
-          setMainMessage={setMainMessage}
-          setSubMessage={setSubMessage}
-          setModalType={setModalType}
-        />
+        {getFormLoading ? (
+          <ContentsSkeleton />
+        ) : (
+          <>
+            <Section1 form={form} />
+            <Section2
+              form={form}
+              formId={formId}
+              setCopied={setCopied}
+              role={role}
+              isLoading={getUserLoading}
+              myPost={myPost}
+              setShowModal={setShowModal}
+              setMainMessage={setMainMessage}
+              setSubMessage={setSubMessage}
+              setModalType={setModalType}
+            />
+          </>
+        )}
       </DetailResponsive>
       {!getUserLoading && role === 'OWNER' && myPost && (
         <Section3 formId={formId} />
@@ -117,14 +127,16 @@ export default function DetailPage() {
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>{toastMessage}</Toast>
       )}
-      <FloatingButton
-        $albaformDetail
-        role={role}
-        isScrapped={isScrapped}
-        handleToggleScrap={handleToggleScrap}
-        postScrapPending={postScrapPending}
-        handleShare={handleShare}
-      />
+      {!getFormLoading && (
+        <FloatingButton
+          $albaformDetail
+          role={role}
+          isScrapped={isScrapped}
+          handleToggleScrap={handleToggleScrap}
+          postScrapPending={postScrapPending}
+          handleShare={handleShare}
+        />
+      )}
     </>
   );
 }

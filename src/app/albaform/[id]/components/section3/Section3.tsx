@@ -23,7 +23,13 @@ export default function Section3({ formId }: { formId: number }) {
   } = useGetApplications(formId, orderByExperience, orderByStatus);
 
   const listData =
-    applications?.pages.flatMap((page) => page.result ?? []) ?? [];
+    Array.from(
+      new Map(
+        applications?.pages
+          .flatMap((page) => page.result ?? [])
+          .map((item) => [item.id, item]),
+      ).values(),
+    ) ?? [];
 
   const observerRef = useInfiniteScroll(hasNextPage!, fetchNextPage);
 

@@ -38,6 +38,8 @@ const Button = styled.button`
 
 const Banner = styled.div`
   max-width: 1322px;
+  max-height: inherit;
+  overflow: hidden;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -78,7 +80,6 @@ const Title = styled.h1`
 
 // 배너이미지
 const BannerImg = styled.div`
-  // position: relative;
   width: 100%;
   height: auto;
   aspect-ratio: 1.58 / 1;
@@ -137,8 +138,7 @@ export default function Home() {
         <Banner>
           <div
             className='
-            relative w-[124px] h-[24px] 
-            min-[811px]:w-[186px] min-[811px]:h-[36px] lg:w-[248px] lg:h-[48px]'
+            relative w-[124px] h-[24px] min-h-[41px] min-[811px]:w-[186px] min-[811px]:h-[36px] lg:w-[248px] lg:h-[48px]'
           >
             <Image
               src={'/images/albaform.svg'}
