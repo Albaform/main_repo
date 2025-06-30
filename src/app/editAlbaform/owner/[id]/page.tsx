@@ -67,10 +67,14 @@ export default function editAlbaform({
   return (
     <CreateForm
       initialData={initialData}
-      isEdit
+      isEdit={true}
       onSubmit={(data) => {
         editAlbaFormMutation.mutate(data);
       }}
     />
   );
 }
+
+/** @TODO 알바폼 수정시 새로등록 문제 */
+/** @TODO 카카오 로그인 안됨 */
+/** @TODO 회원가입시 이메일만 입력해도 버튼 활성화 */

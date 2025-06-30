@@ -29,7 +29,6 @@ export default function CreateForm({
     'info',
   );
 
-  // 각 단계별 작성 상태 저장 (각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
     info: InfoFormValues;
     condition: ConditionFormValues;
@@ -168,8 +167,9 @@ export default function CreateForm({
           setCurrentStep={setCurrentStep}
           isStepInProgress={isStepInProgress}
           formData={formData}
+          isEdit={isEdit}
+          onSubmit={handleSubmit}
         />
-
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
             <FormInfo
@@ -198,6 +198,7 @@ export default function CreateForm({
         variant='large_primary'
         onClick={handleSubmit}
         disabled={createAlbaForm.isPending}
+        className='block min-[1025px]:hidden max-w-[327px] w-full mx-auto'
       >
         {isEdit
           ? '수정하기'
