@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import { useCreateAlbaForm } from '@/hooks/mutation/usePostForms';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
 import FormInfo, { InfoFormValues } from '../components/FormInfo';
@@ -42,10 +43,22 @@ export default function CreateForm() {
       workEndTime: '',
       workDays: [],
       isNegotiableWorkDays: false,
-      hourlyWage: 9860,
+      hourlyWage: 0,
       isPublic: false,
     },
   });
+
+  const createAlbaForm = useCreateAlbaForm();
+  const handleSubmit = () => {
+    const requestData = {
+      ...formData.info,
+      ...formData.condition,
+      ...formData.work,
+    };
+
+    createAlbaForm.mutate(requestData);
+    console.log(requestData);
+  };
 
   const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
     if (step === 'info') {
@@ -90,6 +103,7 @@ export default function CreateForm() {
     [],
   );
 
+  const workInitialValue = useMemo(() => formData.work, [formData.work]);
   const handleWorkChange = useCallback((workData: WorkFormValues) => {
     setFormData((prev) => ({ ...prev, work: workData }));
   }, []);
@@ -124,6 +138,7 @@ export default function CreateForm() {
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
           isStepInProgress={isStepInProgress}
+          formData={formData}
         />
 
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
@@ -141,15 +156,22 @@ export default function CreateForm() {
             />
           )}
 
-          {/* 나중에 work 폼 추가 */}
           {currentStep === 'work' && (
             <FormWork
               onDataChange={handleWorkChange}
-              initialValue={formData.work}
+              initialValue={workInitialValue}
             />
           )}
         </div>
       </div>
+      <CustomButton
+        size='large'
+        variant='large_primary'
+        onClick={handleSubmit}
+        disabled={createAlbaForm.isPending}
+      >
+        {createAlbaForm.isPending ? '등록 중...' : '등록하기'}
+      </CustomButton>
     </>
   );
 }

@@ -44,7 +44,7 @@ const variant = {
   primary: css`
     background-color: var(--gray100);
     color: var(--white);
-    width: 74px;
+    width: 120px;
     border: none;
 
     &:hover {
@@ -96,6 +96,7 @@ export default function CustomButton({
 
 // 스타일드 컴포넌트
 const StyledButton = styled.button<CustomButtonProps>`
+  box-sizing: border-box;
   text-align: center;
   font-weight: 600;
   border-radius: 8px;
