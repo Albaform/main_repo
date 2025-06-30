@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { ChangeEvent, use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/auth/Input';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { useKakaoSignUpMutation } from '@/hooks/mutation/useOauth';
 import { SignUpStep2Input, SignUpStep2Schema } from '@/schemas/signupSchema';
+import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
+import { formattedStoreTel } from '@/utils/formattedStoreTel';
 
 export default function SignUpInfo({
   params,
@@ -183,7 +185,15 @@ export default function SignUpInfo({
                 label='연락처'
                 placeholder='숫자만 입력해주세요'
                 className={errors.phoneNumber ? 'border-red' : ''}
-                {...register('phoneNumber')}
+                {...register('phoneNumber', {
+                  onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                    const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                    const formatted = formattedPhoneNumber(onlyNums);
+                    setValue('phoneNumber', formatted, {
+                      shouldValidate: true,
+                    });
+                  },
+                })}
               />
               {errors.phoneNumber && (
                 <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
@@ -240,7 +250,15 @@ export default function SignUpInfo({
               label='가게 전화번호'
               placeholder='숫자만 입력해주세요'
               className={errors.storePhoneNumber ? 'border-red' : ''}
-              {...register('storePhoneNumber')}
+              {...register('storePhoneNumber', {
+                onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formattedStoreTel(onlyNums);
+                  setValue('storePhoneNumber', formatted, {
+                    shouldValidate: true,
+                  });
+                },
+              })}
             />
             {errors.storePhoneNumber && (
               <p className='text-red text-sm'>
@@ -253,7 +271,15 @@ export default function SignUpInfo({
               label='사장님 전화번호'
               placeholder='숫자만 입력해주세요'
               className={errors.phoneNumber ? 'border-red' : ''}
-              {...register('phoneNumber')}
+              {...register('phoneNumber', {
+                onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formattedPhoneNumber(onlyNums);
+                  setValue('phoneNumber', formatted, {
+                    shouldValidate: true,
+                  });
+                },
+              })}
             />
             {errors.phoneNumber && (
               <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
@@ -275,6 +301,7 @@ export default function SignUpInfo({
                   }),
                 )
               }
+              style={{ cursor: 'pointer' }}
             />
             {errors.location && (
               <p className='text-red text-sm'>{errors.location.message}</p>

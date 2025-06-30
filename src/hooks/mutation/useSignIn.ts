@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { SignInInput } from '@/schemas/signinSchema';
 import { useAuthStore } from '@/stores/useAuthStore';
 import instance from '@/lib/api/api';
-import { AxiosError, AxiosHeaders, AxiosRequestHeaders } from 'axios';
+import { AxiosError, AxiosRequestHeaders } from 'axios';
 
 const signIn = async ({ email, password }: SignInInput) => {
   const response = await instance.post('/auth/sign-in', { email, password });

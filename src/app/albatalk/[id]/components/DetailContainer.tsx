@@ -99,7 +99,7 @@ export default function DetailContainer({
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
             <button
               onClick={handleToggleComments}
-              className={`flex items-center mr-[10px] px-4 py-1.5 rounded-full border-solid active:scale-95 duration-[.1s] ${
+              className={`flex items-center mr-[10px] px-4 py-1.5 rounded-full border border-solid active:scale-95 duration-[.1s] ${
                 isShowComments
                   ? 'border-black300 bg-black300'
                   : 'border-gray-100 bg-white'
