@@ -16,6 +16,7 @@ const useCreateAlbaForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: (query) => {
+          console.log(query.queryKey);
           const key = query.queryKey?.[0];
           return key === 'albaforms' || key === 'forms';
         },

@@ -21,6 +21,7 @@ import {
   DeleteButton,
 } from './Form.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
+import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 
 export type InfoFormValues = {
   title: string;
@@ -61,23 +62,37 @@ export default function FormInfo({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // ✅ 서버 url만 preview로!
   const [previews, setPreviews] = useState<string[]>(
     initialValue.imageUrls || [],
   );
 
-  // 이미지 업로드 시 미리보기 생성
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 이미지 업로드 쿼리 훅 (내부 쿼리 구조/주소 등은 변경 없음)
+  const uploadImageMutation = useUploadImage();
+
+  // 이미지 업로드 시: 서버 업로드 후 받은 url만 imageUrls, preview에 저장
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
+    // 최대 4장 제한
     const fileArray = Array.from(files).slice(0, 4 - previews.length);
-    const urls = fileArray.map((file) => URL.createObjectURL(file));
 
-    const newUrls = [...previews, ...urls].slice(0, 4);
-    setPreviews(newUrls);
-    setValue('imageUrls', newUrls);
+    try {
+      // 여러 장 동시 업로드: 서버에서 반환하는 url만 받음
+      const uploadedUrls = await Promise.all(
+        fileArray.map((file) => uploadImageMutation.mutateAsync(file)),
+      );
+      const newUrls = [...previews, ...uploadedUrls].slice(0, 4);
+
+      setPreviews(newUrls);
+      setValue('imageUrls', newUrls);
+    } catch (err) {
+      alert('이미지 업로드 실패');
+    }
   };
 
+  // 이미지 삭제 (preview, imageUrls 모두 동기화)
   const handleDeleteImage = (index: number) => {
     const newUrls = [...previews];
     newUrls.splice(index, 1);
@@ -85,7 +100,7 @@ export default function FormInfo({
     setValue('imageUrls', newUrls);
   };
 
-  // 날짜 변경 시 폼에 업데이트
+  // 모집 기간 날짜 변경 시 폼에 업데이트
   useEffect(() => {
     if (recruitmentStartDate)
       setValue('recruitmentStartDate', recruitmentStartDate.toISOString());
@@ -93,7 +108,7 @@ export default function FormInfo({
       setValue('recruitmentEndDate', recruitmentEndDate.toISOString());
   }, [recruitmentStartDate, recruitmentEndDate, setValue]);
 
-  // 폼 변경 시 상위에 전달
+  // 폼 값 변경 시 상위로 전달
   useEffect(() => {
     onDataChange({
       title,
