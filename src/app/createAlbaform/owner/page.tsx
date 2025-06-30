@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
 import FormInfo, { InfoFormValues } from '../components/FormInfo';
@@ -90,6 +90,7 @@ export default function CreateForm() {
     [],
   );
 
+  const workInitialValue = useMemo(() => formData.work, [formData.work]);
   const handleWorkChange = useCallback((workData: WorkFormValues) => {
     setFormData((prev) => ({ ...prev, work: workData }));
   }, []);
@@ -144,11 +145,18 @@ export default function CreateForm() {
           {currentStep === 'work' && (
             <FormWork
               onDataChange={handleWorkChange}
-              initialValue={formData.work}
+              initialValue={workInitialValue}
             />
           )}
         </div>
       </div>
+      <CustomButton
+        size='large'
+        variant='large_primary'
+        className='block min-[1025px]:hidden max-w-[327px] w-full mx-auto mb-[120px]'
+      >
+        등록하기
+      </CustomButton>
     </>
   );
 }

@@ -131,19 +131,3 @@ export const DeleteButton = styled.button`
   cursor: pointer;
   z-index: 1;
 `;
-
-export const DateButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--background200);
-  color: var(--gray500);
-  border-radius: 16px;
-  padding: 10px 16px;
-  gap: 10px;
-
-  ::hover {
-    background-color: var(--orange300);
-    color: var(--gray50);
-  }
-`;

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
@@ -13,6 +13,8 @@ import {
   DropdownList,
   DropdownItem,
 } from './Selector.styles';
+import CustomButton from './CustomButton';
+import { useCreateAlbaForm } from '@/hooks/mutation/usePostForms';
 
 interface StepSelectorProps {
   currentStep: 'info' | 'condition' | 'work';
@@ -32,30 +34,55 @@ export default function StepSelector({
   isStepInProgress,
 }: StepSelectorProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+  const createAlbaForm = useCreateAlbaForm();
+  const handleSubmit = () => {
+    createAlbaForm.mutate(formData);
+    console.log(formData);
+  };
 
   return (
     <>
       {/* 데스크탑: 사이드바 */}
       <div
         className='hidden 
-          min-[1025px]:flex flex-col gap-2 h-[460px]
-          px-5 py-6 w-[320px] bg-[#F7F7F7] rounded-xl shadow-sm'
+          min-[1025px]:flex flex-col gap-2 h-[750px]
+          px-5 py-6 w-[350px] bg-[#F7F7F7] rounded-xl shadow-sm justify-between'
       >
-        {steps.map(({ key, label, index }) => (
-          <StepButton
-            key={key}
-            selected={currentStep === key}
-            onClick={() => setCurrentStep(key)}
+        <div className='flex flex-col w-full max-w-[310px]'>
+          {steps.map(({ key, label, index }) => (
+            <StepButton
+              key={key}
+              selected={currentStep === key}
+              onClick={() => setCurrentStep(key)}
+            >
+              <StepLabel>
+                <StepIndex selected={currentStep === key}>{index}</StepIndex>
+                {label}
+              </StepLabel>
+              {isStepInProgress(key) && (
+                <WritingBadge selected={currentStep === key}>
+                  작성중
+                </WritingBadge>
+              )}
+            </StepButton>
+          ))}
+        </div>
+        <div
+          style={{
+            width: 280,
+            maxWidth: 280,
+            margin: '0 auto',
+          }}
+        >
+          <CustomButton
+            size='large'
+            variant='large_primary'
+            onClick={handleSubmit}
+            disabled={createAlbaForm.isPending}
           >
-            <StepLabel>
-              <StepIndex selected={currentStep === key}>{index}</StepIndex>
-              {label}
-            </StepLabel>
-            {isStepInProgress(key) && (
-              <WritingBadge selected={currentStep === key}>작성중</WritingBadge>
-            )}
-          </StepButton>
-        ))}
+            {createAlbaForm.isPending ? '등록 중...' : '등록하기'}
+          </CustomButton>
+        </div>
       </div>
 
       {/* 모바일/태블릿: 드롭다운 */}
