@@ -63,8 +63,15 @@ export default function CreateForm({
   });
 
   useEffect(() => {
-    if (initialData) setFormData(initialData);
+    if (initialData) {
+      setFormData({
+        info: initialData.info,
+        condition: initialData.condition,
+        work: initialData.work,
+      });
+    }
   }, [initialData]);
+
   const createAlbaForm = useCreateAlbaForm();
   const handleSubmit = () => {
     const requestData = {
@@ -84,16 +91,17 @@ export default function CreateForm({
     if (step === 'info') {
       const data = formData.info;
       return !!(
-        data.title.trim() ||
-        data.description.trim() ||
-        data.recruitmentStartDate.trim() ||
-        data.recruitmentEndDate.trim() ||
-        data.imageUrls.length > 0
+        data?.title.trim() ||
+        data?.description.trim() ||
+        data?.recruitmentStartDate.trim() ||
+        data?.recruitmentEndDate.trim() ||
+        data?.imageUrls.length > 0
       );
     }
 
     if (step === 'condition') {
       const d = formData.condition;
+      if (!d) return false;
       return Object.values(d).some((v) => {
         if (typeof v === 'string') return v.trim() !== '';
         if (typeof v === 'number') return !isNaN(v) && v !== 0;
@@ -102,7 +110,8 @@ export default function CreateForm({
     }
 
     if (step === 'work') {
-      const d = formData.condition;
+      const d = formData.work;
+      if (!d) return false;
       return Object.values(d).some((v) => {
         if (typeof v === 'string') return v.trim() !== '';
         if (typeof v === 'number') return !isNaN(v) && v !== 0;
