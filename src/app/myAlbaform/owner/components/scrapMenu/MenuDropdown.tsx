@@ -45,8 +45,7 @@ export default function MenuDropdown({
           type='button'
           onClick={(e) => {
             e.stopPropagation();
-            // 구현된 페이지가 없어 보류
-            // router.push(`/editAlbaform/owner/${postId}`);
+            router.push(`/editAlbaform/owner/${postId}`);
           }}
         >
           수정하기

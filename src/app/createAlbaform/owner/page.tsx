@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useCreateAlbaForm } from '@/hooks/mutation/usePostForms';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
@@ -10,7 +10,21 @@ import FormCondition, {
 } from '../components/FormCondition';
 import FormWork, { WorkFormValues } from '../components/FormWork';
 
-export default function CreateForm() {
+type CreateFormProps = {
+  initialData?: {
+    info: InfoFormValues;
+    condition: ConditionFormValues;
+    work: WorkFormValues;
+  };
+  isEdit?: boolean;
+  onSubmit?: (data: any) => void;
+};
+
+export default function CreateForm({
+  initialData,
+  isEdit,
+  onSubmit,
+}: CreateFormProps) {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
@@ -48,6 +62,9 @@ export default function CreateForm() {
     },
   });
 
+  useEffect(() => {
+    if (initialData) setFormData(initialData);
+  }, [initialData]);
   const createAlbaForm = useCreateAlbaForm();
   const handleSubmit = () => {
     const requestData = {
@@ -56,8 +73,11 @@ export default function CreateForm() {
       ...formData.work,
     };
 
-    createAlbaForm.mutate(requestData);
-    console.log(requestData);
+    if (onSubmit) {
+      onSubmit(requestData);
+    } else {
+      createAlbaForm.mutate(requestData);
+    }
   };
 
   const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
@@ -170,7 +190,11 @@ export default function CreateForm() {
         onClick={handleSubmit}
         disabled={createAlbaForm.isPending}
       >
-        {createAlbaForm.isPending ? '등록 중...' : '등록하기'}
+        {isEdit
+          ? '수정하기'
+          : createAlbaForm.isPending
+          ? '등록 중...'
+          : '등록하기'}
       </CustomButton>
     </>
   );
