@@ -1,19 +1,30 @@
-// 알바폼생성
-// POST '/forms'
+// 내 알바폼 생성
+
 import instance from '@/lib/api/api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-const useCreateAlbaForm = () =>
-  useMutation({
+const useCreateAlbaForm = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
     mutationFn: async (formData: any) => {
       const response = await instance.post('/forms', formData);
       return response.data;
     },
     onSuccess: () => {
-      const router = useRouter();
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          const key = query.queryKey?.[0];
+          return key === 'albaforms' || key === 'forms';
+        },
+      });
       router.push('/myAlbaform/owner');
     },
   });
+};
 
 export { useCreateAlbaForm };
+
+//router.push('/myAlbaform/owner');
