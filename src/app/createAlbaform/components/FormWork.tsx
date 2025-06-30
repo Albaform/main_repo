@@ -1,7 +1,6 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   FormWrapper,
   FormGroup,
@@ -39,89 +38,35 @@ export default function FormWork({
   onDataChange,
   initialValue,
 }: FormWorkProps) {
-  const { register, control, watch, setValue } = useForm<WorkFormValues>({
-    mode: 'onChange',
-    defaultValues: initialValue,
-  });
-
-  const [workStartDate, setWorkStartDate] = useState<Date | null>(
-    initialValue.workStartDate ? new Date(initialValue.workStartDate) : null,
-  );
-  const [workEndDate, setWorkEndDate] = useState<Date | null>(
-    initialValue.workEndDate ? new Date(initialValue.workEndDate) : null,
-  );
-  const [selectedDays, setSelectedDays] = useState<string[]>(
-    initialValue.workDays || [],
-  );
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isNegotiable, setIsNegotiable] = useState(
-    initialValue.isNegotiableWorkDays || false,
-  );
-  const [isPublic, setIsPublic] = useState(initialValue.isPublic || false);
-
-  useEffect(() => {
-    setSelectedDays(initialValue.workDays || []);
-    setIsNegotiable(initialValue.isNegotiableWorkDays || false);
-    setWorkStartDate(
-      initialValue.workStartDate ? new Date(initialValue.workStartDate) : null,
-    );
-    setWorkEndDate(
-      initialValue.workEndDate ? new Date(initialValue.workEndDate) : null,
-    );
-    setIsPublic(initialValue.isPublic || false);
-  }, [
-    initialValue.workDays,
-    initialValue.isNegotiableWorkDays,
-    initialValue.workStartDate,
-    initialValue.workEndDate,
-    initialValue.isPublic,
+  const [form, setForm] = useState<WorkFormValues>(initialValue);
+  const [workDates, setWorkDates] = useState<[Date | null, Date | null]>([
+    form.workStartDate ? new Date(form.workStartDate) : null,
+    form.workEndDate ? new Date(form.workEndDate) : null,
   ]);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  useEffect(() => {
-    setValue('workDays', selectedDays, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  }, [selectedDays, setValue]);
-  useEffect(() => {
-    setValue('isNegotiableWorkDays', isNegotiable, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  }, [isNegotiable, setValue]);
-  useEffect(() => {
-    setValue('isPublic', isPublic, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  }, [isPublic, setValue]);
-  useEffect(() => {
-    if (workStartDate) setValue('workStartDate', workStartDate.toISOString());
-    if (workEndDate) setValue('workEndDate', workEndDate.toISOString());
-  }, [workStartDate, workEndDate, setValue]);
-
-  // 부모로 데이터 전달 - "진짜로 값이 바뀔 때만"
-  const formValues = watch();
-  const prevFormValuesRef = useRef(formValues);
-  useEffect(() => {
-    if (
-      JSON.stringify(prevFormValuesRef.current) !== JSON.stringify(formValues)
-    ) {
-      onDataChange(formValues);
-      prevFormValuesRef.current = formValues;
-    }
-  }, [formValues, onDataChange]);
-
-  // 각 체크박스 핸들러
-  const handleNegotiableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsNegotiable(e.target.checked);
+  // 값 변경 시 form + 부모 동기화
+  const handleChange = (key: keyof WorkFormValues, value: any) => {
+    const newForm = { ...form, [key]: value };
+    setForm(newForm);
+    onDataChange(newForm);
   };
-  const handlePublicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsPublic(e.target.checked);
+
+  // 날짜 변경
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    setWorkDates(dates);
+    const newForm = {
+      ...form,
+      workStartDate: dates[0]?.toISOString() || '',
+      workEndDate: dates[1]?.toISOString() || '',
+    };
+    setForm(newForm);
+    onDataChange(newForm);
+  };
+
+  // 요일 선택
+  const handleDaysChange = (days: string[]) => {
+    handleChange('workDays', days);
   };
 
   return (
@@ -134,15 +79,9 @@ export default function FormWork({
           type='text'
           placeholder='근무위치를 입력해주세요.'
           readOnly
-          {...register('location')}
+          value={form.location}
           onClick={() =>
-            openKakaoAddress((address) =>
-              setValue('location', address, {
-                shouldValidate: true,
-                shouldDirty: true,
-                shouldTouch: true,
-              }),
-            )
+            openKakaoAddress((address) => handleChange('location', address))
           }
         />
       </FormGroup>
@@ -150,52 +89,50 @@ export default function FormWork({
         <FormLabel>
           근무 기간 <RequiredMark>*</RequiredMark>
         </FormLabel>
-        <Controller
-          control={control}
-          name='workStartDate'
-          render={() => (
-            <div className='relative'>
-              <CustomDateInput
-                ref={inputRef}
-                readOnly
-                value={
-                  workStartDate && workEndDate
-                    ? `${format(workStartDate, 'yyyy.MM.dd')} ~ ${format(
-                        workEndDate,
-                        'yyyy.MM.dd',
-                      )}`
-                    : ''
-                }
-                placeholder='시작일 ~ 종료일'
-                onClick={() => setIsCalendarOpen(true)}
+        <div className='relative'>
+          <CustomDateInput
+            readOnly
+            value={
+              workDates[0] && workDates[1]
+                ? `${format(workDates[0], 'yyyy.MM.dd')} ~ ${format(
+                    workDates[1],
+                    'yyyy.MM.dd',
+                  )}`
+                : ''
+            }
+            placeholder='시작일 ~ 종료일'
+            onClick={() => setIsCalendarOpen(true)}
+          />
+          {isCalendarOpen && (
+            <StyledDatePickerWrapper>
+              <DatePicker
+                locale={ko}
+                selectsRange
+                startDate={workDates[0]}
+                endDate={workDates[1]}
+                onChange={handleDateChange}
+                onClickOutside={() => setIsCalendarOpen(false)}
+                inline
               />
-              {isCalendarOpen && (
-                <StyledDatePickerWrapper>
-                  <DatePicker
-                    locale={ko}
-                    selectsRange
-                    startDate={workStartDate}
-                    endDate={workEndDate}
-                    onChange={(update: [Date | null, Date | null]) => {
-                      setWorkStartDate(update[0]);
-                      setWorkEndDate(update[1]);
-                    }}
-                    onClickOutside={() => setIsCalendarOpen(false)}
-                    inline
-                  />
-                </StyledDatePickerWrapper>
-              )}
-            </div>
+            </StyledDatePickerWrapper>
           )}
-        />
+        </div>
       </FormGroup>
       <FormGroup>
         <FormLabel>
           근무 시간 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <div className='flex justify-center items-center gap-8'>
-          <FormInput type='time' {...register('workStartTime')} />
-          <FormInput type='time' {...register('workEndTime')} />
+          <FormInput
+            type='time'
+            value={form.workStartTime}
+            onChange={(e) => handleChange('workStartTime', e.target.value)}
+          />
+          <FormInput
+            type='time'
+            value={form.workEndTime}
+            onChange={(e) => handleChange('workEndTime', e.target.value)}
+          />
         </div>
       </FormGroup>
       <FormGroup>
@@ -203,12 +140,14 @@ export default function FormWork({
           근무 요일 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <DayCheckButton
-          selectedDays={selectedDays}
-          setSelectedDays={setSelectedDays}
+          selectedDays={form.workDays}
+          setSelectedDays={handleDaysChange}
         />
         <Checkbox
-          checked={isNegotiable}
-          onChange={handleNegotiableChange}
+          checked={form.isNegotiableWorkDays}
+          onChange={(e) =>
+            handleChange('isNegotiableWorkDays', e.target.checked)
+          }
           label='요일 협의 가능'
           id='negotiable-checkbox'
         />
@@ -221,7 +160,8 @@ export default function FormWork({
           <FormInput
             type='text'
             placeholder='시급을 입력해주세요.'
-            {...register('hourlyWage')}
+            value={form.hourlyWage}
+            onChange={(e) => handleChange('hourlyWage', e.target.value)}
           />
           <span>원</span>
         </div>
@@ -231,8 +171,8 @@ export default function FormWork({
           공개 설정 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <Checkbox
-          checked={isPublic}
-          onChange={handlePublicChange}
+          checked={form.isPublic}
+          onChange={(e) => handleChange('isPublic', e.target.checked)}
           label='공개'
           id='public-checkbox'
         />
