@@ -170,7 +170,7 @@ export default function SignUpInfo({
                 id='name'
                 label='이름'
                 placeholder='이름을 입력해주세요'
-                className={errors.name ? 'border-red' : ''}
+                className={errors.name ? 'border-red border' : ''}
                 {...register('name')}
               />
               {errors.name && (
@@ -184,7 +184,7 @@ export default function SignUpInfo({
                 id='phoneNumber'
                 label='연락처'
                 placeholder='숫자만 입력해주세요'
-                className={errors.phoneNumber ? 'border-red' : ''}
+                className={errors.phoneNumber ? 'border-red border' : ''}
                 {...register('phoneNumber', {
                   onChange: (e: ChangeEvent<HTMLInputElement>) => {
                     const onlyNums = e.target.value.replace(/[^0-9]/g, '');
@@ -196,7 +196,9 @@ export default function SignUpInfo({
                 })}
               />
               {errors.phoneNumber && (
-                <p className='text-red text-sm'>{errors.phoneNumber.message}</p>
+                <p className='text-red text-sm '>
+                  {errors.phoneNumber.message}
+                </p>
               )}
             </div>
             <div>
@@ -204,7 +206,7 @@ export default function SignUpInfo({
                 id='nickname'
                 label='닉네임'
                 placeholder='닉네임을 입력해주세요'
-                className={errors.nickname ? 'border-red' : ''}
+                className={errors.nickname ? 'border-red border' : ''}
                 {...register('nickname')}
               />
               {errors.nickname && (
@@ -218,7 +220,7 @@ export default function SignUpInfo({
               id='nickname'
               label='닉네임'
               placeholder='닉네임을 입력해주세요'
-              className={errors.nickname ? 'border-red' : ''}
+              className={errors.nickname ? 'border-red border' : ''}
               {...register('nickname')}
             />
             {errors.nickname && (
@@ -228,7 +230,7 @@ export default function SignUpInfo({
               id='name'
               label='이름'
               placeholder='이름을 입력해주세요'
-              className={errors.name ? 'border-red' : ''}
+              className={errors.name ? 'border-red border' : ''}
               {...register('name')}
             />
             {errors.name && (
@@ -238,7 +240,7 @@ export default function SignUpInfo({
               id='storeName'
               label='가게 이름'
               placeholder='가게 이름(상호명)을 입력해주세요'
-              className={errors.storeName ? 'border-red' : ''}
+              className={errors.storeName ? 'border-red border' : ''}
               {...register('storeName')}
             />
             {errors.storeName && (
@@ -249,7 +251,7 @@ export default function SignUpInfo({
               id='storePhoneNumber'
               label='가게 전화번호'
               placeholder='숫자만 입력해주세요'
-              className={errors.storePhoneNumber ? 'border-red' : ''}
+              className={errors.storePhoneNumber ? 'border-red border' : ''}
               {...register('storePhoneNumber', {
                 onChange: (e: ChangeEvent<HTMLInputElement>) => {
                   const onlyNums = e.target.value.replace(/[^0-9]/g, '');
@@ -270,7 +272,7 @@ export default function SignUpInfo({
               id='phoneNumber'
               label='사장님 전화번호'
               placeholder='숫자만 입력해주세요'
-              className={errors.phoneNumber ? 'border-red' : ''}
+              className={errors.phoneNumber ? 'border-red border' : ''}
               {...register('phoneNumber', {
                 onChange: (e: ChangeEvent<HTMLInputElement>) => {
                   const onlyNums = e.target.value.replace(/[^0-9]/g, '');
@@ -290,7 +292,7 @@ export default function SignUpInfo({
               label='가게 위치'
               placeholder='주소를 선택해주세요'
               readOnly
-              className={errors.location ? 'border-red' : ''}
+              className={errors.location ? 'border-red border' : ''}
               {...register('location')}
               onClick={() =>
                 openKakaoAddress((address) =>
