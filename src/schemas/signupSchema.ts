@@ -21,9 +21,11 @@ export type SignUpStep2Input = {
 };
 
 export const SignUpStep1Schema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-  confirmPassword: z.string(),
+  email: z.string().email({ message: '이메일 형식이 아닙니다.' }),
+  password: z.string().min(6, { message: '비밀번호는 6자 이상이어야 합니다.' }),
+  confirmPassword: z
+    .string()
+    .min(6, { message: '비밀번호를 한번 더 입력해주세요.' }),
   role: z.enum(['OWNER', 'APPLICANT']),
 });
 
