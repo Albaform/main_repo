@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useCreateAlbaForm } from '@/hooks/mutation/usePostForms';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
@@ -10,12 +10,25 @@ import FormCondition, {
 } from '../components/FormCondition';
 import FormWork, { WorkFormValues } from '../components/FormWork';
 
-export default function CreateForm() {
+type CreateFormProps = {
+  initialData?: {
+    info: InfoFormValues;
+    condition: ConditionFormValues;
+    work: WorkFormValues;
+  };
+  isEdit?: boolean;
+  onSubmit?: (data: any) => void;
+};
+
+export default function CreateForm({
+  initialData,
+  isEdit,
+  onSubmit,
+}: CreateFormProps) {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
 
-  // 각 단계별 작성 상태 저장 (각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
     info: InfoFormValues;
     condition: ConditionFormValues;
@@ -48,6 +61,16 @@ export default function CreateForm() {
     },
   });
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        info: initialData.info,
+        condition: initialData.condition,
+        work: initialData.work,
+      });
+    }
+  }, [initialData]);
+
   const createAlbaForm = useCreateAlbaForm();
   const handleSubmit = () => {
     const requestData = {
@@ -56,24 +79,28 @@ export default function CreateForm() {
       ...formData.work,
     };
 
-    createAlbaForm.mutate(requestData);
-    console.log(requestData);
+    if (onSubmit) {
+      onSubmit(requestData);
+    } else {
+      createAlbaForm.mutate(requestData);
+    }
   };
 
   const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
     if (step === 'info') {
       const data = formData.info;
       return !!(
-        data.title.trim() ||
-        data.description.trim() ||
-        data.recruitmentStartDate.trim() ||
-        data.recruitmentEndDate.trim() ||
-        data.imageUrls.length > 0
+        data?.title.trim() ||
+        data?.description.trim() ||
+        data?.recruitmentStartDate.trim() ||
+        data?.recruitmentEndDate.trim() ||
+        data?.imageUrls.length > 0
       );
     }
 
     if (step === 'condition') {
       const d = formData.condition;
+      if (!d) return false;
       return Object.values(d).some((v) => {
         if (typeof v === 'string') return v.trim() !== '';
         if (typeof v === 'number') return !isNaN(v) && v !== 0;
@@ -82,7 +109,8 @@ export default function CreateForm() {
     }
 
     if (step === 'work') {
-      const d = formData.condition;
+      const d = formData.work;
+      if (!d) return false;
       return Object.values(d).some((v) => {
         if (typeof v === 'string') return v.trim() !== '';
         if (typeof v === 'number') return !isNaN(v) && v !== 0;
@@ -107,6 +135,43 @@ export default function CreateForm() {
   const handleWorkChange = useCallback((workData: WorkFormValues) => {
     setFormData((prev) => ({ ...prev, work: workData }));
   }, []);
+
+  const isFormComplete = () => {
+    // info
+    const info = formData.info;
+    if (
+      !info.title.trim() ||
+      !info.description.trim() ||
+      !info.recruitmentStartDate.trim() ||
+      !info.recruitmentEndDate.trim()
+    ) {
+      return false;
+    }
+    // condition
+    const cond = formData.condition;
+    if (
+      !cond.numberOfPositions ||
+      !cond.gender.trim() ||
+      !cond.education.trim() ||
+      !cond.age.trim()
+    ) {
+      return false;
+    }
+    // work
+    const work = formData.work;
+    if (
+      !work.location.trim() ||
+      !work.workStartDate.trim() ||
+      !work.workEndDate.trim() ||
+      !work.workStartTime.trim() ||
+      !work.workEndTime.trim() ||
+      !work.workDays.length ||
+      !work.hourlyWage
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <>
@@ -139,8 +204,9 @@ export default function CreateForm() {
           setCurrentStep={setCurrentStep}
           isStepInProgress={isStepInProgress}
           formData={formData}
+          isEdit={isEdit}
+          onSubmit={handleSubmit}
         />
-
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
             <FormInfo
@@ -168,9 +234,14 @@ export default function CreateForm() {
         size='large'
         variant='large_primary'
         onClick={handleSubmit}
-        disabled={createAlbaForm.isPending}
+        disabled={createAlbaForm.isPending || !isFormComplete()}
+        className='block min-[1025px]:hidden max-w-[327px] w-full mx-auto'
       >
-        {createAlbaForm.isPending ? '등록 중...' : '등록하기'}
+        {isEdit
+          ? '수정하기'
+          : createAlbaForm.isPending
+          ? '등록 중...'
+          : '등록하기'}
       </CustomButton>
     </>
   );

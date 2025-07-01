@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import InputDropdown from './InputDropdown';
 import { FormWrapper, FormGroup, FormLabel, RequiredMark } from './Form.styles';
 
@@ -21,34 +21,18 @@ export default function FormCondition({
   onDataChange,
   initialValue,
 }: FormConditionProps) {
-  const [numberOfPositions, setNumberOfPositions] = useState<number | string>(
-    initialValue.numberOfPositions,
-  );
-  const [gender, setGender] = useState<number | string>(initialValue.gender);
-  const [education, setEducation] = useState<number | string>(
-    initialValue.education,
-  );
-  const [age, setAge] = useState<number | string>(initialValue.age);
-  const [preferred, setPreferred] = useState<number | string>(
-    initialValue.preferred,
-  );
+  const [form, setForm] = useState<ConditionFormValues>(initialValue);
+  const [customPreferred, setCustomPreferred] = useState(form.preferred || '');
 
-  const [customPreferred, setCustomPreferred] = useState('');
-
-  useEffect(() => {
-    onDataChange({
-      numberOfPositions:
-        typeof numberOfPositions === 'string'
-          ? Number(numberOfPositions) || 0
-          : numberOfPositions,
-      gender: typeof gender === 'string' ? gender : String(gender) || '',
-      education:
-        typeof education === 'string' ? education : String(education) || '',
-      age: typeof age === 'string' ? age : String(age) || '',
-      preferred:
-        preferred === '직접입력' ? customPreferred : String(preferred) || '',
-    });
-  }, [numberOfPositions, gender, education, age, preferred, customPreferred]);
+  const handleChange = (key: keyof ConditionFormValues, value: any) => {
+    let newForm = { ...form, [key]: value };
+    // 우대사항 직접입력만 별도 처리
+    if (key === 'preferred' && value === '직접입력') {
+      newForm.preferred = customPreferred;
+    }
+    setForm(newForm);
+    onDataChange(newForm);
+  };
 
   return (
     <FormWrapper>
@@ -57,32 +41,30 @@ export default function FormCondition({
           모집인원 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={numberOfPositions}
-          onChange={setNumberOfPositions}
+          value={form.numberOfPositions}
+          onChange={(v) => handleChange('numberOfPositions', v)}
           options={[0, 1, 2, 3, 4, 5]}
           placeholder='선택'
         />
       </FormGroup>
-
       <FormGroup>
         <FormLabel>
           성별 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={gender}
-          onChange={setGender}
+          value={form.gender}
+          onChange={(v) => handleChange('gender', v)}
           options={['성별무관', '남성', '여성']}
           placeholder='선택'
         />
       </FormGroup>
-
       <FormGroup>
         <FormLabel>
           학력 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={education}
-          onChange={setEducation}
+          value={form.education}
+          onChange={(v) => handleChange('education', v)}
           options={[
             '학력무관',
             '고졸 이상',
@@ -92,39 +74,39 @@ export default function FormCondition({
           placeholder='선택'
         />
       </FormGroup>
-
       <FormGroup>
         <FormLabel>
           연령 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={age}
-          onChange={setAge}
+          value={form.age}
+          onChange={(v) => handleChange('age', v)}
           options={['연령무관', '20대', '30대', '40대 이상']}
           placeholder='선택'
         />
       </FormGroup>
-
       <FormGroup>
         <FormLabel>
           우대사항 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={preferred}
-          onChange={setPreferred}
+          value={form.preferred}
+          onChange={(v) => handleChange('preferred', v)}
           options={['없음', '직접입력']}
           placeholder='선택'
         />
-
-        {preferred === '직접입력' && (
+        {form.preferred === '직접입력' && (
           <textarea
             className='
-            border-[0.5px] border-solid border-[var(--gray100)]
-            bg-[var(--background200)] text-[var(--black400)]  text-[14px]
-            w-full h-[110px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px]'
+              border-[0.5px] border-solid border-[var(--gray100)]
+              bg-[var(--background200)] text-[var(--black400)] text-[14px]
+              w-full h-[110px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px]'
             placeholder='우대사항을 작성해주세요.'
             value={customPreferred}
-            onChange={(e) => setCustomPreferred(e.target.value)}
+            onChange={(e) => {
+              setCustomPreferred(e.target.value);
+              handleChange('preferred', e.target.value);
+            }}
           />
         )}
       </FormGroup>

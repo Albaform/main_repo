@@ -58,7 +58,9 @@ export default function ButtonContainer({
         disabled={recruitmentDeadline}
         onClick={() => {
           router.push(
-            myPost ? `` : `/createAlbaform/applicant?formId=${formId}`,
+            myPost
+              ? `/editAlbaform/owner/${formId}`
+              : `/createAlbaform/applicant?formId=${formId}`,
           );
         }}
       >

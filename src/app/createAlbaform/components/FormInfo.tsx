@@ -1,7 +1,6 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
@@ -21,6 +20,7 @@ import {
   DeleteButton,
 } from './Form.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
+import { useUploadImage } from '@/hooks/mutation/useUploadImage';
 
 export type InfoFormValues = {
   title: string;
@@ -39,77 +39,81 @@ export default function FormInfo({
   onDataChange,
   initialValue,
 }: FormInfoProps) {
-  const { register, control, watch, setValue } = useForm<InfoFormValues>({
-    mode: 'onChange',
-    defaultValues: initialValue,
-  });
-
-  const title = watch('title');
-  const description = watch('description');
-  const imageUrls = watch('imageUrls');
-
-  const [recruitmentStartDate, setRecruitmentStartDate] = useState<Date | null>(
+  // 단일 form state로 통합
+  const [form, setForm] = useState<InfoFormValues>(initialValue);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [recruitmentDates, setRecruitmentDates] = useState<
+    [Date | null, Date | null]
+  >([
     initialValue.recruitmentStartDate
       ? new Date(initialValue.recruitmentStartDate)
       : null,
-  );
-  const [recruitmentEndDate, setRecruitmentEndDate] = useState<Date | null>(
     initialValue.recruitmentEndDate
       ? new Date(initialValue.recruitmentEndDate)
       : null,
-  );
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  ]);
   const [previews, setPreviews] = useState<string[]>(
     initialValue.imageUrls || [],
   );
+  const uploadImageMutation = useUploadImage();
 
-  // 이미지 업로드 시 미리보기 생성
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  useEffect(() => {
+    setForm(initialValue);
+    setRecruitmentDates([
+      initialValue.recruitmentStartDate
+        ? new Date(initialValue.recruitmentStartDate)
+        : null,
+      initialValue.recruitmentEndDate
+        ? new Date(initialValue.recruitmentEndDate)
+        : null,
+    ]);
+    setPreviews(initialValue.imageUrls || []);
+  }, [initialValue]);
 
-    const fileArray = Array.from(files).slice(0, 4 - previews.length);
-    const urls = fileArray.map((file) => URL.createObjectURL(file));
-
-    const newUrls = [...previews, ...urls].slice(0, 4);
-    setPreviews(newUrls);
-    setValue('imageUrls', newUrls);
+  const handleChange = (key: keyof InfoFormValues, value: any) => {
+    const newForm = { ...form, [key]: value };
+    setForm(newForm);
+    onDataChange(newForm);
   };
 
+  // 날짜 변경
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    setRecruitmentDates(dates);
+    setForm((prev) => {
+      const newForm = {
+        ...prev,
+        recruitmentStartDate: dates[0]?.toISOString() ?? '',
+        recruitmentEndDate: dates[1]?.toISOString() ?? '',
+      };
+      onDataChange(newForm);
+      return newForm;
+    });
+  };
+
+  // 이미지 업로드
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    const fileArray = Array.from(files).slice(0, 4 - previews.length);
+    try {
+      const uploadedUrls = await Promise.all(
+        fileArray.map((file) => uploadImageMutation.mutateAsync(file)),
+      );
+      const newUrls = [...previews, ...uploadedUrls].slice(0, 4);
+      setPreviews(newUrls);
+      handleChange('imageUrls', newUrls);
+    } catch (err) {
+      alert('이미지 업로드 실패');
+    }
+  };
+
+  // 이미지 삭제
   const handleDeleteImage = (index: number) => {
     const newUrls = [...previews];
     newUrls.splice(index, 1);
     setPreviews(newUrls);
-    setValue('imageUrls', newUrls);
+    handleChange('imageUrls', newUrls);
   };
-
-  // 날짜 변경 시 폼에 업데이트
-  useEffect(() => {
-    if (recruitmentStartDate)
-      setValue('recruitmentStartDate', recruitmentStartDate.toISOString());
-    if (recruitmentEndDate)
-      setValue('recruitmentEndDate', recruitmentEndDate.toISOString());
-  }, [recruitmentStartDate, recruitmentEndDate, setValue]);
-
-  // 폼 변경 시 상위에 전달
-  useEffect(() => {
-    onDataChange({
-      title,
-      description,
-      recruitmentStartDate: recruitmentStartDate?.toISOString() || '',
-      recruitmentEndDate: recruitmentEndDate?.toISOString() || '',
-      imageUrls: imageUrls || [],
-    });
-  }, [
-    title,
-    description,
-    recruitmentStartDate,
-    recruitmentEndDate,
-    imageUrls,
-    onDataChange,
-  ]);
 
   return (
     <FormWrapper>
@@ -121,10 +125,10 @@ export default function FormInfo({
         <FormInput
           type='text'
           placeholder='제목을 입력해주세요.'
-          {...register('title')}
+          value={form.title}
+          onChange={(e) => handleChange('title', e.target.value)}
         />
       </FormGroup>
-
       {/* 소개글 */}
       <FormGroup>
         <FormLabel>
@@ -133,55 +137,44 @@ export default function FormInfo({
         <FormTextarea
           placeholder='최대 200자까지 입력 가능합니다.'
           maxLength={200}
-          {...register('description')}
+          value={form.description}
+          onChange={(e) => handleChange('description', e.target.value)}
         />
       </FormGroup>
-
       {/* 모집 기간 */}
       <FormGroup>
         <FormLabel>
           모집 기간 <RequiredMark>*</RequiredMark>
         </FormLabel>
-        <Controller
-          control={control}
-          name='recruitmentStartDate'
-          render={() => (
-            <div className='relative'>
-              <CustomDateInput
-                ref={inputRef}
-                readOnly
-                value={
-                  recruitmentStartDate && recruitmentEndDate
-                    ? `${format(recruitmentStartDate, 'yyyy.MM.dd')} ~ ${format(
-                        recruitmentEndDate,
-                        'yyyy.MM.dd',
-                      )}`
-                    : ''
-                }
-                placeholder='시작일 ~ 종료일'
-                onClick={() => setIsCalendarOpen(true)}
+        <div className='relative'>
+          <CustomDateInput
+            readOnly
+            value={
+              recruitmentDates[0] && recruitmentDates[1]
+                ? `${format(recruitmentDates[0], 'yyyy.MM.dd')} ~ ${format(
+                    recruitmentDates[1],
+                    'yyyy.MM.dd',
+                  )}`
+                : ''
+            }
+            placeholder='시작일 ~ 종료일'
+            onClick={() => setIsCalendarOpen(true)}
+          />
+          {isCalendarOpen && (
+            <StyledDatePickerWrapper>
+              <DatePicker
+                locale={ko}
+                selectsRange
+                startDate={recruitmentDates[0]}
+                endDate={recruitmentDates[1]}
+                onChange={handleDateChange}
+                onClickOutside={() => setIsCalendarOpen(false)}
+                inline
               />
-              {isCalendarOpen && (
-                <StyledDatePickerWrapper>
-                  <DatePicker
-                    locale={ko}
-                    selectsRange
-                    startDate={recruitmentStartDate}
-                    endDate={recruitmentEndDate}
-                    onChange={(update: [Date | null, Date | null]) => {
-                      setRecruitmentStartDate(update[0]);
-                      setRecruitmentEndDate(update[1]);
-                    }}
-                    onClickOutside={() => setIsCalendarOpen(false)}
-                    inline
-                  />
-                </StyledDatePickerWrapper>
-              )}
-            </div>
+            </StyledDatePickerWrapper>
           )}
-        />
+        </div>
       </FormGroup>
-
       {/* 이미지 업로드 */}
       <FormGroup>
         <FormLabel>
