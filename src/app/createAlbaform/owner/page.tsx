@@ -136,6 +136,43 @@ export default function CreateForm({
     setFormData((prev) => ({ ...prev, work: workData }));
   }, []);
 
+  const isFormComplete = () => {
+    // info
+    const info = formData.info;
+    if (
+      !info.title.trim() ||
+      !info.description.trim() ||
+      !info.recruitmentStartDate.trim() ||
+      !info.recruitmentEndDate.trim()
+    ) {
+      return false;
+    }
+    // condition
+    const cond = formData.condition;
+    if (
+      !cond.numberOfPositions ||
+      !cond.gender.trim() ||
+      !cond.education.trim() ||
+      !cond.age.trim()
+    ) {
+      return false;
+    }
+    // work
+    const work = formData.work;
+    if (
+      !work.location.trim() ||
+      !work.workStartDate.trim() ||
+      !work.workEndDate.trim() ||
+      !work.workStartTime.trim() ||
+      !work.workEndTime.trim() ||
+      !work.workDays.length ||
+      !work.hourlyWage
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       {/* 상단 제목 + 취소버튼 */}
@@ -197,7 +234,7 @@ export default function CreateForm({
         size='large'
         variant='large_primary'
         onClick={handleSubmit}
-        disabled={createAlbaForm.isPending}
+        disabled={createAlbaForm.isPending || !isFormComplete()}
         className='block min-[1025px]:hidden max-w-[327px] w-full mx-auto'
       >
         {isEdit

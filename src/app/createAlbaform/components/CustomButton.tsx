@@ -47,6 +47,13 @@ const variant = {
     width: 120px;
     border: none;
 
+    &:diabled {
+      background-color: var(--gray100);
+      color: var(--white);
+      width: 120px;
+      border: none;
+    }
+
     &:hover {
       background-color: var(--primary-orange400);
     }
@@ -62,6 +69,13 @@ const variant = {
     width: 100%;
     border: none;
 
+    &:disabled {
+      background-color: var(--gray100);
+      color: var(--white);
+      width: 100%;
+      border: none;
+    }
+
     &:hover {
       background-color: var(--primary-orange400);
     }
@@ -72,6 +86,13 @@ const variant = {
     color: var(--gray400);
     width: 100%;
     border: 1px solid var(--gray100);
+
+    &:disabled {
+      background-color: var(--white);
+      color: var(--gray400);
+      width: 100%;
+      border: 1px solid var(--gray100);
+    }
 
     &:hover {
       color: var(--primary-orange400);
