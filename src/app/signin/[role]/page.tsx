@@ -143,7 +143,7 @@ export default function SignIn({
             placeholder={
               isApplicant ? '이메일을 입력하세요' : '이메일을 입력해주세요'
             }
-            className={errors.email ? 'border-red' : ''}
+            className={errors.email ? 'border-red border' : ''}
             {...register('email')}
           />
           {errors.email && (
@@ -157,7 +157,7 @@ export default function SignIn({
           placeholder={
             isApplicant ? '비밀번호를 입력하세요' : '비밀번호를 입력해주세요'
           }
-          className={errors.password ? 'border-red' : ''}
+          className={errors.password ? 'border-red border' : ''}
           {...register('password')}
         />
         {errors.password && (

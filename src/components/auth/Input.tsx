@@ -35,7 +35,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
             placeholder={placeholder}
             ref={ref}
-            className={`w-full border-solid border-gray-300 rounded-lg px-[14px] py-4 pr-12 ${className}`}
+            className={`w-full border-solid border border-gray-300 rounded-lg px-[14px] py-4 pr-12 ${className}`}
             {...props}
           />
           {isPassword && (
