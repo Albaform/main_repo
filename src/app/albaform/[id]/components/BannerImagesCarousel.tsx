@@ -34,6 +34,8 @@ export default function BannerImagesCarousel({
     '/images/defaultImg.jpg',
   );
 
+  console.log(imageUrls);
+
   return (
     <div className='relative'>
       {isSingleImage ? (
@@ -44,6 +46,15 @@ export default function BannerImagesCarousel({
             fill
             style={{ objectFit: 'cover' }}
             onError={() => handleImgError(String(imageUrls[0]))}
+          />
+        </div>
+      ) : imageUrls.length === 0 ? (
+        <div className='relative block border border-solid border-line-100 rounded-[8px] overflow-hidden max-lg:rounded-[0] h-[calc(100vw_*_(562/1902))] max-lg:h-[calc(100vw_*_(260/744))] max-md:h-[calc(100vw_*_(260/375))]'>
+          <Image
+            src='/images/defaultImg.jpg'
+            alt='banner-error'
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
       ) : (
