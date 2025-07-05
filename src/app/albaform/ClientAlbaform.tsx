@@ -11,6 +11,7 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useAlbaForms } from '@/hooks/query/useGetForms';
 import { ClientAlbaformProps } from './types';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
+import Cookies from 'js-cookie';
 
 export default function ClientAlbaform({
   initialParams,
@@ -38,7 +39,8 @@ export default function ClientAlbaform({
     keyword,
   );
 
-  const { data: user, isLoading: getUserLoading } = useGetMyInfo();
+  const accessToken = Cookies.get('accessToken');
+  const { data: user, isLoading: getUserLoading } = useGetMyInfo(!!accessToken);
 
   const isLoading = getAlbaformsLoading || getUserLoading;
 
