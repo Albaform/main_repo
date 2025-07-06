@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputDropdown from './InputDropdown';
 import { FormWrapper, FormGroup, FormLabel, RequiredMark } from './Form.styles';
 
@@ -21,17 +21,46 @@ export default function FormCondition({
   onDataChange,
   initialValue,
 }: FormConditionProps) {
-  const [form, setForm] = useState<ConditionFormValues>(initialValue);
-  const [customPreferred, setCustomPreferred] = useState(form.preferred || '');
+  const [form, setForm] = useState<ConditionFormValues>({
+    numberOfPositions: initialValue.numberOfPositions,
+    gender: initialValue.gender,
+    education: initialValue.education,
+    age: initialValue.age,
+    preferred: initialValue.preferred,
+  });
+  const [customPreferred, setCustomPreferred] = useState(
+    initialValue.preferred && initialValue.preferred !== '없음'
+      ? initialValue.preferred
+      : '',
+  );
 
+  // 초기값 바뀔 때(예: 수정 진입 등) state 재설정
+  useEffect(() => {
+    setForm({ ...initialValue });
+    setCustomPreferred(
+      initialValue.preferred && initialValue.preferred !== '없음'
+        ? initialValue.preferred
+        : '',
+    );
+  }, [initialValue]);
+
+  // 값 바뀔 때마다 바로 부모에 알림 (onChange에서만!)
   const handleChange = (key: keyof ConditionFormValues, value: any) => {
-    let newForm = { ...form, [key]: value };
-    // 우대사항 직접입력만 별도 처리
+    let nextForm = { ...form, [key]: value };
+    // 우대사항이 '직접입력'일 때만 customPreferred 적용
     if (key === 'preferred' && value === '직접입력') {
-      newForm.preferred = customPreferred;
+      nextForm.preferred = customPreferred;
     }
-    setForm(newForm);
-    onDataChange(newForm);
+    setForm(nextForm);
+    onDataChange(nextForm);
+  };
+
+  // 직접입력 textarea 입력
+  const handleCustomPreferredChange = (value: string) => {
+    setCustomPreferred(value);
+    const nextForm = { ...form, preferred: value };
+    setForm(nextForm);
+    onDataChange(nextForm);
   };
 
   return (
@@ -90,23 +119,27 @@ export default function FormCondition({
           우대사항 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={form.preferred}
+          value={
+            form.preferred === ''
+              ? '없음'
+              : form.preferred === customPreferred
+              ? '직접입력'
+              : form.preferred
+          }
           onChange={(v) => handleChange('preferred', v)}
           options={['없음', '직접입력']}
           placeholder='선택'
         />
-        {form.preferred === '직접입력' && (
+        {form.preferred === customPreferred && (
           <textarea
             className='
               border-[0.5px] border-solid border-[var(--gray100)]
               bg-[var(--background200)] text-[var(--black400)] text-[14px]
-              w-full h-[110px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px]'
+              w-full h-[110px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px]
+            '
             placeholder='우대사항을 작성해주세요.'
             value={customPreferred}
-            onChange={(e) => {
-              setCustomPreferred(e.target.value);
-              handleChange('preferred', e.target.value);
-            }}
+            onChange={(e) => handleCustomPreferredChange(e.target.value)}
           />
         )}
       </FormGroup>

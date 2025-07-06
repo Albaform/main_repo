@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CreateForm from '@/app/createAlbaform/owner/page';
+import CreateForm from '@/app/createAlbaform/components/CreateForm';
 import {
   useEditAlbaForm,
   getAlbaFormById,
@@ -74,7 +74,3 @@ export default function editAlbaform({
     />
   );
 }
-
-/** @TODO 알바폼 수정시 새로등록 문제 */
-/** @TODO 카카오 로그인 안됨 */
-/** @TODO 회원가입시 이메일만 입력해도 버튼 활성화 */

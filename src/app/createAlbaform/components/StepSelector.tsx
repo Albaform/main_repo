@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
@@ -40,20 +40,30 @@ export default function StepSelector({
   onSubmit,
 }: StepSelectorProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+  const [isLock, setIsLock] = useState(false);
 
   const createAlbaForm = useCreateAlbaForm();
 
   const handleSubmit = () => {
+    if (isLock) return;
+    setIsLock(true);
+
     const requestData = {
       ...formData.info,
       ...formData.condition,
       ...formData.work,
     };
+    const afterSubmit = () => setIsLock(false);
 
     if (onSubmit) {
       onSubmit(requestData);
+      afterSubmit();
     } else {
-      createAlbaForm.mutate(requestData);
+      createAlbaForm.mutate(requestData, {
+        onSettled: afterSubmit,
+        onError: afterSubmit,
+        onSuccess: afterSubmit,
+      });
     }
   };
 
@@ -128,7 +138,7 @@ export default function StepSelector({
             size='large'
             variant='large_primary'
             onClick={handleSubmit}
-            disabled={createAlbaForm.isPending || !isFormComplete()}
+            disabled={isLock || createAlbaForm.isPending || !isFormComplete()}
           >
             {isEdit
               ? '수정하기'
