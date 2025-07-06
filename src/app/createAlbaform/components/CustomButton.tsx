@@ -76,7 +76,7 @@ const variant = {
       border: none;
       cursor: not-allowed;
     }
-
+    
     &:not(:disabled):hover {
       background-color: var(--primary-orange400);
     }
