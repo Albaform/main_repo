@@ -79,16 +79,25 @@ export default function FormInfo({
   // 날짜 변경
   const handleDateChange = (dates: [Date | null, Date | null]) => {
     setRecruitmentDates(dates);
-    setForm((prev) => {
-      const newForm = {
-        ...prev,
-        recruitmentStartDate: dates[0]?.toISOString() ?? '',
-        recruitmentEndDate: dates[1]?.toISOString() ?? '',
-      };
-      onDataChange(newForm);
-      return newForm;
-    });
+    setForm((prev) => ({
+      ...prev,
+      recruitmentStartDate: dates[0]?.toISOString() ?? '',
+      recruitmentEndDate: dates[1]?.toISOString() ?? '',
+    }));
   };
+
+  useEffect(() => {
+    if (
+      form.recruitmentStartDate !== initialValue.recruitmentStartDate ||
+      form.recruitmentEndDate !== initialValue.recruitmentEndDate ||
+      form.title !== initialValue.title ||
+      form.description !== initialValue.description ||
+      JSON.stringify(form.imageUrls) !== JSON.stringify(initialValue.imageUrls)
+    ) {
+      onDataChange(form);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
 
   // 이미지 업로드
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -230,19 +230,21 @@ export default function CreateForm({
           )}
         </div>
       </div>
-      <CustomButton
-        size='large'
-        variant='large_primary'
-        onClick={handleSubmit}
-        disabled={createAlbaForm.isPending || !isFormComplete()}
-        className='block min-[1025px]:hidden max-w-[327px] w-full mx-auto'
-      >
-        {isEdit
-          ? '수정하기'
-          : createAlbaForm.isPending
-          ? '등록 중...'
-          : '등록하기'}
-      </CustomButton>
+      <div className='pb-20'>
+        <CustomButton
+          size='large'
+          variant='large_primary'
+          onClick={handleSubmit}
+          disabled={createAlbaForm.isPending || !isFormComplete()}
+          className='block min-[1025px]:hidden max-w-[327px] mx-auto'
+        >
+          {isEdit
+            ? '수정하기'
+            : createAlbaForm.isPending
+            ? '등록 중...'
+            : '등록하기'}
+        </CustomButton>
+      </div>
     </>
   );
 }
