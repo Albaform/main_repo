@@ -104,59 +104,6 @@ export default function StepSelector({
     return true;
   };
 
-  const createAlbaForm = useCreateAlbaForm();
-
-  const handleSubmit = () => {
-    const requestData = {
-      ...formData.info,
-      ...formData.condition,
-      ...formData.work,
-    };
-
-    if (onSubmit) {
-      onSubmit(requestData);
-    } else {
-      createAlbaForm.mutate(requestData);
-    }
-  };
-
-  const isFormComplete = () => {
-    // info
-    const info = formData.info;
-    if (
-      !info.title.trim() ||
-      !info.description.trim() ||
-      !info.recruitmentStartDate.trim() ||
-      !info.recruitmentEndDate.trim()
-    ) {
-      return false;
-    }
-    // condition
-    const cond = formData.condition;
-    if (
-      !cond.numberOfPositions ||
-      !cond.gender.trim() ||
-      !cond.education.trim() ||
-      !cond.age.trim()
-    ) {
-      return false;
-    }
-    // work
-    const work = formData.work;
-    if (
-      !work.location.trim() ||
-      !work.workStartDate.trim() ||
-      !work.workEndDate.trim() ||
-      !work.workStartTime.trim() ||
-      !work.workEndTime.trim() ||
-      !work.workDays.length ||
-      !work.hourlyWage
-    ) {
-      return false;
-    }
-    return true;
-  };
-
   return (
     <>
       {/* 데스크탑: 사이드바 */}
