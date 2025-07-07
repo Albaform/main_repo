@@ -72,7 +72,7 @@ export default function editAlbaform({
       onSubmit={(data) => {
         editAlbaFormMutation.mutate(data);
       }}
+      mutationInstance={editAlbaFormMutation}
     />
   );
 }
-
