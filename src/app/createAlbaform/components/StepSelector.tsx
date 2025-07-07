@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
@@ -95,7 +95,6 @@ export default function StepSelector({
     }
     return true;
   };
-  console.log('isPending:', createAlbaForm.isPending);
 
   return (
     <>

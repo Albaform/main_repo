@@ -28,7 +28,6 @@ export default function CreateForm({
   mutationInstance,
 }: CreateFormProps) {
   const createAlbaForm = mutationInstance ?? useCreateAlbaForm();
-  console.log('mutation instance', createAlbaForm);
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
@@ -175,7 +174,6 @@ export default function CreateForm({
     }
     return true;
   };
-  console.log('isPending:', createAlbaForm.isPending);
 
   return (
     <>
