@@ -64,7 +64,7 @@ const variant = {
   `,
   // 등록 버튼
   large_primary: css`
-    background-color: var(--gray100);
+    background-color: var(--primary-orange300);
     color: var(--white);
     width: 100%;
     border: none;
@@ -74,10 +74,15 @@ const variant = {
       color: var(--white);
       width: 100%;
       border: none;
+      cursor: not-allowed;
+    }
+    
+    &:not(:disabled):hover {
+      background-color: var(--primary-orange400);
     }
 
-    &:hover {
-      background-color: var(--primary-orange400);
+    &:not(:disabled):active {
+      background-color: var(--primary-orange300);
     }
   `,
   // 저장 버튼
