@@ -50,7 +50,7 @@
 ## 📸 Demo Preview
 > 아래는 주요 화면 데모입니다.
 - 알바폼 목록 및 상세 조회<br/>
-  <br/>![화면 기록 2025-06-21 오후 4 54 01 (2)](https://github.com/user-attachments/assets/ec0dbdf0-9972-4eae-a24b-52d4ff266971)
+  <br/>![화면 기록 2025-07-11 오전 9 13 04](https://github.com/user-attachments/assets/dd740cca-cc7e-48b1-b762-55faff82c5fe)
 - 지원자 상세 확인 및 관리<br/>
   <br/>![화면 기록 2025-06-21 오후 4 54 24](https://github.com/user-attachments/assets/1afa26be-023a-43dc-8b82-4d9d01d6c3bf)
 - 알바폼 지원하기 흐름<br/>
@@ -135,7 +135,7 @@ npm run dev
 #### 🔐 환경 변수 설정 (.env)
 
 ```bash
-카카오 로그인 기능을 위해 `.env.local` 파일에 환경 변수를 설정해야 합니다.
+카카오 로그인 기능 및 지도 출력을 위해 `.env.local` 파일에 환경 변수를 설정해야 합니다.
 
 ```bash
 # 아래 명령어로 예시 파일을 복사한 후, 실제 키를 입력하세요

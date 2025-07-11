@@ -18,13 +18,16 @@ export type CreateFormProps = {
   };
   isEdit?: boolean;
   onSubmit?: (data: any) => void;
+  mutationInstance?: ReturnType<typeof useCreateAlbaForm>;
 };
 
 export default function CreateForm({
   initialData,
   isEdit,
   onSubmit,
+  mutationInstance,
 }: CreateFormProps) {
+  const createAlbaForm = mutationInstance ?? useCreateAlbaForm();
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
@@ -71,7 +74,6 @@ export default function CreateForm({
     }
   }, [initialData]);
 
-  const createAlbaForm = useCreateAlbaForm();
   const handleSubmit = () => {
     const requestData = {
       ...formData.info,
@@ -206,6 +208,7 @@ export default function CreateForm({
           formData={formData}
           isEdit={isEdit}
           onSubmit={handleSubmit}
+          createAlbaForm={createAlbaForm}
         />
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (

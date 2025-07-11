@@ -10,8 +10,7 @@ import FloatingButton from '@/components/floatingbutton/FloatingButton';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useAlbaForms } from '@/hooks/query/useGetForms';
 import { ClientAlbaformProps } from './types';
-import { useGetMyInfo } from '@/hooks/query/useGetUser';
-import Cookies from 'js-cookie';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function ClientAlbaform({
   initialParams,
@@ -28,7 +27,7 @@ export default function ClientAlbaform({
 
   const {
     data,
-    isLoading: getAlbaformsLoading,
+    isLoading,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -39,10 +38,7 @@ export default function ClientAlbaform({
     keyword,
   );
 
-  const accessToken = Cookies.get('accessToken');
-  const { data: user, isLoading: getUserLoading } = useGetMyInfo(!!accessToken);
-
-  const isLoading = getAlbaformsLoading || getUserLoading;
+  const { user } = useAuthStore();
 
   const listData = data?.pages.flatMap((page) => page.result) ?? [];
 

@@ -112,7 +112,7 @@ export default function FormInfo({
       setPreviews(newUrls);
       handleChange('imageUrls', newUrls);
     } catch (err) {
-      alert('이미지 업로드 실패');
+      alert('이미지 업로드 실패 ! 용량 초과입니다 !');
     }
   };
 

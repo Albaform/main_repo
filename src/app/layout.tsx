@@ -12,9 +12,31 @@ import GlobalToast from '@/components/tooltip/GlobalToast';
 
 export const metadata: Metadata = {
   title: 'Albaform',
-  description: '알바 구인 구직 플랫폼',
+  description: '알바 구인 구직 플랫폼🏃‍♂️‍➡️',
   icons: {
     icon: '/images/favicon.ico',
+  },
+  openGraph: {
+    title: 'Albaform',
+    description: '알바 구인 구직 플랫폼🏃‍♂️‍➡️',
+    url: '',
+    siteName: 'Albaform',
+    images: [
+      {
+        url: '',
+        width: 1200,
+        height: 630,
+        alt: '썸네일',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Albaform',
+    description: '알바 구인 구직 플랫폼🏃‍♂️‍➡️',
+    images: [''],
   },
 };
 
