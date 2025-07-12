@@ -18,14 +18,14 @@ export default function KakaoSignUp({ role }: { role: string }) {
       <div className='flex items-center w-full'>
         <div className='flex-1 h-px bg-gray-100' />
         <span className='mx-7 text-xl text-gray-400 whitespace-nowrap'>
-          SNS 계정으로 로그인하기
+          SNS 계정으로 회원가입하기
         </span>
         <div className='flex-1 h-px bg-gray-100' />
       </div>
       <a href={kakaoSignUpUrl}>
         <Image
           src='/images/logo_kakao.svg'
-          alt='카카오 로그인 이미지'
+          alt='카카오 회원가입 이미지'
           width={72}
           height={72}
         />

@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 import Cookies from 'js-cookie';
 
-const BASE_URL = 'https://fe-project-albaform.vercel.app/12-9/';
+const BASE_URL = 'https://fe-project-albaform.vercel.app/12-2/';
 
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
