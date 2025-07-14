@@ -20,7 +20,7 @@
 ![팀원](https://img.shields.io/badge/team-4%20Members-blueviolet?style=flat-square)
 ![배포](https://img.shields.io/badge/deploy-Vercel&AWS-00C7B7?logo=vercel&style=flat-square)
 
-**[🌐 바로가기(예정)](https://example.com) | [📚 API 문서](https://fe-project-albaform.vercel.app/docs/)**
+**[🌐 바로가기](https://albaform-one.vercel.app/) | [📚 API 문서](https://fe-project-albaform.vercel.app/docs/)**
 
 </div>
 
@@ -50,7 +50,7 @@
 ## 📸 Demo Preview
 > 아래는 주요 화면 데모입니다.
 - 알바폼 목록 및 상세 조회<br/>
-  <br/>![화면 기록 2025-07-11 오전 9 13 04](https://github.com/user-attachments/assets/dd740cca-cc7e-48b1-b762-55faff82c5fe)
+  <br/>![화면 기록 2025-07-14 오후 2 54 07](https://github.com/user-attachments/assets/d25d4133-5306-4a47-b663-c4243fb21649)
 - 지원자 상세 확인 및 관리<br/>
   <br/>![화면 기록 2025-06-21 오후 4 54 24](https://github.com/user-attachments/assets/1afa26be-023a-43dc-8b82-4d9d01d6c3bf)
 - 알바폼 지원하기 흐름<br/>
@@ -100,12 +100,11 @@
 | 기술명          | 로고                                                                                                       | 버전    |
 | --------------- | ---------------------------------------------------------------------------------------------------------- | ------- |
 | **React**       | <img src="https://raw.githubusercontent.com/github/explore/main/topics/react/react.png" width="150"/>       | 19.0.0  |
-| **Next.js**     | <img src="https://raw.githubusercontent.com/github/explore/main/topics/nextjs/nextjs.png" width="150"/>     | 15.2.11 |
+| **Next.js**     | <img src="https://raw.githubusercontent.com/github/explore/main/topics/nextjs/nextjs.png" width="150"/>     | 15.3.4 |
 | **Tailwind**    | <img src="https://github.com/user-attachments/assets/d881d05d-8991-445d-ad3b-782c6ca8d450" width="150" />   | 3.4.17   |
 | **Styled Component**    | <img src="https://github.com/user-attachments/assets/349e2ea7-5ab3-4d88-bbda-508fd02e29dd" width="150" />   | 6.1.17   |
-| **React Query** | <img src="https://github.com/user-attachments/assets/1826dc7f-eae2-4d82-92dc-23c352b6f0ba" width="150" />  | 5.67.3  |
-| **Vercel**      | <img src="https://github.com/user-attachments/assets/cba098d4-a1c7-45db-a080-be8c77f193ae" width="150"/> | 41.4.0  |
-| **AWS**         | <img src="https://github.com/user-attachments/assets/ca034d79-e6db-4708-83a5-b7b6604d1f93" width="150"/> | 41.4.0  |
+| **React Query** | <img src="https://github.com/user-attachments/assets/1826dc7f-eae2-4d82-92dc-23c352b6f0ba" width="150" />  | 5.81.2  |
+| **Vercel**      | <img src="https://github.com/user-attachments/assets/cba098d4-a1c7-45db-a080-be8c77f193ae" width="150"/> | 44.4.1  |
 
 <br />
 
