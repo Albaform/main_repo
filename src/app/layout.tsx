@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Albaform',
     description: '알바 구인 구직 플랫폼🏃‍♂️‍➡️',
-    url: '',
+    url: 'https://albaform-one.vercel.app/',
     siteName: 'Albaform',
     images: [
       {
-        url: '',
+        url: 'https://albaform-one.vercel.app/images/og-thumbnail.jpg',
         width: 1200,
         height: 630,
         alt: '썸네일',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Albaform',
     description: '알바 구인 구직 플랫폼🏃‍♂️‍➡️',
-    images: [''],
+    images: ['https://albaform-one.vercel.app/images/og-thumbnail.jpg'],
   },
 };
 
