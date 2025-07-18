@@ -18,7 +18,7 @@
 
 ![버전](https://img.shields.io/badge/version-1.0.0-000000?style=flat-square)
 ![팀원](https://img.shields.io/badge/team-4%20Members-blueviolet?style=flat-square)
-![배포](https://img.shields.io/badge/deploy-Vercel&AWS-00C7B7?logo=vercel&style=flat-square)
+![배포](https://img.shields.io/badge/deploy-Vercel-00C7B7?logo=vercel&style=flat-square)
 
 **[🌐 바로가기](https://albaform-one.vercel.app/) | [📚 API 문서](https://fe-project-albaform.vercel.app/docs/)**
 
@@ -49,11 +49,16 @@
 
 ## 📸 Demo Preview
 > 아래는 주요 화면 데모입니다.
-- 알바폼 목록 및 상세 조회<br/>
-  <br/>![화면 기록 2025-07-14 오후 2 54 07](https://github.com/user-attachments/assets/d25d4133-5306-4a47-b663-c4243fb21649)
-- 지원자 상세 확인 및 관리<br/>
+- 회원가입 및 로그인<br/>
+  <br />![화면 기록 2025-07-18 오후 4 18 36](https://github.com/user-attachments/assets/0c597c0f-517d-4608-9848-4596db4d98fe)
+  <br />![화면 기록 2025-07-18 오후 4 19 38](https://github.com/user-attachments/assets/75cd1390-9e2c-4d56-b2da-dd72e3fa3c1c)
+- [사장님 권한] 알바폼 만들기<br />
+  <br />![화면 기록 2025-07-18 오후 4 23 18 (1)](https://github.com/user-attachments/assets/563ff0f3-26b7-4a3f-a91e-87502db7be48)
+- [지원자 권한] 알바폼 목록 및 상세 조회<br/>
+  <br/>![화면 기록 2025-07-18 오후 4 29 34 (1)](https://github.com/user-attachments/assets/ac84615d-08e6-4831-b025-d64a81cdd2bb)
+- [사장님 권한] 지원자 상세 확인 및 관리<br/>
   <br/>![화면 기록 2025-06-21 오후 4 54 24](https://github.com/user-attachments/assets/1afa26be-023a-43dc-8b82-4d9d01d6c3bf)
-- 알바폼 지원하기 흐름<br/>
+- [지원자 권한] 알바폼 지원하기 흐름<br/>
   <br/>![화면 기록 2025-06-21 오후 4 55 14](https://github.com/user-attachments/assets/cf386cc3-8275-40c6-b77e-385a67595932)
 - 마이페이지 및 알바토크<br/>
   <br/>![화면 기록 2025-06-21 오후 5 02 36](https://github.com/user-attachments/assets/2bf63b4a-4dba-4e78-91e5-aacaff0ba27b)
