@@ -10,6 +10,10 @@ export const Logo = styled.img`
   @media ${media.tablet} {
     margin-right: 16px;
   }
+  @media ${media.mobile} {
+    height: 25px;
+    margin-right: 16px;
+  }
 `;
 
 export const NavbarWrapper = styled.nav`
@@ -56,6 +60,10 @@ export const MenuList = styled.ul<{ $alignRight?: boolean }>`
   flex: 1;
   justify-content: ${(props) =>
     props.$alignRight ? 'flex-end' : 'flex-start'};
+
+  @media ${media.mobile} {
+    gap: 15px;
+  }
 `;
 
 export const MenuItem = styled.li<{ $isActive?: boolean }>`
@@ -80,6 +88,11 @@ export const Hamburger = styled.img`
   width: 36px;
   height: 36px;
   cursor: pointer;
+
+  @media ${media.mobile} {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 export const Overlay = styled.div`
